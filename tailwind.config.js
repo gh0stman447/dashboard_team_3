@@ -5,9 +5,9 @@ module.exports = {
     screens: {
       sm: '490px',
       md: '768px',
-      lg: '1000px',
+      lg: '1080px',
       xl: '1280px',
-      '2xl': '1450px',
+      '2xl': '1500px',
       '3xl': '1770px',
       '4xl': '1920px'
     },
@@ -21,7 +21,8 @@ module.exports = {
     extend: {},
 
     fontFamily: {
-      sans: ['PT Sans', 'sans-serif']
+      inter: ['Inter', 'sans-serif'],
+      montserrat: ['Montserrat', 'sans-serif']
     }
   },
   plugins: []
