@@ -1,0 +1,11 @@
+/*!
+    common variables/functions/settings
+    can be overrided via skin.json
+ */
+:export {
+  hasDatasetsList: false;
+  mainFontFamily: "Open Sans";
+  mainFontSize: 13px;
+  mainColor: #9797C4;
+  font: 13px "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+}
