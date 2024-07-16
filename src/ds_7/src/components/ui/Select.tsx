@@ -13,24 +13,21 @@ const Select = () => {
       fullWidth
       variant="outlined"
       color="success"
-      className="border border-white rounded-2xl"
-      sx={{ border: '1px solid white', borderRadius: '5px' }}
+      className="border border-white rounded-md"
+      sx={{ border: '1px solid black', backgroundColor: 'white' }}
     >
-      {/* <InputLabel id="demo-simple-select-label" sx={{ color: 'white' }}>
-        Age
-      </InputLabel> */}
+      <InputLabel id="demo-simple-select-label" sx={{ color: 'black' }}>
+        Навыки
+      </InputLabel>
       <SelectItem
-        sx={{ color: 'white' }}
+        sx={{ color: 'black' }}
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         value={age}
         label="Age"
         onChange={(value) => handleAgeChange(value)}
       >
-        {/* <MenuItem value={10}>Ten</MenuItem>
-        <MenuItem value={20}>Twenty</MenuItem>
-        <MenuItem value={30}>Thirty</MenuItem> */}
-        <MenuItem value={null}>Ничего</MenuItem>
+        <MenuItem value={''}>Ничего</MenuItem>
         {SKILLS.map((skill) => (
           <MenuItem value={skill.value}>{skill.name}</MenuItem>
         ))}

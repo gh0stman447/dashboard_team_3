@@ -11,41 +11,74 @@ export const SKILLS = [
 
 // export const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#FF6347', '#4682B4', '#6A5ACD', '#708090'];
 
+export const enum LEVEL {
+  'ИНП' = 0,
+  'Novice' = 1,
+  'Junior' = 2,
+  'Middle' = 3,
+  'Senior' = 4,
+  'Expert' = 5
+}
+
 export const BAR_DATA = [
   {
-    name: 'Page A',
-    uv: 590,
-    pv: 800,
-    amt: 1400
+    name: 'Python',
+    empLvl: LEVEL['Middle'],
+    middleLvl: LEVEL['Middle'],
+    improvement: LEVEL['Junior']
   },
   {
-    name: 'Page B',
-    uv: 868,
-    pv: 967,
-    amt: 1506
+    name: 'GO',
+    empLvl: LEVEL['Junior'],
+    middleLvl: LEVEL['Junior'],
+    improvement: LEVEL['Junior']
   },
   {
-    name: 'Page C',
-    uv: 1397,
-    pv: 1098,
-    amt: 989
+    name: 'Kotlin',
+    empLvl: LEVEL['Junior'],
+    middleLvl: LEVEL['Middle'],
+    improvement: LEVEL['Junior']
   },
   {
-    name: 'Page D',
-    uv: 1480,
-    pv: 1200,
-    amt: 1228
+    name: 'C++',
+    empLvl: LEVEL['Senior'],
+    middleLvl: LEVEL['Middle'],
+    improvement: LEVEL['Expert']
   },
   {
-    name: 'Page E',
-    uv: 1520,
-    pv: 1108,
-    amt: 1100
+    name: 'C',
+    empLvl: LEVEL['Senior'],
+    middleLvl: LEVEL['Middle'],
+    improvement: LEVEL['Senior']
   },
   {
-    name: 'Page F',
-    uv: 1400,
-    pv: 680,
-    amt: 1700
+    name: 'SQL',
+    empLvl: LEVEL['Expert'],
+    middleLvl: LEVEL['Junior'],
+    improvement: LEVEL['Expert']
+  },
+  {
+    name: 'PHP',
+    empLvl: LEVEL['Junior'],
+    middleLvl: LEVEL['Novice'],
+    improvement: LEVEL['Junior']
+  },
+  {
+    name: 'HTML',
+    empLvl: LEVEL['ИНП'],
+    middleLvl: LEVEL['ИНП'],
+    improvement: LEVEL['Novice']
+  },
+  {
+    name: 'Java',
+    empLvl: LEVEL['Junior'],
+    middleLvl: LEVEL['Novice'],
+    improvement: LEVEL['Junior']
+  },
+  {
+    name: 'JavaScript',
+    empLvl: LEVEL['Junior'],
+    middleLvl: LEVEL['Junior'],
+    improvement: LEVEL['Junior']
   }
 ];

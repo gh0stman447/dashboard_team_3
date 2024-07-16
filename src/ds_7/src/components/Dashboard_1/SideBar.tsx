@@ -5,7 +5,7 @@ import React from 'react';
 const SideBar = ({ isOpen }) => {
   return (
     <aside
-      className={`text-white overflow-y-scroll bg-gray-100 bg-navy min-w-[325px] w-[325px] dark:text-white flex fixed flex-col 2xl:sticky top-0 z-30 h-screen transition-transform ${
+      className={`font-inter text-white overflow-y-scroll bg-gray-100 bg-navy min-w-[325px] w-[325px] h-screen 4xl:max-h-[980px] dark:text-white flex fixed flex-col 2xl:sticky top-0 z-30 transition-transform ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
       } 2xl:translate-x-0 border-r border-r-slate-400`}
     >
@@ -18,9 +18,7 @@ const SideBar = ({ isOpen }) => {
         {/* <img src={Pic2} alt="фото" width={200} height={200} /> */}
         картинка
       </div>
-      {/* <TheLogo />
-      <TheNav />
-      <TheFooter /> */}
+
       <div className="pl-[46px] pr-[19px]">
         <p>Общая Информация о Сотруднике:</p>
         <p>ID сотрудника.</p>

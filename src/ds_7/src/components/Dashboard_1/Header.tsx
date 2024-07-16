@@ -3,6 +3,7 @@ import { RxHamburgerMenu } from 'react-icons/rx';
 import Select from '../ui/Select';
 import SideBarOverlay from './SideBarOverlay';
 import Settings from '../../../../assets/Dashboard_2/Settings';
+import DatePicker from '../ui/DatePicker';
 
 const Header = ({ toggleSideBar }) => {
   const [isOptionsBarOpen, setIsOptionsBarOpen] = useState(false);
@@ -26,18 +27,18 @@ const Header = ({ toggleSideBar }) => {
           isOptionsBarOpen ? 'translate-y-0' : '-translate-y-full'
         }`}
       >
-        <div className="flex flex-col xl:flex-row gap-4 p-4 xl:p-0">
+        <div className="flex flex-col xl:flex-row  gap-8 p-4 xl:p-0">
           <div className="flex flex-col xl:flex-row items-center gap-2">
             <p>Поиск сотрудника:</p>
-            <input type="text" name="" id="" placeholder="ID или ФИО" className="border rounded-md px-2 py-1" />
+            <input type="text" name="" id="" placeholder="ID или ФИО" className="border rounded-md px-2 py-3" />
           </div>
           <div className="flex flex-col xl:flex-row items-center gap-2">
-            <p>Фильтр по навыкам:</p>
+            <p className="">Фильтр по навыкам:</p>
             <Select />
           </div>
           <div className="flex flex-col xl:flex-row items-center gap-2">
             <p>Выбор периода:</p>
-            <input type="date" name="" id="" className="border rounded-md px-2 py-1" />
+            <DatePicker />
           </div>
         </div>
       </div>

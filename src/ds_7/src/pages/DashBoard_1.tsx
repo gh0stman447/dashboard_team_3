@@ -13,13 +13,15 @@ export const DashBoard_1 = () => {
 
   return (
     <FilterProvider>
-      <div className="max-w-[1920px] h-[960px] rounded-none mx-auto font-montserrat">
-        <div className="flex flex-grow ">
-          <SideBar isOpen={isSidebarOpen} />
-          <SideBarOverlay isOpen={isSidebarOpen} toggler={toggleSidebar} />
-          <div className="flex-1">
-            <Header toggleSideBar={toggleSidebar} />
-            <Main />
+      <div className="4xl:flex 4xl:items-center 4xl:justify-center 4xl:h-screen">
+        <div className="max-w-[1920px] 4xl:max-h-[960px] rounded-none mx-auto font-montserrat">
+          <div className="flex flex-grow ">
+            <SideBar isOpen={isSidebarOpen} />
+            <SideBarOverlay isOpen={isSidebarOpen} toggler={toggleSidebar} />
+            <div className="flex-1">
+              <Header toggleSideBar={toggleSidebar} />
+              <Main />
+            </div>
           </div>
         </div>
       </div>

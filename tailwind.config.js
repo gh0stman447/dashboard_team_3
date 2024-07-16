@@ -4,7 +4,7 @@ module.exports = {
   theme: {
     screens: {
       sm: '490px',
-      md: '768px',
+      md: '600px',
       lg: '1080px',
       xl: '1280px',
       '2xl': '1500px',
@@ -16,7 +16,9 @@ module.exports = {
       black: '#000000',
       navy: '#000621',
       white: '#ffffff',
-      green: '#16c411'
+      green: '#16c411',
+      pink: '#e5dfdf',
+      'sky-blue': '#eff1ff'
     },
     extend: {},
 
