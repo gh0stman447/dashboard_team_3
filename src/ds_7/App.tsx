@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query';
 import DashBoard_1 from './src/pages/DashBoard_1';
 import { Route } from './src/components/Route';
 import { UrlState } from 'bi-internal/core';
+import DashBoard_2 from './src/pages/DashBoard_2';
 
 const router = createBrowserRouter([
   {

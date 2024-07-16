@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Settings = ({ width = 24, height = 24, ...props }) => {
+export const Settings = ({ width = 24, height = 24, ...props }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -22,5 +22,3 @@ const Settings = ({ width = 24, height = 24, ...props }) => {
     </svg>
   );
 };
-
-export default Settings;

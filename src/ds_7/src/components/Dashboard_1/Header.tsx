@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import { RxHamburgerMenu } from 'react-icons/rx';
 import Select from '../ui/Select';
 import SideBarOverlay from './SideBarOverlay';
-import Settings from '../../../../assets/Dashboard_2/Settings';
 import DatePicker from '../ui/DatePicker';
+import { Settings } from '../../../../assets/Dashboard_1';
 
-const Header = ({ toggleSideBar }) => {
+const Header = ({ toggleSideBar }: { toggleSideBar?: () => void }) => {
   const [isOptionsBarOpen, setIsOptionsBarOpen] = useState(false);
 
   const toggleOptionsBar = () => {
@@ -13,7 +13,7 @@ const Header = ({ toggleSideBar }) => {
   };
 
   return (
-    <header className="z-10 font-inter text-[20px] bg-gray-100 bg-navy flex  py-3 px-8 justify-between sticky h-[80px] top-0 border-b border-b-slate-400 border-l-0 dark:border-slate-600">
+    <header className="z-10 font-inter text-[20px] bg-gray-100 bg-navy flex py-3 px-8 justify-between items-center sticky h-[80px] top-0 border-b border-b-slate-400 border-l-0 dark:border-slate-600">
       <div className="flex gap-4 items-center grow justify-between">
         <div className="text-white p-1 inline-block 2xl:hidden -ml-1.5 cursor-pointer">
           <RxHamburgerMenu className="w-7 h-7" onClick={toggleSideBar} />

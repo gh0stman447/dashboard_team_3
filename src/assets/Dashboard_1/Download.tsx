@@ -4,7 +4,7 @@ interface DownloadProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: number;
   height?: number;
 }
-const Download: React.FC<DownloadProps> = ({ width = 24, height = 24, ...props }) => {
+export const Download: React.FC<DownloadProps> = ({ width = 24, height = 24, ...props }) => {
   return (
     <div className="cursor-pointer p-2 hover:bg-slate-200 border rounded-xl duration-300" {...props}>
       <svg
@@ -26,5 +26,3 @@ const Download: React.FC<DownloadProps> = ({ width = 24, height = 24, ...props }
     </div>
   );
 };
-
-export default Download;
