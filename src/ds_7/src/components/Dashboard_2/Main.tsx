@@ -6,10 +6,14 @@ import BarSecondBlock from './BarSecondBlock';
 import BarFirstBlock from './BarFirstBlock';
 import SkillLevelField from '../ui/Dashboard_2/SkillLevelField';
 import SkillsField from '../ui/Dashboard_2/SkillsField';
+import CustomNavButton from '../ui/CustomNavButton';
 
 const Main = () => {
   return (
     <div className="bg-sky-blue border flex flex-col gap-6 border-black p-4 2xl:p-8">
+      <div className="mb-[20px]">
+        <CustomNavButton dBoardNumber="1" text="Перейти на дашборд 1" />
+      </div>
       <div className="flex flex-col gap-4 2xl:gap-8 md-lg:flex-row">
         <PieBlock />
         <TextLetBlock />

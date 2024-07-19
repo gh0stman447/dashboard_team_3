@@ -13,7 +13,7 @@ import TypeOfSkillsField from './TypeOfSkillsField';
 import SkillLevelField from './SkillLevelField';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import DatePicker from '../DatePicker';
-import CustomButton from '../CustomButton';
+import CustomButton from '../CustomFilterButton';
 
 interface DialogSelectProps {}
 const DialogSelect: FC<DialogSelectProps> = () => {

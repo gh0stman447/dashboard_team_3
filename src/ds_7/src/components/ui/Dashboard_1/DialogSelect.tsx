@@ -10,7 +10,7 @@ import MySelect from './TypeOfSkillField';
 import { useCallback, useRef, useEffect, useState } from 'react';
 import SearchEmployeeField from './SearchEmployeeField';
 import useDB1FiltersStore from '../../../store/DB1FiltersStore';
-import CustomButton from '../CustomButton';
+import CustomButton from '../CustomFilterButton';
 
 const DialogSelect: React.FC = () => {
   const [open, setOpen] = React.useState(false);

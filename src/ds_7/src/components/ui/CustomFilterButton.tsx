@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-const CustomButton = ({ handler, text }: { handler: () => void; text: string }) => {
+const CustomFilterButton = ({ handler, text }: { handler: () => void; text: string }) => {
   return (
     <Button
       size="large"
@@ -24,4 +24,4 @@ const CustomButton = ({ handler, text }: { handler: () => void; text: string }) 
   );
 };
 
-export default CustomButton;
+export default CustomFilterButton;
