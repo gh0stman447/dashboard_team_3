@@ -40,6 +40,7 @@
     "@types/react-native": "0.67.7",
     "add": "^2.0.6",
     "bi-internal": "git+https://github.com/luxms/bi-internal.git",
+    "clsx": "^2.1.1",
     "copy-webpack-plugin": "9.0.1",
     "dateformat": "5.0.2",
     "dayjs": "^1.11.11",

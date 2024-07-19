@@ -82,3 +82,24 @@ export const BAR_DATA = [
     improvement: LEVEL['Junior']
   }
 ];
+
+export const typeOfSkills = [
+  'Технологии',
+  'Инструменты',
+  'Среды разработки',
+  'Базы данных',
+  'Языки программирования',
+  'Фреймворки'
+];
+
+export const positions = ['Младший аналитик', 'Разработчик', 'Старший консультант', 'Бизнес аналитик'];
+export const devisions = [
+  'Qlik: Центр компетенций',
+  'Направление DWH&ML',
+  'Бизнес-аналитика по работе с гос.компаниями',
+  'Направление BI',
+  'Направление DG&DQ',
+  'Microsoft: Центр компетенций'
+];
+
+export const skillLevels = ['ИСП', 'Novice', 'Junior', 'Middle', 'Senior', 'Expert'];

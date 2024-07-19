@@ -1,10 +1,17 @@
 import React from 'react';
 import { UrlState } from 'bi-internal/core';
+import { useLocationChange } from './hooks/useLocationChange';
 
-export const Route = ({ pageName = [], children }: { pageName: string[]; children: React.ReactNode }) => {
+export const Route = ({ pageName, children }: any) => {
+  // useLocationChange();
+
   const stateCharts = UrlState.getModel();
-  console.log(stateCharts, 'stateCharts');
-  const { dash } = stateCharts;
-  if (!pageName.length && (dash === '1' || !dash)) return <>{children}</>;
-  return dash && pageName.includes(dash) ? <>{children}</> : null;
+
+  const { dboard } = stateCharts;
+
+  if (!pageName.length && (dboard === '1' || !dboard)) {
+    return <>{children}</>;
+  }
+
+  return dboard && pageName.includes(dboard) ? <>{children} </> : null;
 };

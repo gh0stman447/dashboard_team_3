@@ -5,6 +5,7 @@ module.exports = {
     screens: {
       sm: '490px',
       md: '600px',
+      'md-lg': '880px',
       lg: '1080px',
       xl: '1280px',
       '2xl': '1500px',
@@ -20,7 +21,12 @@ module.exports = {
       pink: '#e5dfdf',
       'sky-blue': '#eff1ff'
     },
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        20: 'repeat(20, minmax(0, 1fr))',
+        24: 'repeat(24, minmax(0, 1fr))'
+      }
+    },
 
     fontFamily: {
       inter: ['Inter', 'sans-serif'],

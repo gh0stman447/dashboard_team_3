@@ -4,16 +4,25 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { DateRangePicker } from '@mui/x-date-pickers-pro/DateRangePicker';
 import { SingleInputDateRangeField } from '@mui/x-date-pickers-pro/SingleInputDateRangeField';
+import { DateRange } from '@mui/x-date-pickers-pro/models';
+import { Dayjs } from 'dayjs';
+import { useState, useEffect } from 'react';
+import { InFormProps } from '../../types';
+import useDB1FiltersStore from '../../store/DB1FiltersStore';
 
-const DatePicker = () => {
-  const [date, setDate] = React.useState(null);
-  const handleDateChange = (newValue) => {
-    setDate(newValue);
-    if (newValue && newValue[0] && newValue[1]) {
-      const startDate = newValue[0];
-      const endDate = newValue[1];
-      console.log(`Start Date: ${startDate.$D}-${startDate.$M + 1}-${startDate.$y}`);
-      console.log(`End Date: ${endDate.$D}-${endDate.$M + 1}-${endDate.$y}`);
+interface TypeOfSkillFieldProps extends InFormProps {}
+
+const DatePicker: React.FC<TypeOfSkillFieldProps> = ({ patchState }) => {
+  const [date, setDate] = useState<DateRange<Dayjs> | null>(null);
+  const initialDate = useDB1FiltersStore((state) => state.date);
+
+  useEffect(() => {
+    setDate(initialDate);
+  }, []);
+  const handleChangeDate = (value: DateRange<Dayjs>) => {
+    if (value[0] && value[1]) {
+      setDate(value);
+      patchState({ date: value });
     }
   };
 
@@ -22,11 +31,11 @@ const DatePicker = () => {
       <DemoContainer components={['SingleInputDateRangeField']} sx={{ borderRadius: '10px', padding: 0 }}>
         <DateRangePicker
           value={date}
-          onChange={handleDateChange}
+          onChange={handleChangeDate}
           slots={{ field: SingleInputDateRangeField }}
           name="allowedRange"
           sx={{ backgroundColor: 'white', color: 'black' }}
-          onAccept={() => console.log('accepted', date)}
+          onAccept={() => patchState({ date })}
         />
       </DemoContainer>
     </LocalizationProvider>

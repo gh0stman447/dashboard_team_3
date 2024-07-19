@@ -1,2 +1,2 @@
-export * from './exportToPng';
+export * from './downloadPng';
 export * from './recalculateImprovement';
