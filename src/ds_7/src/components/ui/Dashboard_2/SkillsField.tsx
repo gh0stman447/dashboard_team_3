@@ -5,8 +5,7 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
-import { skillLevels } from '../../../constants/Dashboard_2';
-import { InFormProps } from '../../../types';
+import { skills } from '../../../constants/Dashboard_2';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 
 const SkillsField = () => {
@@ -39,7 +38,7 @@ const SkillsField = () => {
         onChange={(e) => handleChangeSkillLevel(e)}
         renderValue={(selected) => selected.join(', ')}
       >
-        {skillLevels.map((level) => (
+        {skills.map((level) => (
           <MenuItem key={level} value={level}>
             <Checkbox checked={initialSkills.indexOf(level) > -1} />
             <ListItemText primary={level} />

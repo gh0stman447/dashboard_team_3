@@ -10,10 +10,11 @@ import { FC, useState, useCallback, useRef } from 'react';
 import PositionsField from './PositionsField';
 import DevisionsField from './DevisionsField';
 import TypeOfSkillsField from './TypeOfSkillsField';
-import SkillLevelField from './SkillLevelField';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import DatePicker from '../DatePicker';
 import CustomButton from '../CustomFilterButton';
+import DateComponent from '../DateComponent';
+import { Modal } from 'antd';
 
 interface DialogSelectProps {}
 const DialogSelect: FC<DialogSelectProps> = () => {
@@ -29,10 +30,8 @@ const DialogSelect: FC<DialogSelectProps> = () => {
     setOpen(true);
   };
 
-  const handleClose = (event: React.SyntheticEvent<unknown>, reason?: string) => {
-    if (reason !== 'backdropClick') {
-      setOpen(false);
-    }
+  const handleCancel = () => {
+    setOpen(false);
   };
 
   const handleApplyFilters = () => {
@@ -41,25 +40,26 @@ const DialogSelect: FC<DialogSelectProps> = () => {
   };
 
   return (
-    <div>
+    <>
       <CustomButton handler={handleClickOpen} text="Фильтры" />
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Выберите фильтры</DialogTitle>
-        <DialogContent>
-          <Box component="form" sx={{ display: 'flex', flexDirection: 'column' }}>
-            <PositionsField patchState={patchFormStateRef} />
-            <DevisionsField patchState={patchFormStateRef} />
-            <TypeOfSkillsField patchState={patchFormStateRef} />
-            <SkillLevelField patchState={patchFormStateRef} />
-            <DatePicker patchState={patchFormStateRef} />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Закрыть</Button>
+      <Modal
+        title="Title"
+        open={open}
+        onOk={handleApplyFilters}
+        onCancel={handleCancel}
+        footer={[
+          <Button onClick={handleCancel}>Закрыть</Button>,
           <Button onClick={handleApplyFilters}>Применить</Button>
-        </DialogActions>
-      </Dialog>
-    </div>
+        ]}
+      >
+        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <PositionsField patchState={patchFormStateRef} />
+          <DevisionsField patchState={patchFormStateRef} />
+          <TypeOfSkillsField patchState={patchFormStateRef} />
+          <DateComponent patchState={patchFormStateRef} />
+        </Box>
+      </Modal>
+    </>
   );
 };
 

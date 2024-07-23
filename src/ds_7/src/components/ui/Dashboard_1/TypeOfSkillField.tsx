@@ -23,7 +23,7 @@ const TypeOfSkillField: React.FC<MySelectProps> = ({ patchState }) => {
 
   useEffect(() => {
     setTypeOfSkill(initialTypeOfSkill);
-  }, []);
+  }, [initialTypeOfSkill]);
 
   return (
     <FormControl

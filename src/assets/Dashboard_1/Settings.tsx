@@ -1,9 +1,6 @@
 import React from 'react';
-import useUiStore from '../../ds_7/src/store/uiStore';
 
 export const Settings = ({ width = '24', height = '24' }: { width?: string; height?: string }) => {
-  const toggleOptionsBar = useUiStore((state) => state.toggleOptionsBar);
-
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -16,7 +13,6 @@ export const Settings = ({ width = '24', height = '24' }: { width?: string; heig
       stroke-linecap="round"
       stroke-linejoin="round"
       className="lucide lucide-settings-2"
-      onClick={toggleOptionsBar}
     >
       <path d="M20 7h-9" />
       <path d="M14 17H5" />

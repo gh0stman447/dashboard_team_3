@@ -9,15 +9,17 @@ import { Dayjs } from 'dayjs';
 import { useState, useEffect } from 'react';
 import { InFormProps } from '../../types';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
+import useDB2FiltersStore from '../../store/DB2FiltersStore';
 
 interface TypeOfSkillFieldProps extends InFormProps {}
 
 const DatePicker: React.FC<TypeOfSkillFieldProps> = ({ patchState }) => {
   const [date, setDate] = useState<DateRange<Dayjs> | null>(null);
-  const initialDate = useDB1FiltersStore((state) => state.date);
+  const initialDate = useDB2FiltersStore((state) => state.date);
 
   useEffect(() => {
     setDate(initialDate);
+    console.log('инишл');
   }, []);
   const handleChangeDate = (value: DateRange<Dayjs>) => {
     if (value[0] && value[1]) {

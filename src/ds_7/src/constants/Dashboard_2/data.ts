@@ -3,7 +3,7 @@ export const SKILLS = [
   { name: 'Платформы', value: 12 },
   { name: 'Языки программирования', value: 19 },
   { name: 'Инструменты', value: 11 },
-  { name: 'Типы систем', value: 1 },
+  { name: 'Системы', value: 1 },
   { name: 'Фреймворки', value: 15 },
   { name: 'Среды разработки', value: 4 },
   { name: 'Технологии', value: 14 }
@@ -93,6 +93,7 @@ export const typeOfSkills = [
 ];
 
 export const positions = ['Младший аналитик', 'Разработчик', 'Старший консультант', 'Бизнес аналитик'];
+
 export const devisions = [
   'Qlik: Центр компетенций',
   'Направление DWH&ML',
@@ -103,3 +104,5 @@ export const devisions = [
 ];
 
 export const skillLevels = ['ИСП', 'Novice', 'Junior', 'Middle', 'Senior', 'Expert'];
+
+export const skills = ['PostgreSQL', 'MSQL', 'MySQL', 'Oracle', 'MongoDB'];

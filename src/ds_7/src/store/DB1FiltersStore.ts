@@ -3,10 +3,10 @@ import { Dayjs } from 'dayjs';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface DB1FiltersStore {
+export interface DB1FiltersStore {
   typeOfSkill: string;
   date: DateRange<Dayjs> | null;
-  empField: string;
+  empIdField: string;
 
   setFilters: (filters: Partial<DB1FiltersStore>) => void;
 }
@@ -15,7 +15,7 @@ const useDB1FiltersStore = create<DB1FiltersStore>()(
   devtools((set) => ({
     typeOfSkill: '',
     date: null,
-    empField: '',
+    empIdField: '',
     setFilters: (filters) => set(filters)
   }))
 );

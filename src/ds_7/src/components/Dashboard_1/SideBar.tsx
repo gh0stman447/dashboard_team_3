@@ -1,12 +1,32 @@
 import React from 'react';
-import useUiStore from '../../store/uiStore';
 import { Logo } from '../../../../assets/Dashboard_1';
 import { Avatar } from '@mui/material';
-// import Pic from '../../../../assets/Dashboard_2/Logo.png';
-// import Pic2 from '../../../../assets/Dashboard_2/avatar.png';
+import { useQuery } from 'react-query';
+import useDB1FiltersStore from '../../store/DB1FiltersStore';
+import { dataService } from '../../services/Data.service';
+import useUiStore from '../../store/uiStore';
+import { transformFiltersFromDB1 } from '../../utils';
 
 const SideBar = () => {
   const isOpen = useUiStore((state) => state.isSidebarOpen);
+  const empIdField = useDB1FiltersStore((state) => state.empIdField);
+
+  const transformedFilters = transformFiltersFromDB1({ empIdField });
+
+  const { data, isLoading, isError } = useQuery(
+    ['empIdField', empIdField],
+    () => dataService.fetchUserData(transformedFilters, 'empIdField'),
+    {
+      enabled: !!empIdField
+    }
+  );
+
+  if (isLoading) {
+    return <div>Загрузка...</div>;
+  }
+  if (isError) {
+    return <div>Произошла ошибка</div>;
+  }
 
   return (
     <aside
@@ -22,17 +42,17 @@ const SideBar = () => {
         <div className="flex justify-center rounded-full my-[50px]">
           <Avatar sx={{ width: 250, height: 250 }} />
         </div>
-
-        <div className="">
-          <p>Общая Информация о Сотруднике:</p>
-          <p>ID сотрудника.</p>
-          <p>ФИО.</p>
-          <p>Подразделение.</p>
-          <p>Должность.</p>
-          <p>Образование.</p>
-          <p>Языки.</p>
-          <p>Сертификаты (последние 3-5).</p>
-        </div>
+        {data && (
+          <div className="">
+            <p>Общая Информация о Сотруднике:</p>
+            <p>ID сотрудника: {data[0].employees_id}</p>
+            <p>
+              ФИО: {data[0].first_name} {data[0].last_name}
+            </p>
+            <p>Подразделение: {data[0].department}</p>
+            <p>Должность: {data[0].job_title}</p>
+          </div>
+        )}
       </div>
     </aside>
   );

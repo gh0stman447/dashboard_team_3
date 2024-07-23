@@ -3,8 +3,6 @@ import React from 'react';
 import PieBlock from './PieBlock';
 import ComposedChartBlock from './ComposedChartBlock';
 import TextLetBlock from './TextLetBlock';
-import { Button } from '@mui/material';
-import { navigateToDboard } from '../../utils';
 import CustomNavButton from '../ui/CustomNavButton';
 
 const Main = () => {

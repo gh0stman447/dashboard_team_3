@@ -35,7 +35,7 @@ const ComposedChartBlock = () => {
   const modifiedBarData = recalculateImprovement(BAR_DATA);
   return (
     <div
-      className="flex flex-col items-center justify-between w-full 4xl:col-span-1 4xl:row-span-3 bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50"
+      className="flex flex-col items-center justify-between w-full 4xl:col-span-1 4xl:row-span-3 bg-white border border-black shadow-2xl rounded-xl divide-y-2 divide-gray/50"
       ref={composedBarRef}
     >
       <div className="w-full p-2">

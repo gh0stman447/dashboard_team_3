@@ -3,6 +3,8 @@ import { PieChart, Pie, Cell, Label, ResponsiveContainer, Tooltip } from 'rechar
 import { COLORS, SKILLS } from '../../constants/Dashboard_2';
 import { Download } from '../../../../assets';
 import { downloadPng } from '../../utils';
+import { useQuery } from 'react-query';
+
 const PieBlock = () => {
   const downloadButtonRef = React.useRef<HTMLDivElement | null>(null);
   const pieChartRef = React.useRef<HTMLDivElement | null>(null);

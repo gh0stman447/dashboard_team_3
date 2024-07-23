@@ -5,19 +5,23 @@ import useDB1FiltersStore from '../../../store/DB1FiltersStore';
 export interface SearchEmployeeFieldProps extends InFormProps {}
 
 const SearchEmployeeField: FC<SearchEmployeeFieldProps> = ({ patchState }) => {
-  const [empField, setEmpField] = useState<string>('');
-  const initialEmpField = useDB1FiltersStore((state) => state.empField);
+  const [empIdField, setEmpIdField] = useState<string>('');
+  const initialEmpIdField = useDB1FiltersStore((state) => state.empIdField);
 
   useEffect(() => {
-    setEmpField(initialEmpField);
-  }, []);
+    setEmpIdField(initialEmpIdField);
+  }, [initialEmpIdField]);
 
   const handleChangeSearchField = (event: ChangeEvent<HTMLInputElement>) => {
-    // setEmpField(event.target.value);
-    // patchState({ empField });
     const newValue = event.target.value;
-    setEmpField(newValue);
-    patchState({ empField: newValue });
+    setEmpIdField(newValue);
+
+    const numericValue = parseInt(newValue, 10);
+    if (!isNaN(numericValue)) {
+      patchState({ empIdField: numericValue });
+    } else {
+      patchState({ empIdField: null });
+    }
   };
 
   return (
@@ -28,7 +32,7 @@ const SearchEmployeeField: FC<SearchEmployeeFieldProps> = ({ patchState }) => {
         placeholder="ID или ФИО"
         className="border rounded-md px-2 py-3"
         onChange={(e) => handleChangeSearchField(e)}
-        value={empField}
+        value={empIdField}
       />
     </>
   );

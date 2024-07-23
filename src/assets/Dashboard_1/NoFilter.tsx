@@ -1,11 +1,20 @@
 import { duration } from '@mui/material';
+import clsx from 'clsx';
 import React from 'react';
-import { useFilter } from '../../ds_7/src/context/Dashboard_1/FilterContext';
 
-export const NoFilter = () => {
+export const NoFilter = ({
+  className,
+  width = '16',
+  height = '20',
+  ...props
+}: {
+  width?: string;
+  height?: string;
+  className?: string;
+}) => {
   return (
-    <div>
-      <svg width="16" height="20" viewBox="0 0 18 22" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <div className={clsx('text-[#151515]', className)} {...props}>
+      <svg width={width} height={height} viewBox="0 0 18 22" fill="#fff" xmlns="http://www.w3.org/2000/svg">
         <path
           d="M11.1463 3.85714H1.39024V5.89795C1.39024 6.71427 4.90244 10.3877 4.90244 10.3877L1 14.4694L2.56098 16.102L15.439 2.63265L13.878 1L11.1463 3.85714Z"
           fill="#151515"

@@ -39,6 +39,7 @@
     "@tippyjs/react": "^4.2.6",
     "@types/react-native": "0.67.7",
     "add": "^2.0.6",
+    "antd": "^5.19.3",
     "bi-internal": "git+https://github.com/luxms/bi-internal.git",
     "clsx": "^2.1.1",
     "copy-webpack-plugin": "9.0.1",

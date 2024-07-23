@@ -3,11 +3,10 @@ import { Dayjs } from 'dayjs';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-interface DB2FiltersStore {
+export interface DB2FiltersStore {
   position: string[];
   devision: string[];
   typesOfSkill: string[];
-  skillLevel: string[];
   date: DateRange<Dayjs> | null;
   skills: string[];
   setSkills: (skills: string[]) => void;
@@ -19,7 +18,6 @@ const useDB2FiltersStore = create<DB2FiltersStore>()(
     position: [],
     devision: [],
     typesOfSkill: [],
-    skillLevel: [],
     date: null,
     skills: [],
     setSkills: (skills) => set({ skills }),

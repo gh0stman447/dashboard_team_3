@@ -4,7 +4,6 @@ import PieBlock from './PieBlock';
 import TextLetBlock from './TextLetBlock';
 import BarSecondBlock from './BarSecondBlock';
 import BarFirstBlock from './BarFirstBlock';
-import SkillLevelField from '../ui/Dashboard_2/SkillLevelField';
 import SkillsField from '../ui/Dashboard_2/SkillsField';
 import CustomNavButton from '../ui/CustomNavButton';
 

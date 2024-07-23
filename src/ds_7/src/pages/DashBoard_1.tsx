@@ -7,7 +7,7 @@ import Overlay from '../components/Dashboard_1/Overlay';
 export const DashBoard_1 = () => {
   return (
     <div className="4xl:flex 4xl:items-center 4xl:justify-center 4xl:h-screen">
-      <div className="max-w-[1920px] rounded-none mx-auto font-montserrat">
+      <div className="max-w-[1920px] mx-auto font-montserrat">
         <div className="flex">
           <SideBar />
           <Overlay />
