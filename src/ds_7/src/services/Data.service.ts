@@ -4,22 +4,6 @@ import { KoobDataService } from 'bi-internal/services';
 const { koobDataRequest3 } = KoobDataService;
 
 class DataService {
-  // fetchPieData = async (filters: {}, requestString: string) => {
-  //   const res = await koobDataRequest3(
-  //     'course_2024.student3',
-  //     ['categoryname'],
-  //     ['sum(order_unitprice)'],
-  //     { ...filters },
-  //     { schema_name: 'ds_7' },
-  //     requestString
-  //   );
-  //   return res.map((el, i) => ({
-  //     name: el.categoryname,
-  //     value: el.order_unitprice,
-  //     color: COLORS[i]
-  //   }));
-  // };
-
   fetchPieData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'etl_db_3.team_3',
@@ -58,7 +42,7 @@ class DataService {
       filters,
       { schema_name: 'ds_7' },
       requestString
-    )) as { totalSkills: number }[];
+    )) as { totalSkills: number; skill_status: string }[];
 
     return res;
   };
@@ -74,5 +58,63 @@ class DataService {
     )) as { employees_id: number; first_name: string; last_name: string; department: string; job_title: string }[];
     return res;
   };
+
+  fetchUsersIdData = async (requestString: string) => {
+    const res = (await koobDataRequest3(
+      'etl_db_3.team_3',
+      ['employees_id'],
+      [],
+      {},
+      { schema_name: 'ds_7' },
+      requestString
+    )) as { employees_id: number }[];
+
+    return res.map((el) => {
+      return {
+        value: el.employees_id,
+        label: el.employees_id
+      };
+    });
+  };
+
+  fetchTypeOfSkillsData = async (requestString: string) => {
+    const res = (await koobDataRequest3(
+      'etl_db_3.team_3',
+      ['skill_type', 'count(distinct(name)):totalSkills'],
+      [],
+      {},
+      { schema_name: 'ds_7' },
+      requestString
+    )) as { skill_type: string }[];
+
+    return res;
+  };
+
+  // BarChart
+
+  fetchBarChartEmployeeData = async (filters: {}, requestString: string) => {
+    const res = (await koobDataRequest3(
+      'etl_db_3.team_3',
+      ['employees_id', 'name', 'level', 'level_num', 'department'],
+      [],
+      filters,
+      { schema_name: 'ds_7' },
+      requestString
+    )) as { employees_id: number; name: string; level: string; level_num: number; department: string }[];
+    return res;
+  };
+
+  fetchBarChartAllPeopleData = async (filters: {}, requestString: string) => {
+    const res = (await koobDataRequest3(
+      'etl_db_3.team_3',
+      ['employees_id', 'name', 'level', 'max(level_num)', 'department', 'date'], //убрать потом департамент и дату
+      [],
+      filters,
+      { schema_name: 'ds_7', sort: ['+employees_id'] },
+      requestString
+    )) as { employees_id: number; name: string; level: string; level_num: number }[];
+    return res;
+  };
 }
+
 export const dataService = new DataService();

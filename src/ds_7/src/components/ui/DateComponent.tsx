@@ -12,6 +12,7 @@ interface DateComponentProps {
 
 const DateComponent: React.FC<DateComponentProps> = ({ patchState }) => {
   const [date, setDate] = useState<DateRange<Dayjs> | null>(null);
+
   const initialDate = useDB2FiltersStore((state) => state.date);
 
   useEffect(() => {
@@ -24,7 +25,15 @@ const DateComponent: React.FC<DateComponentProps> = ({ patchState }) => {
     patchState({ date: dates });
   };
 
-  return <RangePicker value={date} onChange={handleDateChange} placeholder={['Start date', 'End date']} />;
+  return (
+    <RangePicker
+      value={date}
+      onChange={handleDateChange}
+      placeholder={['Начало периода', 'Конец периода']}
+      className="h-[50px] border border-black"
+      defaultValue={[null, null]}
+    />
+  );
 };
 
 export default DateComponent;

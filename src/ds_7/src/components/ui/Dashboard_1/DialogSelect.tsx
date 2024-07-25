@@ -22,6 +22,7 @@ const DialogSelect: React.FC = () => {
 
   useEffect(() => {
     currentFormStateRef2.current = useDB1FiltersStore.getState();
+    console.log(currentFormStateRef2.current, 'currentFormStateRef2.current');
   }, [open]);
 
   const patchFormStateRef2 = useCallback((patch: Record<string, any>) => {
@@ -32,7 +33,6 @@ const DialogSelect: React.FC = () => {
     setOpen(true);
   };
 
-  console.log(currentFormStateRef2.current);
   const handleApplyFilters = () => {
     useDB1FiltersStore.setState(currentFormStateRef2.current);
     setOpen(false);
@@ -54,7 +54,7 @@ const DialogSelect: React.FC = () => {
           <Button onClick={handleApplyFilters}>Применить</Button>
         ]}
       >
-        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '15px 5px' }}>
           <div className="flex flex-col gap-y-2">
             <SearchEmployeeField patchState={patchFormStateRef2} />
           </div>

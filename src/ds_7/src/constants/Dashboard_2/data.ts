@@ -23,9 +23,9 @@ export const enum LEVEL {
 export const BAR_DATA = [
   {
     name: 'Python',
-    empLvl: LEVEL['Middle'],
+    empLvl: LEVEL['Junior'],
     middleLvl: LEVEL['Middle'],
-    improvement: LEVEL['Junior']
+    improvement: LEVEL['Middle']
   },
   {
     name: 'GO',

@@ -4,7 +4,8 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export interface DB1FiltersStore {
-  typeOfSkill: string;
+  // typeOfSkill: string;
+  typesOfSkill: string[];
   date: DateRange<Dayjs> | null;
   empIdField: string;
 
@@ -13,7 +14,8 @@ export interface DB1FiltersStore {
 
 const useDB1FiltersStore = create<DB1FiltersStore>()(
   devtools((set) => ({
-    typeOfSkill: '',
+    // typeOfSkill: '',
+    typesOfSkill: [],
     date: null,
     empIdField: '',
     setFilters: (filters) => set(filters)

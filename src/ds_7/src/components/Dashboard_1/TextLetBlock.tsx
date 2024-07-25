@@ -29,15 +29,19 @@ const TextLetBlock = () => {
         'TextLetDataBeforeSelectedDate'
       ),
     {
-      enabled: !!filters?.date
+      enabled: !!filters?.date && !!filters?.empIdField
     }
   );
   const {
-    data: dataBetweenDate,
-    isLoading: isLoadingDataBetweenDate,
-    isError: isErrorDataBetweenDate
-  } = useQuery(['textLetDataBetweenDate', filters], () =>
-    dataService.fetchTextLetData(transformedFilters, 'TextLetDataBetweenDate')
+    data: dataAllTimeDate,
+    isLoading: isLoadingDataAllTimeDate,
+    isError: isErrorDataAllTimeDate
+  } = useQuery(
+    ['textLetDataAllTimeDate', filters],
+    () => dataService.fetchTextLetData(transformedFilters, 'textLetDataAllTimeDate'),
+    {
+      enabled: !filters.date
+    }
   );
 
   const {
@@ -55,7 +59,7 @@ const TextLetBlock = () => {
         'TextLetDataPrevDate'
       ),
     {
-      enabled: !!filters?.date
+      enabled: !!filters?.date && !!filters?.empIdField
     }
   );
 
@@ -64,54 +68,58 @@ const TextLetBlock = () => {
     isLoading: isLoadingSkills,
     isError: isErrorSkills
   } = useQuery(['textLetDataSkills', filters], () =>
-    dataService.fetchTextLetDataSkills(transformedFilters, 'TextLetDataSKills')
+    dataService.fetchTextLetDataSkills({ ...transformedFilters, skill_status: ['=', 'up'] }, 'TextLetDataSKills')
   );
 
-  if (isLoadingDataBeforeSelectedDate || isLoadingDataBetweenDate || isLoadingDataPrevDate) {
+  if (isLoadingDataBeforeSelectedDate || isLoadingDataAllTimeDate || isLoadingDataPrevDate || isLoadingSkills) {
     return <div>Loading...</div>;
   }
 
-  if (isErrorDataBeforeSelectedDate || isErrorDataBetweenDate || isErrorDataPrevDate) {
+  if (isErrorDataBeforeSelectedDate || isErrorDataAllTimeDate || isErrorDataPrevDate || isErrorSkills) {
     return <div>Error</div>;
   }
 
   let dataGrowht = 0;
 
-  if (filters.date) {
+  if (filters.date && filters.empIdField) {
     dataGrowht = dataBeforeSelectedDate[0].totalSkills - dataPrevDate[0].totalSkills;
   }
+
   return (
     <div className="rounded-xl bg-white border border-black shadow-2xl 4xl:col-span-1 4xl:row-span-1" ref={textLetRef}>
-      <div className="flex flex-col p-4 text-[20px] 4xl:text-[32px]">
-        <div className="flex justify-between items-center">
-          <div className="flex gap-x-4 items-center text-[25px] md-lg:text-[32px]">
-            <p>Представлено навыков:</p>
-            <span className="flex gap-x-2 items-center">
-              {filters.date && <ArrowGreenUp />}
-              <span>
-                {filters.date ? dataBeforeSelectedDate[0].totalSkills : dataBetweenDate[0].totalSkills}
-                {filters.date && <span>(+{dataGrowht})</span>}
+      {filters.empIdField ? (
+        <div className="flex flex-col p-4 text-[20px] 4xl:text-[32px]">
+          <div className="flex justify-between items-center">
+            <div className="flex gap-x-4 items-center text-[25px] md-lg:text-[32px]">
+              <p>Представлено навыков:</p>
+              <span className="flex gap-x-2 items-center">
+                {dataGrowht > 0 && <ArrowGreenUp />}
+                <span>
+                  {filters.date ? dataBeforeSelectedDate[0].totalSkills : dataAllTimeDate[0].totalSkills}
+                  {dataGrowht > 0 && <span>(+{dataGrowht})</span>}
+                </span>
               </span>
-            </span>
+            </div>
+            <div className="self-start">
+              <Download
+                ref={downloadButtonRef}
+                onClick={() => downloadPng(downloadButtonRef, textLetRef)}
+                className="w-[14px] h-[14px] md-lg:w-[20px] md-lg:h-[20px] 4xl:w-[35px] 4xl:h-[30px]"
+              />
+            </div>
           </div>
-          <div className="self-start">
-            <Download
-              ref={downloadButtonRef}
-              onClick={() => downloadPng(downloadButtonRef, textLetRef)}
-              className="w-[14px] h-[14px] md-lg:w-[20px] md-lg:h-[20px] 4xl:w-[35px] 4xl:h-[30px]"
-            />
-          </div>
+          {dataGrowht > 0 && (
+            <div className="text-[25px] md-lg:text-[32px] flex items-center gap-x-4">
+              <p className=""> Увеличен уровень:</p>
+              <span className="flex gap-x-2 items-center">
+                <ArrowGreenUp />+{skills[0]?.totalSkills}
+              </span>
+            </div>
+          )}
         </div>
-        {filters.date && (
-          <div className="text-[25px] md-lg:text-[32px] flex items-center gap-x-4">
-            <p className=""> Увеличен уровень:</p>
-            <span className="flex gap-x-2 items-center">
-              <ArrowGreenUp />
-              +15
-            </span>
-          </div>
-        )}
-      </div>
+      ) : (
+        <div>Выберите сотрудника</div>
+      )}
     </div>
   );
 };

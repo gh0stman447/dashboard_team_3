@@ -1,40 +1,52 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
-import { InFormProps } from '../../../types';
+import React, { useEffect, useState } from 'react';
+import { Select } from 'antd';
 import useDB1FiltersStore from '../../../store/DB1FiltersStore';
+import { InFormProps } from '../../../types';
+import { useQuery } from 'react-query';
+import { dataService } from '../../../services/Data.service';
 
 export interface SearchEmployeeFieldProps extends InFormProps {}
 
-const SearchEmployeeField: FC<SearchEmployeeFieldProps> = ({ patchState }) => {
+const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
   const [empIdField, setEmpIdField] = useState<string>('');
-  const initialEmpIdField = useDB1FiltersStore((state) => state.empIdField);
+  console.log(empIdField, 'empFieldLocalState');
+
+  const { data, isLoading, isError } = useQuery([], () => dataService.fetchUsersIdData('usersId'));
+
+  const empField = useDB1FiltersStore((state) => state.empIdField);
+  console.log(empField, 'empFieldStore');
 
   useEffect(() => {
-    setEmpIdField(initialEmpIdField);
-  }, [initialEmpIdField]);
+    setEmpIdField(empField);
+  }, [empField]);
 
-  const handleChangeSearchField = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value;
-    setEmpIdField(newValue);
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-    const numericValue = parseInt(newValue, 10);
-    if (!isNaN(numericValue)) {
-      patchState({ empIdField: numericValue });
-    } else {
-      patchState({ empIdField: null });
-    }
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  const handleChangeSearchField = (value) => {
+    setEmpIdField(value);
+    patchState({ empIdField: value });
   };
 
   return (
-    <>
+    <div className="w-full">
       <p>Поиск сотрудника:</p>
-      <input
-        type="text"
-        placeholder="ID или ФИО"
-        className="border rounded-md px-2 py-3"
-        onChange={(e) => handleChangeSearchField(e)}
-        value={empIdField}
+      <Select
+        className="w-full h-[50px] border border-black rounded-lg text-[30px]"
+        showSearch
+        allowClear
+        optionFilterProp="label"
+        filterSort={(optionA, optionB) => (optionA.value > optionB.value ? 1 : -1)}
+        options={data}
+        onChange={handleChangeSearchField}
+        value={empIdField || 'Выберите ID'}
       />
-    </>
+    </div>
   );
 };
 

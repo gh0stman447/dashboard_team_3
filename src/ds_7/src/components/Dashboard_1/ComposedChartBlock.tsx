@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   ComposedChart,
   Line,
@@ -12,8 +12,11 @@ import {
   Brush
 } from 'recharts';
 import { Download } from '../../../../assets';
-import { downloadPng, recalculateImprovement } from '../../utils';
-import { BAR_DATA } from '../../constants/Dashboard_2';
+import { downloadPng, recalculateImprovement, transformFiltersFromDB1 } from '../../utils';
+import { BAR_DATA, typeOfSkills } from '../../constants/Dashboard_2';
+import { useQuery } from 'react-query';
+import useDB1FiltersStore from '../../store/DB1FiltersStore';
+import { dataService } from '../../services/Data.service';
 
 const LEVEL_NAMES = {
   0: 'ИНП',
@@ -28,14 +31,158 @@ const ComposedChartBlock = () => {
   const composedBarRef = React.useRef<HTMLDivElement | null>(null);
   const downloadButtonRef = React.useRef<HTMLDivElement | null>(null);
 
+  const filters = useDB1FiltersStore((state) => ({
+    date: state.date,
+    empIdField: state.empIdField,
+    typesOfSkill: state.typesOfSkill
+  }));
+
+  const transformedFilters = transformFiltersFromDB1(filters);
+  console.log(transformedFilters, 'transformedFilters');
+
+  const {
+    data: employeeAllTimeData,
+    isLoading: isLoagindEmployeeAllTimeData,
+    isError: isErrorEmployeeAllTimeData
+  } = useQuery(
+    ['employeeAllTimeData', filters],
+    () => dataService.fetchBarChartEmployeeData({ ...transformedFilters, date: undefined }, 'employeeAllTimeData'),
+    {
+      enabled: !!filters.empIdField
+    }
+  );
+
+  const {
+    data: employeeEndSelectedDate,
+    isLoading: isLoadingEndSelectedDate,
+    isError: isErrorEndSelectedDate
+  } = useQuery(
+    ['employeeEndSelectedDate', filters],
+    () =>
+      dataService.fetchBarChartEmployeeData(
+        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
+        'employeeEndSelectedDate'
+      ),
+    {
+      enabled: !!filters.empIdField && !!filters.date
+    }
+  );
+
+  const {
+    data: employeeBeginningSelectedDate,
+    isLoading: isLoadingBeginningSelectedDate,
+    isError: isErrorBeginningSelectedDate
+  } = useQuery(
+    ['employeeBeginningSelectedDate', filters],
+    () =>
+      dataService.fetchBarChartEmployeeData(
+        { ...transformedFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
+        'employeeBeginningSelectedDate'
+      ),
+    {
+      enabled: !!filters.empIdField && !!filters.date
+    }
+  );
+
+  const {
+    data: allPeopleAllTimeData,
+    isLoading: isLoadingBarDataAllPeople,
+    isError: isErrorBarDataAllPeople
+  } = useQuery(
+    ['allPeopleEndSelectedDate', filters],
+    () =>
+      dataService.fetchBarChartAllPeopleData(
+        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')], employees_id: undefined },
+        'allPeopleEndSelectedDate'
+      ),
+    {
+      enabled: !!filters.empIdField && !!filters.date
+    }
+  );
+  const [department, setDepartment] = useState<string | null>(null);
+
+  console.log(department, 'department');
+  useEffect(() => {
+    if (employeeAllTimeData && employeeAllTimeData.length > 0) {
+      // Предположим, что департамент можно извлечь из первого элемента employeeAllTimeData
+      const dept = employeeAllTimeData[0].department; // Поменяйте это в соответствии с вашей структурой данных
+      setDepartment(dept);
+    }
+  }, [employeeAllTimeData]);
+
+  const {
+    data: allPeopleBeginningSelectedDate,
+    isLoading: isLoadingBeginningSelectedDateAllPeople,
+    isError: isErrorBeginningSelectedDateAllPeople
+  } = useQuery(
+    ['allPeopleBeginningSelectedDate', filters],
+    () =>
+      dataService.fetchBarChartAllPeopleData(
+        {
+          ...transformedFilters,
+          date: ['<=', filters.date[0].format('YYYY-MM-DD')],
+          employees_id: undefined,
+          department: ['=', department]
+        },
+        'allPeopleBeginningSelectedDate'
+      ),
+    {
+      enabled: !!filters.empIdField && !!filters.date
+    }
+  );
+
+  const {
+    data: allPeopleEndSelectedDate,
+    isLoading: isLoadingEndSelectedDateAllPeople,
+    isError: isErrorEndSelectedDateAllPeople
+  } = useQuery(
+    ['allPeopleEndSelectedDate', filters],
+    () =>
+      dataService.fetchBarChartAllPeopleData(
+        {
+          ...transformedFilters,
+          date: ['<=', filters.date[1].format('YYYY-MM-DD')],
+          employees_id: undefined,
+          department: ['=', department]
+        },
+        'allPeopleEndSelectedDate'
+      ),
+    {
+      enabled: !!filters.empIdField && !!filters.date
+    }
+  );
+
   const yAxisTickFormatter = (value: string) => {
     return LEVEL_NAMES[value] || value;
   };
 
+  if (
+    isLoadingBarDataAllPeople ||
+    isLoadingBeginningSelectedDateAllPeople ||
+    isLoadingEndSelectedDateAllPeople ||
+    isLoadingBeginningSelectedDate ||
+    isLoadingEndSelectedDate ||
+    isLoagindEmployeeAllTimeData
+  ) {
+    return <div>Loading...</div>;
+  }
+
+  if (
+    isErrorBarDataAllPeople ||
+    isErrorBeginningSelectedDateAllPeople ||
+    isErrorEndSelectedDateAllPeople ||
+    isErrorBeginningSelectedDate ||
+    isErrorEndSelectedDate ||
+    isErrorEmployeeAllTimeData
+  ) {
+    return <div>Error</div>;
+  }
+
   const modifiedBarData = recalculateImprovement(BAR_DATA);
+
   return (
     <div
-      className="flex flex-col items-center justify-between w-full 4xl:col-span-1 4xl:row-span-3 bg-white border border-black shadow-2xl rounded-xl divide-y-2 divide-gray/50"
+      className="order-3 4xl:order-none flex flex-col items-center justify-between w-full 4xl:col-span-1 4xl:row-span-3 bg-white border border-black shadow-2xl rounded-xl divide-y-2 divide-gray/50"
       ref={composedBarRef}
     >
       <div className="w-full p-2">
