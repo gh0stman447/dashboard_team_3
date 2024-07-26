@@ -9,12 +9,10 @@ export interface SearchEmployeeFieldProps extends InFormProps {}
 
 const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
   const [empIdField, setEmpIdField] = useState<string>('');
-  console.log(empIdField, 'empFieldLocalState');
 
   const { data, isLoading, isError } = useQuery([], () => dataService.fetchUsersIdData('usersId'));
 
   const empField = useDB1FiltersStore((state) => state.empIdField);
-  console.log(empField, 'empFieldStore');
 
   useEffect(() => {
     setEmpIdField(empField);
@@ -28,7 +26,7 @@ const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
     return <div>Error</div>;
   }
 
-  const handleChangeSearchField = (value) => {
+  const handleChangeSearchField = (value: string) => {
     setEmpIdField(value);
     patchState({ empIdField: value });
   };
@@ -43,7 +41,7 @@ const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
         optionFilterProp="label"
         filterSort={(optionA, optionB) => (optionA.value > optionB.value ? 1 : -1)}
         options={data}
-        onChange={handleChangeSearchField}
+        onChange={(value) => handleChangeSearchField(value)}
         value={empIdField || 'Выберите ID'}
       />
     </div>

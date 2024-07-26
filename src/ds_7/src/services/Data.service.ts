@@ -6,8 +6,8 @@ const { koobDataRequest3 } = KoobDataService;
 class DataService {
   fetchPieData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
-      ['skill_type', 'count(distinct(name)):totalSkills'],
+      'db__3.team_3_2',
+      ['skill_type', 'count(distinct(name)):totalSkills', ],
       [],
       filters,
       { schema_name: 'ds_7' },
@@ -23,7 +23,7 @@ class DataService {
 
   fetchTextLetData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
+      'db__3.team_3_2',
       ['count(distinct(name)):totalSkills'],
       [],
       filters,
@@ -36,7 +36,7 @@ class DataService {
 
   fetchTextLetDataSkills = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
+      'db__3.team_3_2',
       ['skill_status', 'count(distinct(name)):totalSkills'],
       [],
       filters,
@@ -49,7 +49,7 @@ class DataService {
 
   fetchUserData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
+      'db__3.team_3_2',
       ['employees_id', 'first_name', 'last_name', 'department', 'job_title'],
       [],
       filters,
@@ -61,7 +61,7 @@ class DataService {
 
   fetchUsersIdData = async (requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
+      'db__3.team_3_2',
       ['employees_id'],
       [],
       {},
@@ -79,7 +79,7 @@ class DataService {
 
   fetchTypeOfSkillsData = async (requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
+      'db__3.team_3_2',
       ['skill_type', 'count(distinct(name)):totalSkills'],
       [],
       {},
@@ -94,7 +94,7 @@ class DataService {
 
   fetchBarChartEmployeeData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
+      'db__3.team_3_2',
       ['employees_id', 'name', 'level', 'level_num', 'department'],
       [],
       filters,
@@ -106,7 +106,7 @@ class DataService {
 
   fetchBarChartAllPeopleData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'etl_db_3.team_3',
+      'db__3.team_3_2',
       ['employees_id', 'name', 'level', 'max(level_num)', 'department', 'date'], //убрать потом департамент и дату
       [],
       filters,

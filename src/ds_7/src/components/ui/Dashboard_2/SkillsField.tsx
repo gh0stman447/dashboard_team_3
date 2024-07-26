@@ -9,6 +9,8 @@ import { skills } from '../../../constants/Dashboard_2';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 
 const SkillsField = () => {
+  const [skills, setSkills] = useState<string[]>([]);
+
   const initialSkills = useDB2FiltersStore((state) => state.skills);
 
   const handleChangeSkillLevel = (event: SelectChangeEvent<string[]>) => {
@@ -18,6 +20,10 @@ const SkillsField = () => {
 
     useDB2FiltersStore.setState({ skills: value as string[] });
   };
+
+  useEffect(() => {
+    setSkills(initialSkills);
+  }, [initialSkills]);
 
   return (
     <FormControl
@@ -34,13 +40,13 @@ const SkillsField = () => {
       <Select
         id="skills-select"
         multiple
-        value={initialSkills}
+        value={skills}
         onChange={(e) => handleChangeSkillLevel(e)}
         renderValue={(selected) => selected.join(', ')}
       >
         {skills.map((level) => (
           <MenuItem key={level} value={level}>
-            <Checkbox checked={initialSkills.indexOf(level) > -1} />
+            <Checkbox checked={skills.indexOf(level) > -1} />
             <ListItemText primary={level} />
           </MenuItem>
         ))}

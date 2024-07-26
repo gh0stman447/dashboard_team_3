@@ -8,6 +8,9 @@ import { InputLabel } from '@mui/material';
 import { typeOfSkills } from '../../../constants/Dashboard_2';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
+import { useQuery } from 'react-query';
+import { dataService } from '../../../services/DataDboard2.service';
+import { sortList } from '../../../utils/sortList';
 
 interface TypeOfSkillFieldProps extends InFormProps {
   typeOfSkills?: string[];
@@ -21,7 +24,9 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
     } = event;
 
     const newTypesOfSkill = typeof value === 'string' ? value.split(',') : value;
+
     setTypeOfSkill(newTypesOfSkill);
+
     patchState({ typesOfSkill: newTypesOfSkill });
   };
 
@@ -29,7 +34,30 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
 
   useEffect(() => {
     setTypeOfSkill(initialTypeOfSkill);
-  }, []);
+  }, [initialTypeOfSkill]);
+
+  const { data, isLoading, isError } = useQuery('typeOfSkills', () =>
+    dataService.fetchTextLetAllTypesOfSkillData('typeOfSkills')
+  );
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: 300,
+        maxWidth: 200
+      }
+    }
+  };
+
+  const sortedTypeOfSkills = sortList(data, 'skill_type');
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -41,10 +69,10 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
         onChange={(e) => handleChangeTypeOfSkill(e)}
         renderValue={(selected) => selected.join(', ')}
       >
-        {typeOfSkills.map((type) => (
-          <MenuItem key={type} value={type}>
-            <Checkbox checked={typesOfSkill.indexOf(type) > -1} />
-            <ListItemText primary={type} />
+        {sortedTypeOfSkills.map(({ skill_type }) => (
+          <MenuItem key={skill_type} value={skill_type}>
+            <Checkbox checked={typesOfSkill.indexOf(skill_type) > -1} />
+            <ListItemText primary={skill_type} />
           </MenuItem>
         ))}
       </Select>

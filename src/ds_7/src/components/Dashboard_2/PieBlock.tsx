@@ -2,12 +2,35 @@ import React from 'react';
 import { PieChart, Pie, Cell, Label, ResponsiveContainer, Tooltip } from 'recharts';
 import { COLORS, SKILLS } from '../../constants/Dashboard_2';
 import { Download } from '../../../../assets';
-import { downloadPng } from '../../utils';
+import { downloadPng, transformFiltersFromDB2 } from '../../utils';
 import { useQuery } from 'react-query';
+import useDB2FiltersStore from '../../store/DB2FiltersStore';
+import { position } from 'html2canvas/dist/types/css/property-descriptors/position';
+import { dataService } from '../../services/DataDboard2.service';
 
 const PieBlock = () => {
   const downloadButtonRef = React.useRef<HTMLDivElement | null>(null);
   const pieChartRef = React.useRef<HTMLDivElement | null>(null);
+
+  const filters = useDB2FiltersStore((state) => ({
+    date: state.date,
+    position: state.position,
+    devison: state.devision
+  }));
+
+  const transformedFilters = transformFiltersFromDB2(filters);
+
+  const {
+    data: departmentDataAllTimeDate,
+    isLoading: isLoadingDepartmentAllTimeData,
+    isError: isErrorDepartmentAllTimeData
+  } = useQuery(
+    ['departmentAllTimeData', filters],
+    () => dataService.fetchPieDepartmentData({ ...transformedFilters, date: undefined }, 'departmentAllTimeData'),
+    {
+      enabled: !!filters?.position
+    }
+  );
 
   return (
     <div className="border border-black w-full 2xl:w-1/2 rounded-xl bg-white shadow-2xl" ref={pieChartRef}>

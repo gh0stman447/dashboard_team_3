@@ -15,12 +15,17 @@ import DatePicker from '../DatePicker';
 import CustomButton from '../CustomFilterButton';
 import DateComponent from '../DateComponent';
 import { Modal } from 'antd';
+import { useEffect } from 'react';
 
 interface DialogSelectProps {}
 const DialogSelect: FC<DialogSelectProps> = () => {
   const [open, setOpen] = useState(false);
 
   const currentFormStateRef = useRef<Record<string, any>>({});
+
+  useEffect(() => {
+    currentFormStateRef.current = useDB2FiltersStore.getState();
+  }, [open]);
 
   const patchFormStateRef = useCallback((patch: Record<string, any>) => {
     currentFormStateRef.current = { ...currentFormStateRef.current, ...patch };
@@ -35,7 +40,7 @@ const DialogSelect: FC<DialogSelectProps> = () => {
   };
 
   const handleApplyFilters = () => {
-    useDB2FiltersStore.getState().setFilters(currentFormStateRef.current);
+    useDB2FiltersStore.setState(currentFormStateRef.current);
     setOpen(false);
   };
 
@@ -43,7 +48,7 @@ const DialogSelect: FC<DialogSelectProps> = () => {
     <>
       <CustomButton handler={handleClickOpen} text="Фильтры" />
       <Modal
-        title="Title"
+        title="Фильтры"
         open={open}
         onOk={handleApplyFilters}
         onCancel={handleCancel}

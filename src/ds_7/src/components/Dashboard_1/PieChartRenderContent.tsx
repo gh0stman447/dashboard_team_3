@@ -1,14 +1,13 @@
 import React from 'react';
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip } from 'recharts';
 import { ArrowGreenUp } from '../../../../assets/Dashboard_1';
+import useDB1FiltersStore from '../../store/DB1FiltersStore';
+import { useQuery } from 'react-query';
+import { dataService } from '../../services/Data.service';
+import { transformFiltersFromDB1 } from '../../utils/transformFilters';
+import { difference } from 'react-query/types/core/utils';
 
-const PieChartRenderContent = ({
-  data,
-  empIdField
-}: {
-  data: { name: string; value: number; color: string; difference: number | null }[];
-  empIdField: string;
-}) => {
+const PieChartRenderContent = () => {
   const customLabelList =
     (data: { name: string; value: number; color: string; difference: number | null }[]) =>
     ({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
@@ -36,11 +35,105 @@ const PieChartRenderContent = ({
       );
     };
 
-  if (!empIdField) {
-    return <span className="4xl:h-[700px] flex items-center justify-center">Выберите сотрудника</span>;
+  const filters = useDB1FiltersStore((state) => ({
+    // typesOfSkill: state.typesOfSkill,
+    date: state.date,
+    empIdField: state.empIdField
+  }));
+
+  const transformedFilters = transformFiltersFromDB1(filters);
+
+  const {
+    data: dataAllTimeDate,
+    isLoading: isLoadingDataAllTimeDate,
+    isError: isErrorDataAllTimeDate
+  } = useQuery(['PieDataAllTimeDate', filters.date, filters.empIdField], () =>
+    dataService.fetchPieData(transformedFilters, 'PieDataAllTimeDate')
+  );
+
+  const {
+    data: dataBeforeSelectedDate,
+    isLoading: isLoadingDataBeforeSelectedDate,
+    isError: isErrorDataBeforeSelectedDate
+  } = useQuery(
+    ['pieDataBeforeSelectedDate', filters.date, filters.empIdField],
+    () =>
+      dataService.fetchPieData(
+        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
+        'PieDataBeforeSelectedDate'
+      ),
+    {
+      enabled: !!filters?.date && !!filters?.empIdField
+    }
+  );
+
+  const {
+    data: dataPrevDate,
+    isLoading: isLoadingDataPrevDate,
+    isError: isErrorDataPrevDate
+  } = useQuery(
+    ['pieDataPrevDate', filters.date, filters.empIdField],
+    () =>
+      dataService.fetchPieData(
+        { ...transformedFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
+        'PieDataPrevDate'
+      ),
+    {
+      enabled: !!filters?.date && !!filters?.empIdField
+    }
+  );
+
+  if (isLoadingDataBeforeSelectedDate || isLoadingDataAllTimeDate || isLoadingDataPrevDate) {
+    return <div>Loading...</div>;
+  }
+  if (isErrorDataAllTimeDate || isErrorDataBeforeSelectedDate || isErrorDataPrevDate) {
+    return <div>Error</div>;
   }
 
-  if (!data || data.length === 0) {
+  const calculateDifference = (
+    arr1: {
+      name: string;
+      value: number;
+      color: string;
+    }[],
+    arr2: {
+      name: string;
+      value: number;
+      color: string;
+    }[],
+    noDateFilter: boolean
+  ) => {
+    if (noDateFilter) {
+      return arr1?.map((el) => ({
+        ...el,
+        difference: null
+      }));
+    }
+
+    const map2 = arr2?.reduce((acc, el) => {
+      acc[el.name] = el.value;
+      return acc;
+    }, {});
+
+    return arr1?.map((el) => {
+      const diff = el.value - (map2[el.name] || 0);
+      return {
+        ...el,
+        difference: diff
+      };
+    });
+  };
+
+  if (!filters.empIdField) {
+    return <span className="4xl:h-[700px] flex items-center justify-center">Выберите сотрудника</span>;
+  }
+  const dataWithIncrease = calculateDifference(
+    filters.date ? dataBeforeSelectedDate : dataAllTimeDate,
+    dataPrevDate,
+    !filters.date
+  );
+
+  if (!dataWithIncrease || dataWithIncrease.length === 0) {
     return <span className="4xl:h-[700px] flex items-center justify-center">Данных нет</span>;
   }
 
@@ -49,13 +142,13 @@ const PieChartRenderContent = ({
       <PieChart>
         <Pie
           dataKey={'value'}
-          data={data}
+          data={dataWithIncrease}
           innerRadius={0}
           outerRadius={'95%'}
-          label={customLabelList(data)}
+          label={customLabelList(dataWithIncrease)}
           labelLine={false}
         >
-          {data.map((entry, index) => (
+          {dataWithIncrease.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>

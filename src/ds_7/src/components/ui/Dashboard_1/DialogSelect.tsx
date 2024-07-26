@@ -22,7 +22,6 @@ const DialogSelect: React.FC = () => {
 
   useEffect(() => {
     currentFormStateRef2.current = useDB1FiltersStore.getState();
-    console.log(currentFormStateRef2.current, 'currentFormStateRef2.current');
   }, [open]);
 
   const patchFormStateRef2 = useCallback((patch: Record<string, any>) => {
@@ -65,7 +64,7 @@ const DialogSelect: React.FC = () => {
           <div className="flex flex-col gap-y-2">
             <p>Выбор периода:</p>
             {/* <DatePicker patchState={patchFormStateRef2} /> */}
-            <DateComponent patchState={patchFormStateRef2} />
+            <DateComponent patchState={patchFormStateRef2} page="1" />
           </div>
         </Box>
       </Modal>

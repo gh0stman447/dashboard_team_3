@@ -46,7 +46,7 @@ const ComposedChartBlock = () => {
     isError: isErrorEmployeeAllTimeData
   } = useQuery(
     ['employeeAllTimeData', filters],
-    () => dataService.fetchBarChartEmployeeData({ ...transformedFilters, date: undefined }, 'employeeAllTimeData'),
+    () => dataService.fetchBarChartEmployeeData(transformedFilters, 'employeeAllTimeData'),
     {
       enabled: !!filters.empIdField
     }
@@ -104,8 +104,7 @@ const ComposedChartBlock = () => {
   console.log(department, 'department');
   useEffect(() => {
     if (employeeAllTimeData && employeeAllTimeData.length > 0) {
-      // Предположим, что департамент можно извлечь из первого элемента employeeAllTimeData
-      const dept = employeeAllTimeData[0].department; // Поменяйте это в соответствии с вашей структурой данных
+      const dept = employeeAllTimeData[0].department;
       setDepartment(dept);
     }
   }, [employeeAllTimeData]);

@@ -7,13 +7,13 @@ import { NoFilter } from '../../../../assets/Dashboard_1/NoFilter';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 
 const Header = () => {
-  const clearFilters = (patchState: any) => {
+  const clearFilters = () => {
     // patchState({
     //   date: null,
     //   empIdField: '',
     //   typeOfSkill: '',
     // })
-    useDB1FiltersStore.setState({ date: null, empIdField: '', typeOfSkill: '' });
+    useDB1FiltersStore.setState({ date: null, empIdField: '', typesOfSkill: [] });
   };
 
   return (

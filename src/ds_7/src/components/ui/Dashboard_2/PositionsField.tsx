@@ -8,6 +8,9 @@ import { InputLabel } from '@mui/material';
 import { positions } from '../../../constants/Dashboard_2';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
+import { useQuery } from 'react-query';
+import { dataService } from '../../../services/DataDboard2.service';
+import { sortList } from '../../../utils/sortList';
 
 interface PositionFieldProps extends InFormProps {
   positions?: string[];
@@ -16,6 +19,9 @@ interface PositionFieldProps extends InFormProps {
 const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
   const [position, setPosition] = useState<string[]>([]);
 
+  const { data, isLoading, isError } = useQuery('positions', () =>
+    dataService.fetchTextLetAllPositionsData('positions')
+  );
   const handleChangePosition = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value }
@@ -29,7 +35,26 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
 
   useEffect(() => {
     setPosition(initialPisition);
-  }, []);
+  }, [initialPisition]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (isError) {
+    return <div>Error</div>;
+  }
+
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: 300,
+        maxWidth: 200
+      }
+    }
+  };
+
+  const sortedPositions = sortList(data, 'job_title');
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
@@ -40,11 +65,12 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
         value={position}
         onChange={(e) => handleChangePosition(e)}
         renderValue={(selected) => selected.join(', ')}
+        MenuProps={MenuProps}
       >
-        {positions.map((pos) => (
-          <MenuItem key={pos} value={pos}>
-            <Checkbox checked={position.indexOf(pos) > -1} />
-            <ListItemText primary={pos} />
+        {sortedPositions.map(({ job_title }) => (
+          <MenuItem key={job_title} value={job_title}>
+            <Checkbox checked={position.indexOf(job_title) > -1} />
+            <ListItemText primary={job_title} />
           </MenuItem>
         ))}
       </Select>

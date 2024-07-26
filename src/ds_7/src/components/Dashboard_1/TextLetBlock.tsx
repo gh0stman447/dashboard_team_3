@@ -110,7 +110,7 @@ const TextLetBlock = () => {
           </div>
           {dataGrowht > 0 && (
             <div className="text-[25px] md-lg:text-[32px] flex items-center gap-x-4">
-              <p className=""> Увеличен уровень:</p>
+              <p className="">Увеличен уровень:</p>
               <span className="flex gap-x-2 items-center">
                 <ArrowGreenUp />+{skills[0]?.totalSkills}
               </span>
