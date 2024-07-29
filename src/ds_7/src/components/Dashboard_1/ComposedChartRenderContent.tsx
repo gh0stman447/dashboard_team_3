@@ -18,6 +18,8 @@ import { LEVEL_NAMES } from '../../constants/Dashboard_2/levelNames';
 import { useEffect, useState } from 'react';
 
 import { transformFiltersFromDB1 } from '../../utils';
+import NoChartComponent from '../NoChartComponent';
+import CustomBarTooltip from '../ui/Dashboard_1/CustomBarTooltip';
 
 const ComposedChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({
@@ -124,7 +126,7 @@ const ComposedChartRenderContent = () => {
     isLoadingEmployeeEndSelectedDate ||
     isLoagindEmployeeAllTimeData
   ) {
-    return <div className="flex h-full justify-center items-center">Loading...</div>;
+    return <NoChartComponent label="Загрузка..." />;
   }
 
   if (
@@ -134,11 +136,11 @@ const ComposedChartRenderContent = () => {
     isErrorEmployeeEndSelectedDate ||
     isErrorEmployeeAllTimeData
   ) {
-    return <div className="flex h-full justify-center items-center">Error</div>;
+    return <NoChartComponent label="Ошибка" />;
   }
 
   if (!filters.empIdField || !position) {
-    return <div className="flex h-full justify-center items-center">No employee selected</div>;
+    return <NoChartComponent label="Выберите сотрудника" />;
   }
 
   const yAxisTickFormatter = (value: string) => {
@@ -221,8 +223,8 @@ const ComposedChartRenderContent = () => {
         <Brush startIndex={0} endIndex={modifiedBarData.length - 1} travellerWidth={20} height={30} stroke="#8884d8" />
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" scale="band" />
-        <YAxis tickFormatter={yAxisTickFormatter} tickCount={6} />
-        <Tooltip />
+        <YAxis tickFormatter={yAxisTickFormatter} tickCount={6} ticks={Object.keys(LEVEL_NAMES)} />
+        <Tooltip content={<CustomBarTooltip />} />
         {/* <Legend /> */}
         <Bar
           dataKey="empLvl"

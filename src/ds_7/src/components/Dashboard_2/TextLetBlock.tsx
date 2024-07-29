@@ -93,29 +93,29 @@ const TextLetBlock = () => {
   )
     return <div>Error</div>;
 
-  let skillsGrowth = null;
+  const countOfSkillsLevelUp = filters.date ? departmentSkillsUpDataForThePeriodDate[0].totalCountOfSkills : null;
 
-  if (filters.date) {
-    skillsGrowth =
-      departmentSkillsDataEndSelectedDate[0].totalCountOfSkills -
-      departmentSkillsDataBeggingSelectedDate[0].totalCountOfSkills;
-  }
+  const countOfSkillsUp = filters.date
+    ? departmentSkillsDataEndSelectedDate[0].totalCountOfSkills -
+      departmentSkillsDataBeggingSelectedDate[0].totalCountOfSkills
+    : 0;
 
-  const countOfSkillsUp = filters.date ? departmentSkillsUpDataForThePeriodDate[0].totalCountOfSkills : null;
+  const totalCountOfSkills = filters.date
+    ? departmentSkillsDataEndSelectedDate[0].totalCountOfSkills
+    : departmentSkillsDataAllTimeDate[0].totalCountOfSkills;
 
   return (
     <div
-      className="w-full h-[200px] 2xl:w-1/2 md-lg:h-[602px] border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 text-center"
+      className="w-full h-[200px] 2xl:w-1/3 md-lg:h-[702px] border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 text-center"
       ref={textLetRef}
     >
       <div className="relative h-1/2 flex justify-center items-center">
         <div className="flex flex-col">
           <p className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">Представлено навыков: </p>
           <div className="flex gap-x-2 items-center justify-center">
-            {filters.date && skillsGrowth > 0 && <ArrowGreenUp height="40" width="40" />}
+            {filters.date && countOfSkillsUp > 0 && <ArrowGreenUp height="40" width="40" />}
             <span className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">
-              {departmentSkillsDataAllTimeDate[0].totalCountOfSkills}{' '}
-              {filters.date && skillsGrowth > 0 && <span>(+{skillsGrowth})</span>}
+              {totalCountOfSkills} {filters.date && countOfSkillsUp > 0 && <span>(+{countOfSkillsUp})</span>}
             </span>
           </div>
         </div>
@@ -131,9 +131,9 @@ const TextLetBlock = () => {
         <div className="flex flex-col">
           <p className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">Увеличено уровней:</p>
           <div className="flex gap-x-2 items-center justify-center">
-            {filters.date && countOfSkillsUp > 0 && <ArrowGreenUp height="40" width="40" />}
+            {filters.date && countOfSkillsLevelUp > 0 && <ArrowGreenUp height="40" width="40" />}
             <span className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">
-              {filters.date ? (countOfSkillsUp > 0 ? `+${countOfSkillsUp}` : 0) : '(не выбран период)'}
+              {filters.date ? (countOfSkillsLevelUp > 0 ? `+${countOfSkillsLevelUp}` : 0) : '(не выбран период)'}
             </span>
           </div>
         </div>

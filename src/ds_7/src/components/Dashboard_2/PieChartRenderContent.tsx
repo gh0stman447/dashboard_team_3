@@ -1,11 +1,13 @@
 import React from 'react';
-import { PieChart, Pie, Cell, Label, ResponsiveContainer, Tooltip } from 'recharts';
+import { PieChart, Pie, Cell, Label, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import { useQuery } from 'react-query';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import { dataService } from '../../services/DataDboard2.service';
 import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
 import { transformFiltersFromDB2 } from '../../utils';
-import customLabelList from '../ui/CustomLabelList';
+import CustomTooltip from '../ui/Charts/CustomTooltip';
+import customLabelList from '../ui/Charts/CustomLabelList';
+import CustomPieLegend from './CustomPieLegend';
 
 const PieChartRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -82,7 +84,7 @@ const PieChartRenderContent = () => {
   }
 
   const dataWithIncrease = calculateDifferenceForPie(
-    !filters.date ? departmentDataAllTimeDate : departmentDataBegginingSelectedDate,
+    !filters.date ? departmentDataAllTimeDate : departmentDataEndSelectedDate,
     departmentDataEndSelectedDate,
     !!filters.date
   );
@@ -107,7 +109,8 @@ const PieChartRenderContent = () => {
           ))}
           <Label />
         </Pie>
-        <Tooltip />
+        <Tooltip content={<CustomTooltip />} />
+        <Legend content={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} />} />
       </PieChart>
     </ResponsiveContainer>
   );

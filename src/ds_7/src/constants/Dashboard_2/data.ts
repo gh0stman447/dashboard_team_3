@@ -20,23 +20,6 @@ export const enum LEVEL {
   'Expert' = 5
 }
 
-export const BAR_DATA = [
-  {
-    name: 'Python',
-    empLvl: LEVEL['Junior'],
-    middleLvl: LEVEL['Middle'],
-    improvement: LEVEL['Middle']
-  },
-  {
-    name: 'GO',
-    empLvl: LEVEL['Junior'],
-    middleLvl: LEVEL['Junior'],
-    improvement: LEVEL['Junior']
-  },
-
- 
-];
-
 export const typeOfSkills = [
   'Технологии',
   'Инструменты',
