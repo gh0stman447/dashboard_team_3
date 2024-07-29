@@ -142,7 +142,7 @@ const ComposedChartRenderContent = () => {
   }
 
   const yAxisTickFormatter = (value: string) => {
-    return LEVEL_NAMES[value] || null;
+    return LEVEL_NAMES[value] || '';
   };
 
   const getImprovement = (
@@ -167,6 +167,7 @@ const ComposedChartRenderContent = () => {
         improvement
       };
     });
+
     // return endData.map((endSkill) => {
     //   const beginSkill = beginData.find((skill) => skill.name === endSkill.name);
     //   const improvement = beginSkill ? endSkill.level_num - beginSkill.level_num : endSkill.level_num;
@@ -196,6 +197,7 @@ const ComposedChartRenderContent = () => {
 
   const modifiedBarData = BAR_DATA.map((skill) => ({
     ...skill,
+    empLvl: skill.empLvl,
     middleLvl: getAverageLevel(skill.name, peopleData)
   }));
 
@@ -219,7 +221,7 @@ const ComposedChartRenderContent = () => {
         <Brush startIndex={0} endIndex={modifiedBarData.length - 1} travellerWidth={20} height={30} stroke="#8884d8" />
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" scale="band" />
-        <YAxis tickFormatter={yAxisTickFormatter} tickCount={5} />
+        <YAxis tickFormatter={yAxisTickFormatter} tickCount={6} />
         <Tooltip />
         {/* <Legend /> */}
         <Bar

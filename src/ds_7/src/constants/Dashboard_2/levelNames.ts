@@ -4,8 +4,5 @@ export const LEVEL_NAMES = {
   2: 'Junior',
   3: 'Middle',
   4: 'Senior',
-  5: 'Expert',
-  6: 'Expert',
-  7: 'Expert',
-  8: 'Expert'
+  5: 'Expert'
 };

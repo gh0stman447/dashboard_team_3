@@ -18,7 +18,8 @@ const BarSecondBlock = () => {
     date: state.date,
     position: state.position,
     devision: state.devision,
-    typesOfSkill: state.typesOfSkill
+    typesOfSkill: state.typesOfSkill,
+    skills: state.skills
   }));
 
   const transformedFilters = transformFiltersFromDB2(filters);
