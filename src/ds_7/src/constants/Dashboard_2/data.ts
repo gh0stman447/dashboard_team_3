@@ -33,54 +33,8 @@ export const BAR_DATA = [
     middleLvl: LEVEL['Junior'],
     improvement: LEVEL['Junior']
   },
-  {
-    name: 'Kotlin',
-    empLvl: LEVEL['Junior'],
-    middleLvl: LEVEL['Middle'],
-    improvement: LEVEL['Junior']
-  },
-  {
-    name: 'C++',
-    empLvl: LEVEL['Senior'],
-    middleLvl: LEVEL['Middle'],
-    improvement: LEVEL['Expert']
-  },
-  {
-    name: 'C',
-    empLvl: LEVEL['Senior'],
-    middleLvl: LEVEL['Middle'],
-    improvement: LEVEL['Senior']
-  },
-  {
-    name: 'SQL',
-    empLvl: LEVEL['Expert'],
-    middleLvl: LEVEL['Junior'],
-    improvement: LEVEL['Expert']
-  },
-  {
-    name: 'PHP',
-    empLvl: LEVEL['Junior'],
-    middleLvl: LEVEL['Novice'],
-    improvement: LEVEL['Junior']
-  },
-  {
-    name: 'HTML',
-    empLvl: LEVEL['ИНП'],
-    middleLvl: LEVEL['ИНП'],
-    improvement: LEVEL['Novice']
-  },
-  {
-    name: 'Java',
-    empLvl: LEVEL['Junior'],
-    middleLvl: LEVEL['Novice'],
-    improvement: LEVEL['Junior']
-  },
-  {
-    name: 'JavaScript',
-    empLvl: LEVEL['Junior'],
-    middleLvl: LEVEL['Junior'],
-    improvement: LEVEL['Junior']
-  }
+
+ 
 ];
 
 export const typeOfSkills = [

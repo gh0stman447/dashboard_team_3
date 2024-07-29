@@ -2,31 +2,20 @@ import React from 'react';
 import { Logo } from '../../../../assets/Dashboard_1';
 import { Avatar } from '@mui/material';
 import { useQuery } from 'react-query';
-import useDB1FiltersStore from '../../store/DB1FiltersStore';
-import { dataService } from '../../services/Data.service';
 import useUiStore from '../../store/uiStore';
 import { transformFiltersFromDB1 } from '../../utils';
+import SideBarRenderContent from './SideBarRenderContent';
+import useDB1FiltersStore from '../../store/DB1FiltersStore';
+import LeftArrow from '../../../../assets/Dashboard_1/LeftArrow';
+import RightArrow from '../../../../assets/Dashboard_1/RightArrow';
 
 const SideBar = () => {
   const isOpen = useUiStore((state) => state.isSidebarOpen);
-  const empIdField = useDB1FiltersStore((state) => state.empIdField);
 
-  const transformedFilters = transformFiltersFromDB1({ empIdField });
+  const nextUser = useDB1FiltersStore((state) => state.nextUser);
+  const prevUser = useDB1FiltersStore((state) => state.prevUser);
 
-  const { data, isLoading, isError } = useQuery(
-    ['empIdField', empIdField],
-    () => dataService.fetchUserData(transformedFilters, 'empIdField'),
-    {
-      enabled: !!empIdField
-    }
-  );
-
-  if (isLoading) {
-    return <div>Загрузка...</div>;
-  }
-  if (isError) {
-    return <div>Произошла ошибка</div>;
-  }
+  const currentUser = useDB1FiltersStore((state) => state.empIdField);
 
   return (
     <aside
@@ -42,15 +31,18 @@ const SideBar = () => {
         <div className="flex justify-center rounded-full my-[50px]">
           <Avatar sx={{ width: 250, height: 250 }} />
         </div>
-        {data && (
-          <div className="">
-            <p>Общая Информация о Сотруднике:</p>
-            <p>ID сотрудника: {data[0].employees_id}</p>
-            <p>
-              ФИО: {data[0].first_name} {data[0].last_name}
-            </p>
-            <p>Подразделение: {data[0].department}</p>
-            <p>Должность: {data[0].job_title}</p>
+        <div className="flex flex-col gap-y-2 text-[16px]">
+          <p className="text-[18px]">Общая Информация о Сотруднике:</p>
+          <SideBarRenderContent />
+        </div>
+        {currentUser && (
+          <div className="flex gap-4 self-center mt-5">
+            <button className="btn btn-primary" onClick={prevUser}>
+              <LeftArrow />
+            </button>
+            <button className="btn btn-primary" onClick={nextUser}>
+              <RightArrow />
+            </button>
           </div>
         )}
       </div>

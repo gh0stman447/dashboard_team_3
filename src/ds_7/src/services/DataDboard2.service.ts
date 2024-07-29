@@ -7,20 +7,37 @@ class DataService {
   fetchPieDepartmentData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
-      ['skill_type', 'count(distinct(name)):totalSkills', 'department', 'job_title', 'name'],
+      ['skill_type', 'count(distinct(name)):totalSkills'],
       [],
       filters,
       { schema_name: 'ds_7' },
       requestString
     )) as { skill_type: string; totalSkills: number }[];
 
-    return res;
+    return res.map((el, index) => ({
+      name: el.skill_type,
+      value: el.totalSkills,
+      color: COLORS[index]
+    }));
   };
 
   fetchTextLetDepartmentData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
       ['count(distinct(name)):totalCountOfSkills'],
+      [],
+      filters,
+      { schema_name: 'ds_7' },
+      requestString
+    )) as { totalCountOfSkills: number }[];
+
+    return res;
+  };
+
+  fetchTextLetCountOfAdvancedSkillsDepartmentData = async (filters: {}, requestString: string) => {
+    const res = (await koobDataRequest3(
+      'db__3.team_3_2',
+      ['count(name):totalCountOfSkills'],
       [],
       filters,
       { schema_name: 'ds_7' },
@@ -63,6 +80,42 @@ class DataService {
       { schema_name: 'ds_7' },
       requestString
     )) as { skill_type: string }[];
+    return res;
+  };
+
+  fetchBarDataCountOfEmployeesBySkills = async (filters: {}, requestString: string) => {
+    const res = (await koobDataRequest3(
+      'db__3.team_3_2',
+      ['name', 'count(distinct(employees_id)):countOfEmployees'],
+      [],
+      filters,
+      { schema_name: 'ds_7', sort: ['+name'] },
+      requestString
+    )) as { name: string; countOfEmployees: number }[];
+    return res;
+  };
+
+  fetchSkillsData = async (filters: {}, requestString: string) => {
+    const res = (await koobDataRequest3(
+      'db__3.team_3_2',
+      ['name as skill'],
+      [],
+      filters,
+      { schema_name: 'ds_7', sort: ['+skill'] },
+      requestString
+    )) as { skill: string }[];
+    return res;
+  };
+
+  fetchBarDataCountOfEmployeesBySkillLevel = async (filters: {}, requestString: string) => {
+    const res = (await koobDataRequest3(
+      'db__3.team_3_2',
+      ['level_num', 'count(distinct(employees_id)):countOfEmployees'],
+      [],
+      filters,
+      { schema_name: 'ds_7', sort: ['+level_num'] },
+      requestString
+    )) as { level_num: number; countOfEmployees: number }[];
     return res;
   };
 }

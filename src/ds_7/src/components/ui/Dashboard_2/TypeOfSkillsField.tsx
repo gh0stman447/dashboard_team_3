@@ -5,12 +5,11 @@ import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
-import { typeOfSkills } from '../../../constants/Dashboard_2';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import { useQuery } from 'react-query';
 import { dataService } from '../../../services/DataDboard2.service';
 import { sortList } from '../../../utils/sortList';
+import { useQuery } from 'react-query';
 
 interface TypeOfSkillFieldProps extends InFormProps {
   typeOfSkills?: string[];

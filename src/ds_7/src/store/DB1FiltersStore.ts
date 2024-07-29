@@ -4,21 +4,39 @@ import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
 export interface DB1FiltersStore {
-  // typeOfSkill: string;
   typesOfSkill: string[];
   date: DateRange<Dayjs> | null;
   empIdField: string;
-
+  currentUserIndex: number;
   setFilters: (filters: Partial<DB1FiltersStore>) => void;
+
+  users: { label: string; value: number }[];
+  setUsers: (users: { label: string; value: number }[]) => void;
+  setCurrentUserIndex: (index: number) => void;
+  nextUser: () => void;
+  prevUser: () => void;
 }
 
 const useDB1FiltersStore = create<DB1FiltersStore>()(
-  devtools((set) => ({
-    // typeOfSkill: '',
+  devtools((set, get) => ({
     typesOfSkill: [],
     date: null,
     empIdField: '',
-    setFilters: (filters) => set(filters)
+    users: [],
+    currentUserIndex: 0,
+    setFilters: (filters) => set(filters),
+    setUsers: (users) => set({ users }),
+    setCurrentUserIndex: (index) => set({ currentUserIndex: index, empIdField: get().users[index]?.value || '' }),
+    nextUser: () =>
+      set((state) => {
+        const newIndex = (state.currentUserIndex + 1) % state.users.length;
+        return { currentUserIndex: newIndex, empIdField: state.users[newIndex].value };
+      }),
+    prevUser: () =>
+      set((state) => {
+        const newIndex = (state.currentUserIndex - 1 + state.users.length) % state.users.length;
+        return { currentUserIndex: newIndex, empIdField: state.users[newIndex].value };
+      })
   }))
 );
 

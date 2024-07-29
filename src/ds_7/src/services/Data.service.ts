@@ -7,7 +7,7 @@ class DataService {
   fetchPieData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
-      ['skill_type', 'count(distinct(name)):totalSkills', ],
+      ['skill_type', 'count(distinct(name)):totalSkills'],
       [],
       filters,
       { schema_name: 'ds_7' },
@@ -37,12 +37,12 @@ class DataService {
   fetchTextLetDataSkills = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
-      ['skill_status', 'count(distinct(name)):totalSkills'],
+      ['count(distinct(name)):totalSkills', 'name', 'skill_type'],
       [],
       filters,
       { schema_name: 'ds_7' },
       requestString
-    )) as { totalSkills: number; skill_status: string }[];
+    )) as { totalSkills: number }[];
 
     return res;
   };
@@ -72,7 +72,7 @@ class DataService {
     return res.map((el) => {
       return {
         value: el.employees_id,
-        label: el.employees_id
+        label: String(el.employees_id)
       };
     });
   };
@@ -80,7 +80,7 @@ class DataService {
   fetchTypeOfSkillsData = async (requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
-      ['skill_type', 'count(distinct(name)):totalSkills'],
+      ['skill_type'],
       [],
       {},
       { schema_name: 'ds_7' },
@@ -95,24 +95,28 @@ class DataService {
   fetchBarChartEmployeeData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
-      ['employees_id', 'name', 'level', 'level_num', 'department'],
+      ['name', 'max(level_num)', 'job_title'],
       [],
       filters,
       { schema_name: 'ds_7' },
       requestString
-    )) as { employees_id: number; name: string; level: string; level_num: number; department: string }[];
+    )) as {
+      name: string;
+      level_num: number;
+      job_title: string;
+    }[];
     return res;
   };
 
   fetchBarChartAllPeopleData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
-      ['employees_id', 'name', 'level', 'max(level_num)', 'department', 'date'], //убрать потом департамент и дату
+      ['name', 'round(avg(level_num))'],
       [],
       filters,
-      { schema_name: 'ds_7', sort: ['+employees_id'] },
+      { schema_name: 'ds_7' },
       requestString
-    )) as { employees_id: number; name: string; level: string; level_num: number }[];
+    )) as { name: string; level_num: number }[];
     return res;
   };
 }

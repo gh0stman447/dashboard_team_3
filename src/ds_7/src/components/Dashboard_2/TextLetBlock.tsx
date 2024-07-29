@@ -18,22 +18,15 @@ const TextLetBlock = () => {
 
   const transformedFilters = transformFiltersFromDB2(filters);
 
-  console.log(filters);
-  const queryFilters =
-    filters.position.length === 0 && filters.devision.length === 0
-      ? { ...transformedFilters }
-      : filters.position.length === 0 && filters.devision.length > 0
-      ? { ...transformedFilters, is_depart_key_skill: ['=', true] }
-      : filters.devision.length === 0 && filters.position.length > 0
-      ? { ...transformedFilters, is_job_key_skill: ['=', true] }
-      : { ...transformedFilters, is_job_key_skill: ['=', true], is_depart_key_skill: ['=', true] };
-
   const {
     data: departmentSkillsDataAllTimeDate,
     isLoading: isLoadingSkillsDataAllTimeDate,
     isError: isErrorSkillsDataAllTimeDate
   } = useQuery(['departmentSkillsDataAllTimeDate', filters], () =>
-    dataService.fetchTextLetDepartmentData({ ...queryFilters, date: undefined }, 'departmentSkillsDataAllTimeDate')
+    dataService.fetchTextLetDepartmentData(
+      { ...transformedFilters, date: undefined },
+      'departmentSkillsDataAllTimeDate'
+    )
   );
 
   const {
@@ -44,7 +37,7 @@ const TextLetBlock = () => {
     ['departmentSkillsDataBeggingSelectedDate', filters],
     () =>
       dataService.fetchTextLetDepartmentData(
-        { ...queryFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
+        { ...transformedFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
         'departmentSkillsDataBeggingSelectedDate'
       ),
     {
@@ -60,7 +53,7 @@ const TextLetBlock = () => {
     ['departmentSkillsDataEndSelectedDate', filters],
     () =>
       dataService.fetchTextLetDepartmentData(
-        { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
+        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
         'departmentSkillsDataEndSelectedDate'
       ),
     {
@@ -68,19 +61,47 @@ const TextLetBlock = () => {
     }
   );
 
-  if (isLoadingSkillsDataAllTimeDate || isLoadingSkillsDataBeggingSelectedDate || isLoadingSkillsDataEndSelectedDate)
+  const {
+    data: departmentSkillsUpDataForThePeriodDate,
+    isLoading: isLoadingdepartmentSkillsUpDataForThePeriodDateLoading,
+    isError: isErrorDepartmentSkillsUpDataForThePeriodDate
+  } = useQuery(
+    ['departmentSkillsUpDataForThePeriodDate', filters],
+    () =>
+      dataService.fetchTextLetCountOfAdvancedSkillsDepartmentData(
+        { ...transformedFilters, skill_status: ['=', 'up'] },
+        'departmentSkillsUpDataForThePeriodDate'
+      ),
+    {
+      enabled: !!filters.date
+    }
+  );
+
+  if (
+    isLoadingSkillsDataAllTimeDate ||
+    isLoadingSkillsDataBeggingSelectedDate ||
+    isLoadingSkillsDataEndSelectedDate ||
+    isLoadingdepartmentSkillsUpDataForThePeriodDateLoading
+  )
     return <div>Loading...</div>;
 
-  if (isErrorSkillsDataAllTimeDate || isErrorSkillsDataBeggingSelectedDate || isErrorSkillsDataEndSelectedDate)
+  if (
+    isErrorSkillsDataAllTimeDate ||
+    isErrorSkillsDataBeggingSelectedDate ||
+    isErrorSkillsDataEndSelectedDate ||
+    isErrorDepartmentSkillsUpDataForThePeriodDate
+  )
     return <div>Error</div>;
 
-  let skillsGrowth = 0;
+  let skillsGrowth = null;
 
   if (filters.date) {
     skillsGrowth =
       departmentSkillsDataEndSelectedDate[0].totalCountOfSkills -
       departmentSkillsDataBeggingSelectedDate[0].totalCountOfSkills;
   }
+
+  const countOfSkillsUp = filters.date ? departmentSkillsUpDataForThePeriodDate[0].totalCountOfSkills : null;
 
   return (
     <div
@@ -109,12 +130,12 @@ const TextLetBlock = () => {
       <div className="h-1/2 flex justify-center items-center">
         <div className="flex flex-col">
           <p className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">Увеличено уровней:</p>
-          {/* <div className="flex gap-x-2 items-center justify-center">
-            {filters.date && skillsUp > 0 && <ArrowGreenUp height="40" width="40" />}
+          <div className="flex gap-x-2 items-center justify-center">
+            {filters.date && countOfSkillsUp > 0 && <ArrowGreenUp height="40" width="40" />}
             <span className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">
-              {filters.date && skillsUp > 0 ? `+${skillsUp}` : 0}
+              {filters.date ? (countOfSkillsUp > 0 ? `+${countOfSkillsUp}` : 0) : '(не выбран период)'}
             </span>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

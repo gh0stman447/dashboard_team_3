@@ -3,7 +3,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
 
 /*
-! tailwindcss v3.4.4 | MIT License | https://tailwindcss.com
+! tailwindcss v3.4.7 | MIT License | https://tailwindcss.com
 */
 
 /*
@@ -640,16 +640,16 @@ video {
   margin-bottom: 50px;
 }
 
-.-ml-1{
-  margin-left: -0.25rem;
-}
-
 .-ml-1\.5{
   margin-left: -0.375rem;
 }
 
 .mb-\[20px\]{
   margin-bottom: 20px;
+}
+
+.mt-5{
+  margin-top: 1.25rem;
 }
 
 .mt-\[5px\]{
@@ -714,6 +714,10 @@ video {
 
 .w-7{
   width: 1.75rem;
+}
+
+.w-\[100px\]{
+  width: 100px;
 }
 
 .w-\[14px\]{
@@ -957,6 +961,10 @@ video {
   font-size: 14px;
 }
 
+.text-\[16px\]{
+  font-size: 16px;
+}
+
 .text-\[18px\]{
   font-size: 18px;
 }
@@ -1010,6 +1018,10 @@ video {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.filter{
+  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
+}
+
 .transition-opacity{
   transition-property: opacity;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -1028,6 +1040,10 @@ video {
 
 .duration-300{
   transition-duration: 300ms;
+}
+
+.ease-out{
+  transition-timing-function: cubic-bezier(0, 0, 0.2, 1);
 }
 
 .hover\:scale-125:hover{
@@ -1171,10 +1187,6 @@ video {
 
   .\32xl\:gap-8{
     gap: 2rem;
-  }
-
-  .\32xl\:border{
-    border-width: 1px;
   }
 
   .\32xl\:p-8{

@@ -88,8 +88,14 @@ const TypeOfSkillField: FC<PositionFieldProps> = ({ patchState }) => {
 
   const initialTypesOfSkill = useDB1FiltersStore((state) => state.typesOfSkill);
 
-  const { data, isLoading, isError } = useQuery('typesOfSkill', () =>
-    dataService.fetchTypeOfSkillsData('typesOfSkill')
+  const { data, isLoading, isError } = useQuery(
+    'typesOfSkill',
+    () => dataService.fetchTypeOfSkillsData('typesOfSkill'),
+    {
+      refetchOnWindowFocus(query) {
+        return !query?.isFetching;
+      }
+    }
   );
 
   useEffect(() => {

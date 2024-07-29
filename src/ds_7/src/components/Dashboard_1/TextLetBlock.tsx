@@ -18,6 +18,18 @@ const TextLetBlock = () => {
   const transformedFilters = transformFiltersFromDB1(filters);
 
   const {
+    data: dataAllTimeDate,
+    isLoading: isLoadingDataAllTimeDate,
+    isError: isErrorDataAllTimeDate
+  } = useQuery(
+    ['textLetDataAllTimeDate', filters],
+    () => dataService.fetchTextLetData(transformedFilters, 'textLetDataAllTimeDate'),
+    {
+      enabled: !!filters.empIdField
+    }
+  );
+
+  const {
     data: dataBeforeSelectedDate,
     isLoading: isLoadingDataBeforeSelectedDate,
     isError: isErrorDataBeforeSelectedDate
@@ -30,17 +42,6 @@ const TextLetBlock = () => {
       ),
     {
       enabled: !!filters?.date && !!filters?.empIdField
-    }
-  );
-  const {
-    data: dataAllTimeDate,
-    isLoading: isLoadingDataAllTimeDate,
-    isError: isErrorDataAllTimeDate
-  } = useQuery(
-    ['textLetDataAllTimeDate', filters],
-    () => dataService.fetchTextLetData(transformedFilters, 'textLetDataAllTimeDate'),
-    {
-      enabled: !filters.date
     }
   );
 
@@ -67,8 +68,12 @@ const TextLetBlock = () => {
     data: skills,
     isLoading: isLoadingSkills,
     isError: isErrorSkills
-  } = useQuery(['textLetDataSkills', filters], () =>
-    dataService.fetchTextLetDataSkills({ ...transformedFilters, skill_status: ['=', 'up'] }, 'TextLetDataSKills')
+  } = useQuery(
+    ['textLetDataSkills', filters],
+    () => dataService.fetchTextLetDataSkills({ ...transformedFilters, skill_status: ['=', 'up'] }, 'TextLetDataSKills'),
+    {
+      enabled: !!filters?.empIdField && !!filters?.date
+    }
   );
 
   if (isLoadingDataBeforeSelectedDate || isLoadingDataAllTimeDate || isLoadingDataPrevDate || isLoadingSkills) {
@@ -79,11 +84,14 @@ const TextLetBlock = () => {
     return <div>Error</div>;
   }
 
-  let dataGrowht = 0;
+  let skillsGrowht = null;
 
   if (filters.date && filters.empIdField) {
-    dataGrowht = dataBeforeSelectedDate[0].totalSkills - dataPrevDate[0].totalSkills;
+    skillsGrowht = dataBeforeSelectedDate[0].totalSkills - dataPrevDate[0].totalSkills;
   }
+
+  const countOfSkills = !filters.date ? dataAllTimeDate?.[0].totalSkills : dataBeforeSelectedDate?.[0].totalSkills;
+  const totalSkillsUp = skills?.[0]?.totalSkills || 0;
 
   return (
     <div className="rounded-xl bg-white border border-black shadow-2xl 4xl:col-span-1 4xl:row-span-1" ref={textLetRef}>
@@ -93,10 +101,9 @@ const TextLetBlock = () => {
             <div className="flex gap-x-4 items-center text-[25px] md-lg:text-[32px]">
               <p>Представлено навыков:</p>
               <span className="flex gap-x-2 items-center">
-                {dataGrowht > 0 && <ArrowGreenUp />}
+                {skillsGrowht > 0 && <ArrowGreenUp />}
                 <span>
-                  {filters.date ? dataBeforeSelectedDate[0].totalSkills : dataAllTimeDate[0].totalSkills}
-                  {dataGrowht > 0 && <span>(+{dataGrowht})</span>}
+                  {countOfSkills} {skillsGrowht > 0 && <span>(+{skillsGrowht})</span>}
                 </span>
               </span>
             </div>
@@ -108,11 +115,11 @@ const TextLetBlock = () => {
               />
             </div>
           </div>
-          {dataGrowht > 0 && (
+          {filters.date && totalSkillsUp > 0 && (
             <div className="text-[25px] md-lg:text-[32px] flex items-center gap-x-4">
               <p className="">Увеличен уровень:</p>
               <span className="flex gap-x-2 items-center">
-                <ArrowGreenUp />+{skills[0]?.totalSkills}
+                <ArrowGreenUp /> +{totalSkillsUp}
               </span>
             </div>
           )}

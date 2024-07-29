@@ -12,6 +12,9 @@ export const transformFiltersFromDB1 = (filters: Partial<DB1FiltersStore>) => {
   } else {
     transformedFilters.skill_type = ['=', ...allSkillTypes];
   }
+  // if (filters.typesOfSkill) {
+  //   transformedFilters.skill_type = ['=', ...filters.typesOfSkill];
+  // }
 
   if (filters.date) {
     transformedFilters.date = [
@@ -47,11 +50,13 @@ export const transformFiltersFromDB2 = (filters: Partial<DB2FiltersStore>) => {
   if (filters.position) {
     transformedFilters.job_title = ['=', ...filters.position];
   }
-  if (filters.skills) {
-    transformedFilters.name = ['=', ...filters.skills];
-  }
+
   if (filters.typesOfSkill) {
     transformedFilters.skill_type = ['=', ...filters.typesOfSkill];
+  }
+
+  if (filters.skills) {
+    transformedFilters.name = ['=', ...filters.skills];
   }
 
   return transformedFilters;

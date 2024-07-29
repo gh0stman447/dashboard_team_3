@@ -9,14 +9,29 @@ export interface SearchEmployeeFieldProps extends InFormProps {}
 
 const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
   const [empIdField, setEmpIdField] = useState<string>('');
+  console.log(empIdField, 'empIdField');
 
-  const { data, isLoading, isError } = useQuery([], () => dataService.fetchUsersIdData('usersId'));
+  // const [isEffectRun, setIsEffectRun] = useState(false);
+
+  const { setUsers } = useDB1FiltersStore((state) => ({
+    setUsers: state.setUsers
+  }));
+
+  const { data, isLoading, isError } = useQuery('usersId', () => dataService.fetchUsersIdData('usersId'), {
+    refetchOnWindowFocus(query) {
+      return !query?.isFetching;
+    }
+  });
 
   const empField = useDB1FiltersStore((state) => state.empIdField);
 
   useEffect(() => {
     setEmpIdField(empField);
   }, [empField]);
+
+  // useEffect(() => {
+  //   if (data) setUsers([...data].sort((a, b) => a.value - b.value));
+  // }, [data]);
 
   if (isLoading) {
     return <div>Loading...</div>;
@@ -33,7 +48,6 @@ const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
 
   return (
     <div className="w-full">
-      <p>Поиск сотрудника:</p>
       <Select
         className="w-full h-[50px] border border-black rounded-lg text-[30px]"
         showSearch

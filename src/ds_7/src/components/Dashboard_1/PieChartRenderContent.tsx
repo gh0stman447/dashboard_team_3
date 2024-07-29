@@ -6,35 +6,10 @@ import { useQuery } from 'react-query';
 import { dataService } from '../../services/Data.service';
 import { transformFiltersFromDB1 } from '../../utils/transformFilters';
 import { difference } from 'react-query/types/core/utils';
+import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
+import customLabelList from '../ui/CustomLabelList';
 
 const PieChartRenderContent = () => {
-  const customLabelList =
-    (data: { name: string; value: number; color: string; difference: number | null }[]) =>
-    ({ cx, cy, midAngle, innerRadius, outerRadius, index }) => {
-      const RADIAN = Math.PI / 180;
-      const radius = innerRadius + (outerRadius - innerRadius) * 0.7;
-      const x = cx + radius * Math.cos(-midAngle * RADIAN);
-      const y = cy + radius * Math.sin(-midAngle * RADIAN);
-
-      return (
-        <g>
-          <text x={x} y={y} fill="white" textAnchor="middle" dominantBaseline="central">
-            <tspan x={x} dy="-0.5em">
-              {data[index].name}
-            </tspan>
-            <tspan x={x} dy="1.2em">
-              ({data[index].value}) {data[index].difference > 0 && <tspan>+ ({data[index].difference})</tspan>}
-            </tspan>
-          </text>
-          {data[index].difference > 0 && (
-            <foreignObject x={x - 60} y={y} width={25} height={20}>
-              <ArrowGreenUp />
-            </foreignObject>
-          )}
-        </g>
-      );
-    };
-
   const filters = useDB1FiltersStore((state) => ({
     // typesOfSkill: state.typesOfSkill,
     date: state.date,
@@ -47,8 +22,12 @@ const PieChartRenderContent = () => {
     data: dataAllTimeDate,
     isLoading: isLoadingDataAllTimeDate,
     isError: isErrorDataAllTimeDate
-  } = useQuery(['PieDataAllTimeDate', filters.date, filters.empIdField], () =>
-    dataService.fetchPieData(transformedFilters, 'PieDataAllTimeDate')
+  } = useQuery(
+    ['PieDataAllTimeDate', filters.date, filters.empIdField],
+    () => dataService.fetchPieData(transformedFilters, 'PieDataAllTimeDate'),
+    {
+      enabled: !!filters?.empIdField
+    }
   );
 
   const {
@@ -90,47 +69,14 @@ const PieChartRenderContent = () => {
     return <div>Error</div>;
   }
 
-  const calculateDifference = (
-    arr1: {
-      name: string;
-      value: number;
-      color: string;
-    }[],
-    arr2: {
-      name: string;
-      value: number;
-      color: string;
-    }[],
-    noDateFilter: boolean
-  ) => {
-    if (noDateFilter) {
-      return arr1?.map((el) => ({
-        ...el,
-        difference: null
-      }));
-    }
-
-    const map2 = arr2?.reduce((acc, el) => {
-      acc[el.name] = el.value;
-      return acc;
-    }, {});
-
-    return arr1?.map((el) => {
-      const diff = el.value - (map2[el.name] || 0);
-      return {
-        ...el,
-        difference: diff
-      };
-    });
-  };
-
   if (!filters.empIdField) {
     return <span className="4xl:h-[700px] flex items-center justify-center">Выберите сотрудника</span>;
   }
-  const dataWithIncrease = calculateDifference(
+
+  const dataWithIncrease = calculateDifferenceForPie(
     filters.date ? dataBeforeSelectedDate : dataAllTimeDate,
     dataPrevDate,
-    !filters.date
+    !!filters.date
   );
 
   if (!dataWithIncrease || dataWithIncrease.length === 0) {
@@ -147,6 +93,9 @@ const PieChartRenderContent = () => {
           outerRadius={'95%'}
           label={customLabelList(dataWithIncrease)}
           labelLine={false}
+          animationBegin={0}
+          animationDuration={1500}
+          animationEasing="ease-out"
         >
           {dataWithIncrease.map((entry, index) => (
             <Cell key={`cell-${index}`} fill={entry.color} />
