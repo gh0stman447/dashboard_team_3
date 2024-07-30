@@ -7,8 +7,6 @@ import CustomNavButton from '../ui/CustomNavButton';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 
 const Main = () => {
-  const empIdField = useDB1FiltersStore((state) => state.empIdField);
-
   return (
     <div className="bg-sky-blue p-2 xl:p-8 xl:h-fit">
       <div className="mb-[20px]">

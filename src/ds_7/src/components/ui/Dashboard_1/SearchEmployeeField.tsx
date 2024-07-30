@@ -9,7 +9,6 @@ export interface SearchEmployeeFieldProps extends InFormProps {}
 
 const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
   const [empIdField, setEmpIdField] = useState<string>('');
-  console.log(empIdField, 'empIdField');
 
   // const [isEffectRun, setIsEffectRun] = useState(false);
 

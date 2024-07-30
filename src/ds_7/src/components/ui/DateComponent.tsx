@@ -20,7 +20,6 @@ const DateComponent: React.FC<DateComponentProps> = ({ patchState, page }) => {
 
   useEffect(() => {
     setDate(initialDate);
-    console.log('Initial date set');
   }, [initialDate]);
 
   const handleDateChange = (dates: DateRange<Dayjs> | null) => {

@@ -136,8 +136,6 @@ const BarFirstRenderContent = () => {
     return endData.map((skill) => {
       const beggingSkill = begginData.find((beggingSkill) => beggingSkill.name === skill.name);
 
-      console.log('begginData', begginData);
-      console.log('endData', endData);
       return {
         ...skill,
         growth: beggingSkill
@@ -160,7 +158,6 @@ const BarFirstRenderContent = () => {
       )
     : departmentCountOfEmployeesBySkillsAllTimeDate.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
-  console.log(modifiedBarData, 'modifiedBarData');
 
   return (
     <ResponsiveContainer width="100%" height="100%">

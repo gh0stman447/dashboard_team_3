@@ -11,21 +11,21 @@ export const transformFiltersFromDB1 = (filters: Partial<DB1FiltersStore>) => {
     transformedFilters.skill_type = ['=', ...filters.typesOfSkill];
   } else {
     transformedFilters.skill_type = ['=', ...allSkillTypes];
-
-    if (filters.date) {
-      transformedFilters.date = [
-        'and',
-        ['>', filters.date[0].format('YYYY-MM-DD')],
-        ['<=', filters.date[1].format('YYYY-MM-DD')]
-      ];
-    }
-
-    if (filters.empIdField) {
-      transformedFilters.employees_id = ['=', filters.empIdField];
-    }
-
-    return transformedFilters;
   }
+
+  if (filters.date) {
+    transformedFilters.date = [
+      'and',
+      ['>', filters.date[0].format('YYYY-MM-DD')],
+      ['<=', filters.date[1].format('YYYY-MM-DD')]
+    ];
+  }
+
+  if (filters.empIdField) {
+    transformedFilters.employees_id = ['=', filters.empIdField];
+  }
+
+  return transformedFilters;
 };
 
 export const transformFiltersFromDB2 = (filters: Partial<DB2FiltersStore>) => {

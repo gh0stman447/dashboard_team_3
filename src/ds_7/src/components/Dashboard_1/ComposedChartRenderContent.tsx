@@ -29,6 +29,8 @@ const ComposedChartRenderContent = () => {
   }));
 
   const transformedFilters = transformFiltersFromDB1(filters);
+  console.log(transformedFilters, 'transformedFilters');
+  console.log(filters, 'filters');
 
   const {
     data: employeeAllTimeData,

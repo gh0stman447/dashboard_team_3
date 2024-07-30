@@ -125,7 +125,7 @@ const TextLetBlock = () => {
           )}
         </div>
       ) : (
-        <div>Выберите сотрудника</div>
+        <div className="flex items-center justify-center h-full">Выберите сотрудника</div>
       )}
     </div>
   );

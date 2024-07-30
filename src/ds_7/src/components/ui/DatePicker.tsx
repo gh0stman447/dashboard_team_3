@@ -19,7 +19,6 @@ const DatePicker: React.FC<TypeOfSkillFieldProps> = ({ patchState }) => {
 
   useEffect(() => {
     setDate(initialDate);
-    console.log('инишл');
   }, []);
   const handleChangeDate = (value: DateRange<Dayjs>) => {
     if (value[0] && value[1]) {
