@@ -101,6 +101,8 @@ const BarFirstRenderContent = () => {
     return endData.map((skill) => {
       const beggingSkill = begginData.find((beggingSkill) => beggingSkill.name === skill.name);
 
+      console.log('begginData', begginData);
+      console.log('endData', endData);
       return {
         ...skill,
         growth: beggingSkill
@@ -142,6 +144,8 @@ const BarFirstRenderContent = () => {
   //   </div>
   // );
 
+  // console.log(modifiedBarData, 'modifiedBarData');
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
@@ -155,7 +159,7 @@ const BarFirstRenderContent = () => {
           bottom: 15
         }}
       >
-        <Brush startIndex={0} endIndex={4} travellerWidth={5} height={30} stroke="#8884d8" />
+        <Brush startIndex={0} endIndex={6} travellerWidth={5} height={30} stroke="#8884d8" />
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis
           label={{
@@ -180,10 +184,10 @@ const BarFirstRenderContent = () => {
             <text
               x={x + width / 2}
               y={y + height / 2}
-              dy={5} // Позиционирование текста чуть ниже центра
+              dy={5}
               textAnchor="middle"
               fill="#000"
-              fontSize={14} // Увеличение размера шрифта
+              fontSize={14}
               fontWeight="bold"
             >
               {value !== 0 && value}
@@ -196,24 +200,30 @@ const BarFirstRenderContent = () => {
             stackId="1"
             fill="#82ca9d"
             shape={(props) => {
-              const { x, y, width, height, value } = props;
-              const color = modifiedBarData[value]?.wasNegative ? '#ff6f6f' : '#82ca9d';
+              const { x, y, width, height, value, index } = props;
+              const color = modifiedBarData[index]?.wasNegative ? '#ff6f6f' : '#82ca9d';
+              console.log(value, 'shape value');
               return <rect x={x} y={y} width={width} height={height} fill={color} />;
             }}
             label={({ x, y, width, height, value, index }) => {
               const isNegative = modifiedBarData[index]?.wasNegative;
-              const growth = modifiedBarData[index]?.growth;
+              console.log(value, 'label value');
+              // console.log(isNegative, 'isNegative');
+              // console.log(value, 'value');
+              // console.log(index, 'index');
+              // console.log(modifiedBarData[index], 'modifiedBarData[index]');
               return (
                 <text
                   x={x + width / 2}
                   y={y + height / 2}
-                  dy={5} // Позиционирование текста чуть ниже центра
+                  dy={5}
                   textAnchor="middle"
                   fill="#000"
-                  fontSize={14} // Увеличение размера шрифта
+                  fontSize={14}
                   fontWeight="bold"
                 >
-                  {growth && (isNegative ? `-${value}` : `+${value}`)}
+                  {modifiedBarData[index]?.growth !== 0 &&
+                    (isNegative ? `-${modifiedBarData[index]?.growth}` : `+${modifiedBarData[index]?.growth}`)}
                 </text>
               );
             }}
