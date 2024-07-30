@@ -9,6 +9,11 @@ const SideBarRenderContent = () => {
 
   const transformedFilters = transformFiltersFromDB1({ empIdField });
 
+  enum Activity {
+    active = 'Да',
+    notActive = 'Нет'
+  }
+
   const { data, isLoading, isError } = useQuery(
     ['empIdField', empIdField],
     () => dataService.fetchUserData(transformedFilters, 'empIdField'),
@@ -23,6 +28,8 @@ const SideBarRenderContent = () => {
   if (isError) {
     return <div>Произошла ошибка</div>;
   }
+
+  console.log(data);
   return data ? (
     <>
       {' '}
@@ -32,6 +39,14 @@ const SideBarRenderContent = () => {
       </p>
       <p>Подразделение: {data[0].department}</p>
       <p>Должность: {data[0].job_title}</p>
+      <p>
+        Активность:{' '}
+        {data[0].activity === Activity.active ? (
+          <span className="text-green">Активен</span>
+        ) : (
+          <span className="text-red"> Уволен</span>
+        )}
+      </p>
     </>
   ) : (
     <p className="text-center p-4">(Не выбран сотрудник)</p>

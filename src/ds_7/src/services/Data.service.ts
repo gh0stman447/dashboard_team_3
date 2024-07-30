@@ -1,6 +1,5 @@
-import { COLORS } from '../constants/Dashboard_2/Pie';
-
 import { KoobDataService } from 'bi-internal/services';
+import { COLORS } from '../constants/Dashboard_2';
 const { koobDataRequest3 } = KoobDataService;
 
 class DataService {
@@ -50,12 +49,19 @@ class DataService {
   fetchUserData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
       'db__3.team_3_2',
-      ['employees_id', 'first_name', 'last_name', 'department', 'job_title'],
+      ['employees_id', 'first_name', 'last_name', 'department', 'job_title', 'activity'],
       [],
       filters,
       { schema_name: 'ds_7' },
       requestString
-    )) as { employees_id: number; first_name: string; last_name: string; department: string; job_title: string }[];
+    )) as {
+      employees_id: number;
+      first_name: string;
+      last_name: string;
+      department: string;
+      job_title: string;
+      activity: string;
+    }[];
     return res;
   };
 

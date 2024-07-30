@@ -6,8 +6,8 @@ import { dataService } from '../../services/DataDboard2.service';
 import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
 import { transformFiltersFromDB2 } from '../../utils';
 import CustomTooltip from '../ui/Charts/CustomTooltip';
-import customLabelList from '../ui/Charts/CustomLabelList';
 import CustomPieLegend from './CustomPieLegend';
+import CustomPieLabelList from '../ui/Charts/CustomPieLabelList';
 
 const PieChartRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -85,7 +85,7 @@ const PieChartRenderContent = () => {
 
   const dataWithIncrease = calculateDifferenceForPie(
     !filters.date ? departmentDataAllTimeDate : departmentDataEndSelectedDate,
-    departmentDataEndSelectedDate,
+    departmentDataBegginingSelectedDate,
     !!filters.date
   );
 
@@ -101,7 +101,7 @@ const PieChartRenderContent = () => {
           data={dataWithIncrease}
           innerRadius={0}
           outerRadius={'95%'}
-          label={customLabelList(dataWithIncrease, 'black', '20px')}
+          label={CustomPieLabelList(dataWithIncrease, 'black', '20px')}
           labelLine={false}
         >
           {dataWithIncrease.map((entry, index) => (

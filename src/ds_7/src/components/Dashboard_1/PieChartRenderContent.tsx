@@ -8,8 +8,8 @@ import { transformFiltersFromDB1 } from '../../utils/transformFilters';
 import { difference } from 'react-query/types/core/utils';
 import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
 import CustomTooltip from '../ui/Charts/CustomTooltip';
-import customLabelList from '../ui/Charts/CustomLabelList';
 import CustomPieLegend from './CustomPieLegend';
+import CustomPieLabelList from '../ui/Charts/CustomPieLabelList';
 
 const PieChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({
@@ -93,7 +93,7 @@ const PieChartRenderContent = () => {
           data={dataWithIncrease}
           innerRadius={0}
           outerRadius={'95%'}
-          label={customLabelList(dataWithIncrease, 'black', '25px')}
+          label={CustomPieLabelList(dataWithIncrease, 'black', '25px')}
           labelLine={false}
           animationBegin={0}
           animationDuration={1500}

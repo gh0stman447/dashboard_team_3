@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import SideBar from '../components/Dashboard_1/SideBar';
 import Header from '../components/Dashboard_1/Header';
 import Main from '../components/Dashboard_1/Main';
-import Overlay from '../components/Dashboard_1/Overlay';
+import Overlay from '../components/ui/Dashboard_1/Overlay';
 
 export const DashBoard_1 = () => {
   return (

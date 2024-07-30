@@ -1,10 +1,22 @@
 import React from 'react';
-import { ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis, Legend, Bar, BarChart, Brush } from 'recharts';
+import {
+  ResponsiveContainer,
+  Tooltip,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Legend,
+  Bar,
+  BarChart,
+  Brush,
+  LabelList,
+  Cell
+} from 'recharts';
 import { transformFiltersFromDB2 } from '../../utils';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import { useQuery } from 'react-query';
 import { dataService } from '../../services/DataDboard2.service';
-import NoChartComponent from '../NoChartComponent';
+import NoChartComponent from '../ui/NoChartComponent';
 import CustomFirstBarTooltip from '../ui/Dashboard_2/CustomFirstBarTooltip';
 
 const BarFirstRenderContent = () => {
@@ -92,6 +104,29 @@ const BarFirstRenderContent = () => {
     return <NoChartComponent label="Ошибка" />;
   }
 
+  const CustomLegend = (props) => {
+    const { payload } = props;
+
+    return (
+      <div className="p-2 flex items-center justify-center gap-4">
+        {payload.map((entry, index) => (
+          <div key={`item-${index}`} style={{ marginBottom: '5px' }} className="flex items-center">
+            <span
+              style={{
+                backgroundColor: entry.payload.fill,
+                width: '20px',
+                height: '20px',
+                display: 'inline-block',
+                marginRight: '10px'
+              }}
+            />
+            {entry.value === 'countOfEmployees' ? 'Количество сотрудников' : 'Прирост'}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   interface EmployeesBySkillsData {
     name: string;
     countOfEmployees: number;
@@ -125,26 +160,7 @@ const BarFirstRenderContent = () => {
       )
     : departmentCountOfEmployeesBySkillsAllTimeDate.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
-  // const CustomLegend = ({ payload }) => (
-  //   <div style={{ padding: '10px' }}>
-  //     {payload.map((entry, index) => (
-  //       <div key={index} style={{ display: 'flex', alignItems: 'center', marginBottom: '5px' }}>
-  //         <div
-  //           style={{
-  //             width: '20px',
-  //             height: '20px',
-  //             backgroundColor: entry.color,
-  //             marginRight: '10px',
-  //             borderRadius: '50%'
-  //           }}
-  //         />
-  //         <span>{entry}</span>
-  //       </div>
-  //     ))}
-  //   </div>
-  // );
-
-  // console.log(modifiedBarData, 'modifiedBarData');
+  console.log(modifiedBarData, 'modifiedBarData');
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -175,7 +191,7 @@ const BarFirstRenderContent = () => {
         <YAxis />
         <XAxis dataKey="name" />
         <Tooltip content={<CustomFirstBarTooltip />} />
-        {/* <Legend сontent={<CustomLegend payload={modifiedBarData} />} /> */}
+        <Legend сontent={<CustomLegend />} />
         <Bar
           dataKey="countOfEmployees"
           stackId="1"
@@ -184,10 +200,10 @@ const BarFirstRenderContent = () => {
             <text
               x={x + width / 2}
               y={y + height / 2}
-              dy={5}
+              dy={5} // Позиционирование текста чуть ниже центра
               textAnchor="middle"
               fill="#000"
-              fontSize={14}
+              fontSize={14} // Увеличение размера шрифта
               fontWeight="bold"
             >
               {value !== 0 && value}
@@ -195,39 +211,32 @@ const BarFirstRenderContent = () => {
           )}
         />
         {filters.date && (
-          <Bar
-            dataKey="growth"
-            stackId="1"
-            fill="#82ca9d"
-            shape={(props) => {
-              const { x, y, width, height, value, index } = props;
-              const color = modifiedBarData[index]?.wasNegative ? '#ff6f6f' : '#82ca9d';
-              console.log(value, 'shape value');
-              return <rect x={x} y={y} width={width} height={height} fill={color} />;
-            }}
-            label={({ x, y, width, height, value, index }) => {
-              const isNegative = modifiedBarData[index]?.wasNegative;
-              console.log(value, 'label value');
-              // console.log(isNegative, 'isNegative');
-              // console.log(value, 'value');
-              // console.log(index, 'index');
-              // console.log(modifiedBarData[index], 'modifiedBarData[index]');
-              return (
-                <text
-                  x={x + width / 2}
-                  y={y + height / 2}
-                  dy={5}
-                  textAnchor="middle"
-                  fill="#000"
-                  fontSize={14}
-                  fontWeight="bold"
-                >
-                  {modifiedBarData[index]?.growth !== 0 &&
-                    (isNegative ? `-${modifiedBarData[index]?.growth}` : `+${modifiedBarData[index]?.growth}`)}
-                </text>
-              );
-            }}
-          />
+          <Bar dataKey="growth" stackId="1" fill="#82ca9d">
+            {modifiedBarData.map((item, index) => (
+              <>
+                <Cell key={index} fill={'#82ca9d'} />
+                <LabelList
+                  key={'label' + index}
+                  dataKey={'growth'}
+                  position={'insideTop'}
+                  fill={'#000'}
+                  content={({ x, y, value, width, height }) => {
+                    return (
+                      <text
+                        x={x + width / 2} // Центрируем по горизонтали
+                        y={y + 20} // Поднимаем текст вверх
+                        textAnchor="middle" // Центрируем текст по горизонтали
+                        fill="#000"
+                        fontSize={15}
+                      >
+                        {value !== 0 && `+${value}`}
+                      </text>
+                    );
+                  }}
+                />
+              </>
+            ))}
+          </Bar>
         )}
       </BarChart>
     </ResponsiveContainer>

@@ -8,7 +8,7 @@ interface CustomLabelListProps {
   fontSize?: string;
 }
 
-const customLabelList =
+const CustomPieLabelList =
   (
     data: { name: string; value: number; color: string; difference: number | null }[],
     textColor?: string,
@@ -17,15 +17,18 @@ const customLabelList =
   ({ cx, cy, midAngle, innerRadius, outerRadius, index }: any) => {
     const RADIAN = Math.PI / 180;
     const radius = innerRadius + (outerRadius - innerRadius) * 0.8;
-    const x = cx + radius * Math.cos(-midAngle * RADIAN);
-    const y = cy + radius * Math.sin(-midAngle * RADIAN);
 
     // Расположение цифр внутри сектора
     const textX = cx + (radius - 20) * Math.cos(-midAngle * RADIAN);
     const textY = cy + (radius - 20) * Math.sin(-midAngle * RADIAN);
 
-    // Расположение стрелочек
-    const arrowOffset = 30; // Отступ между числом и стрелочками
+    // Вычисляем длину текста, чтобы скорректировать позицию стрелочек
+    const valueText = data[index].value.toString();
+    const differenceText = data[index].difference !== null ? `(${data[index].difference})` : '';
+    const textLength = valueText.length + differenceText.length;
+    const arrowOffset = 20 + textLength * 1.5; // Дополнительное смещение для длинных чисел
+
+    // Позиция стрелочек
     const arrowX = textX - arrowOffset;
 
     // Вычисление Y для стрелочек с учетом отступа
@@ -46,13 +49,13 @@ const customLabelList =
         </text>
         {/* Стрелочки */}
         {data[index].difference > 0 ? (
-          <foreignObject x={arrowX - 30} y={arrowY} width="25" height="25">
+          <foreignObject x={arrowX - 40} y={arrowY - 2} width="25" height="25">
             <div style={{ width: '20px', height: '20px' }}>
               <ArrowGreenUp />
             </div>
           </foreignObject>
         ) : data[index].difference < 0 ? (
-          <foreignObject x={arrowX - 30} y={arrowY} width="25" height="25">
+          <foreignObject x={arrowX - 40} y={arrowY - 2} width="25" height="25">
             <div style={{ width: '20px', height: '20px' }}>
               <ArrowRedDown />
             </div>
@@ -62,4 +65,4 @@ const customLabelList =
     );
   };
 
-export default customLabelList;
+export default CustomPieLabelList;

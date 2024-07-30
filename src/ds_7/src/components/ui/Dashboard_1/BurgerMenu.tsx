@@ -1,5 +1,5 @@
 import React from 'react';
-import useUiStore from '../../store/uiStore';
+import useUiStore from '../../../store/uiStore';
 import { RxHamburgerMenu } from 'react-icons/rx';
 
 const BurgerMenu = () => {

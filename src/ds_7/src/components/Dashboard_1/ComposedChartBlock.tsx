@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { downloadPng } from '../../utils';
 import { Download } from '../../../../assets';
 import ComposedChartRenderContent from './ComposedChartRenderContent';
+
+import DisabledSelect from '../ui/Dashboard_1/DisabledSelect';
 
 const ComposedChartBlock = () => {
   const composedBarRef = React.useRef<HTMLDivElement | null>(null);
@@ -14,11 +16,11 @@ const ComposedChartBlock = () => {
       ref={composedBarRef}
     >
       <div className="w-full p-2">
-        <div className="flex flex-col items-center text-center">
-          <p className="text-[23px] 2xl:text-[36px]">Языки программирования</p>
+        <div className="flex flex-col gap-y-2 items-center text-center p-3">
           <p className="text-[14px] 2xl:text-[24px]">
             Уровень знаний сотрудника в сравнении со средним уровнем в пределах должности
           </p>
+          <DisabledSelect />
         </div>
       </div>
       <div className="w-full h-[400px] md:h-[700px] lg:w-full lg:h-[800px] flex flex-col items-center justify-center divide-y-2 divide-gray/50">

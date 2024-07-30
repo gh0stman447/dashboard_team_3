@@ -19,7 +19,8 @@ module.exports = {
       white: '#ffffff',
       green: '#16c411',
       pink: '#e5dfdf',
-      'sky-blue': '#eff1ff'
+      'sky-blue': '#eff1ff',
+      red: '#ff4000'
     },
     extend: {
       gridTemplateColumns: {

@@ -1,12 +1,23 @@
 import React from 'react';
-import { ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis, Legend, Bar, BarChart } from 'recharts';
+import {
+  ResponsiveContainer,
+  Tooltip,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+  Legend,
+  Bar,
+  BarChart,
+  Cell,
+  LabelList
+} from 'recharts';
 import { transformFiltersFromDB2 } from '../../utils';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import { useQuery } from 'react-query';
 import { dataService } from '../../services/DataDboard2.service';
-import { LEVEL_NAMES } from '../../constants/Dashboard_2/levelNames';
-import NoChartComponent from '../NoChartComponent';
+import NoChartComponent from '../ui/NoChartComponent';
 import CustomSecondBarTooltip from '../ui/Dashboard_2/CustomSecondBarTooltip';
+import { LEVEL_NAMES } from '../../constants/Dashboard_2';
 
 const BarSecondRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -98,6 +109,29 @@ const BarSecondRenderContent = () => {
     return LEVEL_NAMES[value] || value;
   };
 
+  const CustomLegend = (props) => {
+    const { payload } = props;
+
+    return (
+      <div className="p-2 flex items-center justify-center gap-4">
+        {payload.map((entry, index) => (
+          <div key={`item-${index}`} style={{ marginBottom: '5px' }} className="flex items-center">
+            <span
+              style={{
+                backgroundColor: entry.payload.fill,
+                width: '20px',
+                height: '20px',
+                display: 'inline-block',
+                marginRight: '10px'
+              }}
+            />
+            {entry.value === 'countOfEmployees' ? 'Количество сотрудников' : 'Прирост'}
+          </div>
+        ))}
+      </div>
+    );
+  };
+
   interface EmployeesBySkillLevelData {
     level_num: number;
     countOfEmployees: number;
@@ -164,23 +198,89 @@ const BarSecondRenderContent = () => {
         <XAxis dataKey="level_num" tickFormatter={yAxisTickFormatter} tickCount={6} />
         <YAxis />
         <Tooltip content={<CustomSecondBarTooltip />} />
-        <Legend />
-        <Bar dataKey="countOfEmployees" stackId="1" fill="#8884d8" />
+        <Legend content={<CustomLegend />} />
+        <Bar
+          dataKey="countOfEmployees"
+          stackId="1"
+          fill="#8884d8"
+          label={({ x, y, width, height, value }) => (
+            <text
+              x={x + width / 2}
+              y={y + height / 2}
+              dy={5} // Позиционирование текста чуть ниже центра
+              textAnchor="middle"
+              fill="#000"
+              fontSize={14} // Увеличение размера шрифта
+              fontWeight="bold"
+            >
+              {value !== 0 && value}
+            </text>
+          )}
+        />
 
         {/* <Bar dataKey="growth" stackId="1" fill="#82ca9d" /> */}
 
         {filters.date && (
-          <Bar
-            dataKey="growth"
-            stackId="1"
-            fill="#82ca9d"
-            shape={(props) => {
-              const { fill, x, y, width, height, value } = props;
-              const color = modifiedBarData[value]?.wasNegative ? '#ff6f6f' : '#82ca9d';
-              return <rect x={x} y={y} width={width} height={height} fill={color} />;
-            }}
-          />
+          <Bar dataKey="growth" stackId="1" fill="#82ca9d">
+            {modifiedBarData.map((item, index) => (
+              <>
+                <Cell key={index} fill={'#82ca9d'} />
+                <LabelList
+                  key={'label' + index}
+                  dataKey={'growth'}
+                  position={'insideTop'}
+                  fill={'#000'}
+                  content={({ x, y, value, width, height }) => {
+                    const numericValue = Number(value);
+
+                    return (
+                      <text
+                        x={x + width / 2} // Центрируем по горизонтали
+                        y={y + 20} // Поднимаем текст вверх
+                        textAnchor="middle" // Центрируем текст по горизонтали
+                        fill="#000"
+                        fontSize={15}
+                      >
+                        {numericValue !== 0 && `+${numericValue}`}
+                      </text>
+                    );
+                  }}
+                />
+              </>
+            ))}
+          </Bar>
         )}
+
+        {/* {filters.date && (
+          <Bar dataKey="growth" stackId="1" fill="#82ca9d">
+            {modifiedBarData.map((item, index) => (
+              <>
+                <Cell key={index} fill={'#82ca9d'} />
+                <LabelList
+                  key={'label' + index}
+                  dataKey={'growth'}
+                  position={'insideTop'}
+                  fill={'#000'}
+                  content={({ x, y, value, width, height }) => {
+                    const numericValue = Number(value);
+
+                    return (
+                      <text
+                        x={x + width / 2} // Центрируем по горизонтали
+                        y={y + 20} // Поднимаем текст вверх
+                        textAnchor="middle" // Центрируем текст по горизонтали
+                        fill="#000"
+                        fontSize={15}
+                      >
+                        {numericValue !== 0 && `+${numericValue}`}
+                      </text>
+                    );
+                  }}
+                />
+              </>
+            ))}
+          </Bar>
+        )} */}
       </BarChart>
     </ResponsiveContainer>
   );

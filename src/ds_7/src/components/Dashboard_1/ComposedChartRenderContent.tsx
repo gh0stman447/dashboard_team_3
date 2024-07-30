@@ -14,12 +14,12 @@ import {
 import { useQuery } from 'react-query';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import { dataService } from '../../services/Data.service';
-import { LEVEL_NAMES } from '../../constants/Dashboard_2/levelNames';
 import { useEffect, useState } from 'react';
 
 import { transformFiltersFromDB1 } from '../../utils';
-import NoChartComponent from '../NoChartComponent';
+import NoChartComponent from '../ui/NoChartComponent';
 import CustomBarTooltip from '../ui/Dashboard_1/CustomBarTooltip';
+import { LEVEL_NAMES } from '../../constants/Dashboard_2';
 
 const ComposedChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({
@@ -165,24 +165,13 @@ const ComposedChartRenderContent = () => {
       console.log(improvement, 'improvement');
       return {
         name: endSkill.name,
-        empLvl: endSkill.level_num,
+        empLvl: beginSkill ? beginSkill.level_num : 0,
         improvement
       };
     });
-
-    // return endData.map((endSkill) => {
-    //   const beginSkill = beginData.find((skill) => skill.name === endSkill.name);
-    //   const improvement = beginSkill ? endSkill.level_num - beginSkill.level_num : endSkill.level_num;
-    //   console.log(improvement, 'improvement');
-    //   return {
-    //     name: endSkill.name,
-    //     empLvl: beginSkill ? endSkill.level_num : 0,
-    //     improvement
-    //   };
-    // });
   };
 
-  const getAverageLevel = (skillName, allPeopleData) => {
+  const getAverageLevel = (skillName: string, allPeopleData: { name: string; level_num: number }[]) => {
     const skill = allPeopleData.find((s) => s.name === skillName);
     return skill ? skill.level_num : 0;
   };
@@ -220,7 +209,14 @@ const ComposedChartRenderContent = () => {
             <stop offset="95%" stopColor="#0000ff" stopOpacity={0.2} />
           </linearGradient>
         </defs>
-        <Brush startIndex={0} endIndex={modifiedBarData.length - 1} travellerWidth={20} height={30} stroke="#8884d8" />
+        <Brush
+          dataKey="name"
+          startIndex={0}
+          endIndex={modifiedBarData.length - 1}
+          travellerWidth={20}
+          height={30}
+          stroke="#8884d8"
+        />
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" scale="band" />
         <YAxis tickFormatter={yAxisTickFormatter} tickCount={6} ticks={Object.keys(LEVEL_NAMES)} />

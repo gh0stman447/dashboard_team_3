@@ -1,5 +1,5 @@
 import React from 'react';
-import useUiStore from '../../store/uiStore';
+import useUiStore from '../../../store/uiStore';
 
 const Overlay = () => {
   const { isSidebarOpen, toggleOptionsBar, toggleSidebar, isOptionsBarOpen } = useUiStore((state) => state);
