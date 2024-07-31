@@ -46,7 +46,7 @@ const DialogSelect: FC<DialogSelectProps> = () => {
 
   return (
     <>
-      <CustomButton handler={handleClickOpen} text="Фильтры" />
+      <CustomButton handler={handleClickOpen} text="Фильтры" fontSize="13px" />
       <Modal
         title="Фильтры"
         open={open}

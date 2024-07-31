@@ -99,7 +99,7 @@ const TextLetBlock = () => {
 
   return (
     <div
-      className="rounded-xl bg-white border border-black shadow-2xl 4xl:col-span-1 4xl:row-span-1 hover:scale-105 duration-300"
+      className="rounded-xl bg-white border border-black shadow-2xl hover:scale-[1.01] duration-300"
       ref={textLetRef}
     >
       {filters.empIdField ? (

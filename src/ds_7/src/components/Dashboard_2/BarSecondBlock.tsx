@@ -8,11 +8,9 @@ const BarSecondBlock = () => {
   const barChartRef = React.useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="w-full 2xl:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 hover:scale-105 duration-300">
-      <p className="text-[18px] md-lg:text-[30px] p-4 text-center md-lg:h-[122px]">
-        Кол-во сотрудникам по уровню навыка и его прирост
-      </p>
-      <div className="relative w-full h-[400px] 2xl:h-[800px]">
+    <div className="w-full md-lg:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 hover:scale-[1.01] duration-300">
+      <p className="text-[18px] p-2 text-center">Кол-во сотрудникам по уровню навыка и его прирост</p>
+      <div className="relative w-full h-[350px]">
         <Suspense fallback={<div>Загрузка графика...</div>}>
           <BarSecondRenderContentLazy />
         </Suspense>

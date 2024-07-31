@@ -178,10 +178,10 @@ const BarSecondRenderContent = () => {
         height={300}
         data={modifiedBarData}
         margin={{
-          top: 40,
-          right: 50,
-          left: 30,
-          bottom: 15
+          top: 15,
+          right: 19,
+          left: 15,
+          bottom: 0
         }}
       >
         <CartesianGrid strokeDasharray="3 3" />
@@ -192,7 +192,7 @@ const BarSecondRenderContent = () => {
             position: 'inside',
             fontSize: 19,
             dy: 20,
-            dx: -30,
+            dx: -25,
             rotate: 0,
             textAnchor: 'start',
             fill: 'black',

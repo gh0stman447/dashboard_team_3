@@ -6,7 +6,7 @@ const BurgerMenu = () => {
   const toggleSidebar = useUiStore((state) => state.toggleSidebar);
 
   return (
-    <div className="text-white p-1 inline-block 2xl:hidden -ml-1.5 cursor-pointer">
+    <div className="text-white p-1 inline-block lg:hidden -ml-1.5 cursor-pointer">
       <RxHamburgerMenu className="w-7 h-7" onClick={toggleSidebar} />
     </div>
   );

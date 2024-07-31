@@ -9,13 +9,11 @@ const BarFirstBlock = () => {
 
   return (
     <div
-      className="w-full 2xl:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 hover:scale-105 duration-300"
+      className="w-full md-lg:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 hover:scale-[1.01] duration-300"
       ref={barChartRef}
     >
-      <p className="flex justify-center items-center p-4 text-[18px] md-lg:text-[30px] md-lg:h-[122px]">
-        Кол-во сотрудников по навыкам и его прирост
-      </p>
-      <div className="relative w-full h-[400px] 2xl:h-[800px]">
+      <p className="text-center p-2 text-[18px]">Кол-во сотрудников по навыкам и его прирост</p>
+      <div className="relative w-full h-[350px]">
         <Suspense fallback={<div>Загрузка графика...</div>}>
           <BarFirstRenderContentLazy />
         </Suspense>

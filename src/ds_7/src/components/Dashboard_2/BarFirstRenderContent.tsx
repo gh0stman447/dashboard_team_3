@@ -171,10 +171,10 @@ const BarFirstRenderContent = () => {
         height={300}
         data={modifiedBarData}
         margin={{
-          top: 40,
-          right: 50,
-          left: 30,
-          bottom: 15
+          top: 15,
+          right: 19,
+          left: 15,
+          bottom: 0
         }}
       >
         <Brush startIndex={0} endIndex={6} travellerWidth={5} height={30} stroke="#8884d8" />
@@ -186,7 +186,7 @@ const BarFirstRenderContent = () => {
             position: 'inside',
             fontSize: 19,
             dy: 40,
-            dx: -30,
+            dx: -25,
             fill: 'black'
           }}
         />

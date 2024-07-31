@@ -15,11 +15,11 @@ const Main = () => {
   }));
 
   return (
-    <div className="bg-sky-blue border flex flex-col gap-6 border-black p-4 2xl:p-8">
-      <div className="mb-[20px]">
+    <div className="bg-sky-blue border flex flex-col gap-2 border-black p-2 px-3 2xl:p-8 overflow-y-scroll">
+      <div className="mb-[5px]">
         <CustomNavButton dBoardNumber="1" text="Перейти на статистику по сотруднику" />
       </div>
-      <div className="flex flex-col gap-4 2xl:gap-8 md-lg:flex-row">
+      <div className="flex flex-col gap-2 md-lg:flex-row">
         <PieBlock />
         <TextLetBlock />
       </div>
@@ -28,7 +28,7 @@ const Main = () => {
           <SkillsField />
         </div>
       )}
-      <div className="flex flex-col gap-4 2xl:gap-8 2xl:flex-row">
+      <div className="flex flex-col gap-2 md-lg:flex-row">
         <BarFirstBlock />
         <BarSecondBlock />
       </div>

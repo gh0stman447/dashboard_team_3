@@ -17,17 +17,17 @@ const SideBar = () => {
 
   return (
     <aside
-      className={`font-inter text-white overflow-y-scroll bg-gray-100 bg-navy min-w-[325px] w-[325px] h-screen 4xl:h-auto fixed 2xl:sticky top-0 z-30 transition-transform ${
+      className={`font-inter text-white overflow-y-scroll bg-gray-100 bg-navy min-w-[250px] w-[250px] h-screen lg:h-auto fixed lg:sticky top-0 z-30 transition-transform ${
         isOpen ? 'translate-x-0' : '-translate-x-full'
-      } 2xl:translate-x-0 border-r border-r-slate-400`}
+      } lg:translate-x-0 border-r border-r-slate-400`}
     >
       <div className="mt-[5px]">
         <Logo />
       </div>
-      <div className="flex flex-col p-5">
-        <p className="text-[26px] self-start">Статистика роста профессиональных компетенций сотрудника</p>
-        <div className="flex justify-center rounded-full my-[50px]">
-          <Avatar sx={{ width: 250, height: 250 }} />
+      <div className="flex flex-col px-5">
+        <p className="self-start md:hidden">Статистика роста профессиональных компетенций сотрудника</p>
+        <div className="flex justify-center rounded-full my-[20px] md:my-[50px] md:mt-0">
+          <Avatar sx={{ width: 160, height: 160 }} />
         </div>
         <div className="flex flex-col gap-y-2 text-[16px]">
           <p className="text-[18px]">Общая Информация о Сотруднике:</p>

@@ -115,15 +115,15 @@ const TextLetBlock = () => {
 
   return (
     <div
-      className="w-full h-[200px] 2xl:w-1/3 md-lg:h-[702px] border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 text-center hover:scale-105 duration-300"
+      className="w-full h-[200px] md-lg:w-1/2 md-lg:h-auto border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 text-center hover:scale-[1.01] duration-300 order-first md-lg:order-none"
       ref={textLetRef}
     >
       <div className="relative h-1/2 flex justify-center items-center">
         <div className="flex flex-col">
-          <p className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">Представлено навыков: </p>
+          <p className="text-[18px] md-lg:text-[25px]">Представлено навыков: </p>
           <div className="flex gap-x-2 items-center justify-center">
             {filters.date && countOfSkillsUp > 0 && <ArrowGreenUp height="40" width="40" />}
-            <span className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">
+            <span className="text-[18px] md-lg:text-[25px]">
               {totalCountOfSkills} {filters.date && countOfSkillsUp > 0 && <span>(+{countOfSkillsUp})</span>}
             </span>
           </div>
@@ -138,10 +138,10 @@ const TextLetBlock = () => {
       </div>
       <div className="h-1/2 flex justify-center items-center">
         <div className="flex flex-col">
-          <p className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">Увеличено уровней:</p>
+          <p className="text-[18px] md-lg:text-[25px]">Увеличено уровней:</p>
           <div className="flex gap-x-2 items-center justify-center">
             {filters.date && countOfSkillsLevelUp > 0 && <ArrowGreenUp height="40" width="40" />}
-            <span className="text-[18px] md-lg:text-[25px] 2xl:text-[40px]">
+            <span className="text-[18px] md-lg:text-[25px]">
               {filters.date ? (countOfSkillsLevelUp > 0 ? `+${countOfSkillsLevelUp}` : 0) : '(не выбран период)'}
             </span>
           </div>

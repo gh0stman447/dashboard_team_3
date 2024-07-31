@@ -57,7 +57,7 @@ const DialogSelect: React.FC = () => {
 
   return (
     <div>
-      <CustomButton handler={handleClickOpen} text="Фильтры" />
+      <CustomButton handler={handleClickOpen} text="Фильтры" fontSize="13px" />
       <Modal
         open={open}
         onOk={handleApplyFilters}
