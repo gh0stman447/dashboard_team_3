@@ -29,8 +29,6 @@ const ComposedChartRenderContent = () => {
   }));
 
   const transformedFilters = transformFiltersFromDB1(filters);
-  console.log(transformedFilters, 'transformedFilters');
-  console.log(filters, 'filters');
 
   const {
     data: employeeAllTimeData,
@@ -169,7 +167,6 @@ const ComposedChartRenderContent = () => {
     return endData.map((endSkill) => {
       const beginSkill = beginData.find((skill) => skill.name === endSkill.name);
       const improvement = beginSkill ? endSkill.level_num - beginSkill.level_num : endSkill.level_num;
-      console.log(improvement, 'improvement');
       return {
         name: endSkill.name,
         empLvl: beginSkill ? beginSkill.level_num : 0,

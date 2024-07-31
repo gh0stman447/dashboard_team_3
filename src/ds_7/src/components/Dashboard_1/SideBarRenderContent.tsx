@@ -26,14 +26,13 @@ const SideBarRenderContent = () => {
   if (isLoading) {
     return <div>Загрузка...</div>;
   }
+
   if (isError) {
     return <div>Произошла ошибка</div>;
   }
 
-  console.log(data);
   return data ? (
     <>
-      {' '}
       <p>ID сотрудника: {data[0].employees_id}</p>
       <p>
         ФИО: {data[0].first_name} {data[0].last_name}

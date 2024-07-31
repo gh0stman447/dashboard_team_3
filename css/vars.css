@@ -4,8 +4,8 @@
  */
 :export {
   hasDatasetsList: false;
-  mainFontFamily: "Open Sans";
+  mainFontFamily: 'Open Sans';
   mainFontSize: 13px;
-  mainColor: #9797C4;
-  font: 13px "Open Sans", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
+  mainColor: #9797c4;
+  font: 13px 'Open Sans', 'Helvetica Neue', 'Helvetica', 'Arial', sans-serif;
 }

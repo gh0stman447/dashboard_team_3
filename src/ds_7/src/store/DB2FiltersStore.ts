@@ -3,7 +3,6 @@ import { Dayjs } from 'dayjs';
 import { create } from 'zustand';
 import { devtools } from 'zustand/middleware';
 
-
 export interface DB2FiltersStore {
   position: string[];
   devision: string[];
