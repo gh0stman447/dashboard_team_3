@@ -1,14 +1,12 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { Logo } from '../../../../assets/Dashboard_1';
 import { Avatar } from '@mui/material';
-import { useQuery } from 'react-query';
 import useUiStore from '../../store/uiStore';
-import { transformFiltersFromDB1 } from '../../utils';
-import SideBarRenderContent from './SideBarRenderContent';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import LeftArrow from '../../../../assets/Dashboard_1/LeftArrow';
 import RightArrow from '../../../../assets/Dashboard_1/RightArrow';
 
+const SideBarRenderContentLazy = React.lazy(() => import('./SideBarRenderContent'));
 const SideBar = () => {
   const isOpen = useUiStore((state) => state.isSidebarOpen);
 
@@ -33,7 +31,9 @@ const SideBar = () => {
         </div>
         <div className="flex flex-col gap-y-2 text-[16px]">
           <p className="text-[18px]">Общая Информация о Сотруднике:</p>
-          <SideBarRenderContent />
+          <Suspense fallback={<div>Загрузка информации о сотруднике...</div>}>
+            <SideBarRenderContentLazy />
+          </Suspense>
         </div>
         {currentUser && (
           <div className="flex gap-4 self-center mt-5">

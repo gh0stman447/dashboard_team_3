@@ -1,10 +1,8 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { downloadPng } from '../../utils';
 import { Download } from '../../../../assets';
 
-import BarFirstRenderContent from './BarFirstRenderContent';
-import BarSecondRenderContent from './BarSecondRenderContent';
-
+const BarSecondRenderContentLazy = lazy(() => import('./BarSecondRenderContent'));
 const BarSecondBlock = () => {
   const downloadButtonRef = React.useRef<HTMLDivElement | null>(null);
   const barChartRef = React.useRef<HTMLDivElement | null>(null);
@@ -15,7 +13,9 @@ const BarSecondBlock = () => {
         Кол-во сотрудникам по уровню навыка и его прирост
       </p>
       <div className="relative w-full h-[400px] 2xl:h-[800px]">
-        <BarSecondRenderContent />
+        <Suspense fallback={<div>Загрузка графика...</div>}>
+          <BarSecondRenderContentLazy />
+        </Suspense>
         <div className="absolute bottom-[10px] left-[10px]">
           <Download
             className="w-[14px] h-[14px] md-lg:w-[20px] md-lg:h-[20px] 4xl:w-[30px] 4xl:h-[30px]"

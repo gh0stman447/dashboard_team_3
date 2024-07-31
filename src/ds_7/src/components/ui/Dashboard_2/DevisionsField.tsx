@@ -38,7 +38,8 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
   const MenuProps = {
     PaperProps: {
       style: {
-        maxHeight: 300
+        maxHeight: 300,
+        maxWidth: 300
       }
     }
   };
@@ -65,7 +66,7 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
         MenuProps={MenuProps}
       >
         {sortedDevisions.map(({ department }) => (
-          <MenuItem key={department} value={department}>
+          <MenuItem key={department} value={department} sx={{ whiteSpace: 'normal' }}>
             <Checkbox checked={devision.indexOf(department) > -1} />
             <ListItemText primary={department} />
           </MenuItem>

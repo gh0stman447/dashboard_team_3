@@ -1,10 +1,7 @@
-import React, { Suspense, useState } from 'react';
+import React, { Suspense } from 'react';
 
 import { downloadPng } from '../../utils';
 import { Download } from '../../../../assets';
-import ComposedChartRenderContent from './ComposedChartRenderContent';
-
-import DisabledSelect from '../ui/Dashboard_1/DisabledSelect';
 
 import { lazy } from 'react';
 
@@ -32,7 +29,7 @@ const ComposedChartBlock = () => {
       </div>
       <div className="w-full h-[400px] md:h-[700px] lg:w-full lg:h-[800px] flex flex-col items-center justify-center divide-y-2 divide-gray/50">
         <div className="relative w-full h-full xl:p-4">
-          <Suspense fallback={<div>Loading Chart...</div>}>
+          <Suspense fallback={<div>Загрузка графика...</div>}>
             <ComposedChartRenderContentLazy />
           </Suspense>
           <div className="absolute bottom-[10px] left-[10px]">
