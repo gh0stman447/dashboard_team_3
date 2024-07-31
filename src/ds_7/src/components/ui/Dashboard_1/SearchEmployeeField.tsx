@@ -17,9 +17,7 @@ const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
   }));
 
   const { data, isLoading, isError } = useQuery('usersId', () => dataService.fetchUsersIdData('usersId'), {
-    refetchOnWindowFocus(query) {
-      return !query?.isFetching;
-    }
+    refetchOnWindowFocus: false
   });
 
   const empField = useDB1FiltersStore((state) => state.empIdField);

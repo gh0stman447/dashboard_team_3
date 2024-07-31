@@ -51,7 +51,8 @@ const BarSecondRenderContent = () => {
         'departmentCountOfEmployeesBySkillLevelAllTimeDate'
       ),
     {
-      enabled: !!(filters.position.length || filters.devision.length) && !filters.date
+      enabled: !!(filters.position.length || filters.devision.length) && !filters.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -67,7 +68,8 @@ const BarSecondRenderContent = () => {
         'departmentCountOfEmployeesBySkillLevelBeggingSelectedDate'
       ),
     {
-      enabled: !!filters?.date
+      enabled: !!filters?.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -82,7 +84,7 @@ const BarSecondRenderContent = () => {
         { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
         'departmentCountOfEmployeesBySkillLevelEndSelectedDate'
       ),
-    { enabled: !!filters?.date }
+    { enabled: !!filters?.date, refetchOnWindowFocus: false }
   );
 
   if (!filters.position.length && !filters.devision.length) {
@@ -165,6 +167,10 @@ const BarSecondRenderContent = () => {
       )
     : departmentCountOfEmployeesBySkillLevelAllTimeDate.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
+  if (!modifiedBarData.length) {
+    return <NoChartComponent label="Нет данных" />;
+  }
+
   return (
     <ResponsiveContainer width="100%" height="100%">
       <BarChart
@@ -207,18 +213,16 @@ const BarSecondRenderContent = () => {
             <text
               x={x + width / 2}
               y={y + height / 2}
-              dy={5} // Позиционирование текста чуть ниже центра
+              dy={5}
               textAnchor="middle"
               fill="#000"
-              fontSize={14} // Увеличение размера шрифта
+              fontSize={14}
               fontWeight="bold"
             >
               {value !== 0 && value}
             </text>
           )}
         />
-
-        {/* <Bar dataKey="growth" stackId="1" fill="#82ca9d" /> */}
 
         {filters.date && (
           <Bar dataKey="growth" stackId="1" fill="#82ca9d">
@@ -250,37 +254,6 @@ const BarSecondRenderContent = () => {
             ))}
           </Bar>
         )}
-
-        {/* {filters.date && (
-          <Bar dataKey="growth" stackId="1" fill="#82ca9d">
-            {modifiedBarData.map((item, index) => (
-              <>
-                <Cell key={index} fill={'#82ca9d'} />
-                <LabelList
-                  key={'label' + index}
-                  dataKey={'growth'}
-                  position={'insideTop'}
-                  fill={'#000'}
-                  content={({ x, y, value, width, height }) => {
-                    const numericValue = Number(value);
-
-                    return (
-                      <text
-                        x={x + width / 2} // Центрируем по горизонтали
-                        y={y + 20} // Поднимаем текст вверх
-                        textAnchor="middle" // Центрируем текст по горизонтали
-                        fill="#000"
-                        fontSize={15}
-                      >
-                        {numericValue !== 0 && `+${numericValue}`}
-                      </text>
-                    );
-                  }}
-                />
-              </>
-            ))}
-          </Bar>
-        )} */}
       </BarChart>
     </ResponsiveContainer>
   );

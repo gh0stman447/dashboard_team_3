@@ -43,8 +43,13 @@ const SkillsField = () => {
     data: skillsAllTimeDate,
     isLoading: isLoadingSkillsAllTimeDate,
     isError: isErrorSkillsAllTimeDate
-  } = useQuery(['skillsAllTimeDate', filters], () =>
-    dataService.fetchSkillsData({ ...queryFilters, date: undefined }, 'skillsAllTimeDate')
+  } = useQuery(
+    ['skillsAllTimeDate', filters],
+    () => dataService.fetchSkillsData({ ...queryFilters, date: undefined }, 'skillsAllTimeDate'),
+    {
+      refetchOnWindowFocus: false,
+      enabled: !filters.date
+    }
   );
 
   const {
@@ -59,7 +64,8 @@ const SkillsField = () => {
         'skillsEndSelectedDate'
       ),
     {
-      enabled: !!filters.date
+      enabled: !!filters.date,
+      refetchOnWindowFocus: false
     }
   );
 

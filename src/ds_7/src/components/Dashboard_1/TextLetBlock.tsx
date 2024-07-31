@@ -25,7 +25,8 @@ const TextLetBlock = () => {
     ['textLetDataAllTimeDate', filters],
     () => dataService.fetchTextLetData(transformedFilters, 'textLetDataAllTimeDate'),
     {
-      enabled: !!filters.empIdField
+      enabled: !!filters.empIdField && !filters.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -41,7 +42,8 @@ const TextLetBlock = () => {
         'TextLetDataBeforeSelectedDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField
+      enabled: !!filters?.date && !!filters?.empIdField,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -60,7 +62,8 @@ const TextLetBlock = () => {
         'TextLetDataPrevDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField
+      enabled: !!filters?.date && !!filters?.empIdField,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -72,7 +75,8 @@ const TextLetBlock = () => {
     ['textLetDataSkills', filters],
     () => dataService.fetchTextLetDataSkills({ ...transformedFilters, skill_status: ['=', 'up'] }, 'TextLetDataSKills'),
     {
-      enabled: !!filters?.empIdField && !!filters?.date
+      enabled: !!filters?.empIdField && !!filters?.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -94,7 +98,10 @@ const TextLetBlock = () => {
   const totalSkillsUp = skills?.[0]?.totalSkills || 0;
 
   return (
-    <div className="rounded-xl bg-white border border-black shadow-2xl 4xl:col-span-1 4xl:row-span-1" ref={textLetRef}>
+    <div
+      className="rounded-xl bg-white border border-black shadow-2xl 4xl:col-span-1 4xl:row-span-1 hover:scale-105 duration-300"
+      ref={textLetRef}
+    >
       {filters.empIdField ? (
         <div className="flex flex-col p-4 text-[20px] 4xl:text-[32px]">
           <div className="flex justify-between items-center">

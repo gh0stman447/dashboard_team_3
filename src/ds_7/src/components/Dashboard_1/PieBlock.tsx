@@ -9,7 +9,7 @@ const PieBlock = () => {
 
   return (
     <div
-      className="order-2 4xl:order-none text-center w-full h-[500px] lg:h-[700px] lg:m-auto 4xl:w-full 4xl:h-full 4xl:col-span-1 4xl:row-span-2 rounded-xl bg-white border border-black shadow-2xl flex flex-col items-center justify-center divide-y-2 divide-gray/50"
+      className="order-2 4xl:order-none text-center w-full h-[500px] lg:h-[700px] lg:m-auto 4xl:w-full 4xl:h-full 4xl:col-span-1 4xl:row-span-2 rounded-xl bg-white border border-black shadow-2xl flex flex-col items-center justify-center divide-y-2 divide-gray/50 hover:scale-105 duration-300"
       ref={pieChartRef}
     >
       <div className="w-full p-2">

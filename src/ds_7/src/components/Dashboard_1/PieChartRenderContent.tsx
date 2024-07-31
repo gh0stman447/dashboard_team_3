@@ -28,7 +28,9 @@ const PieChartRenderContent = () => {
     ['PieDataAllTimeDate', filters.date, filters.empIdField],
     () => dataService.fetchPieData(transformedFilters, 'PieDataAllTimeDate'),
     {
-      enabled: !!filters?.empIdField
+      enabled: !!filters?.empIdField && (!filters?.date || !filters?.date.length),
+
+      refetchOnWindowFocus: false
     }
   );
 
@@ -44,7 +46,8 @@ const PieChartRenderContent = () => {
         'PieDataBeforeSelectedDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField
+      enabled: !!filters?.date && !!filters?.empIdField,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -60,7 +63,8 @@ const PieChartRenderContent = () => {
         'PieDataPrevDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField
+      enabled: !!filters?.date && !!filters?.empIdField,
+      refetchOnWindowFocus: false
     }
   );
 

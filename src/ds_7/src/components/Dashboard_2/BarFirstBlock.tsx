@@ -14,7 +14,7 @@ const BarFirstBlock = () => {
 
   return (
     <div
-      className="w-full 2xl:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50"
+      className="w-full 2xl:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 hover:scale-105 duration-300"
       ref={barChartRef}
     >
       <p className="flex justify-center items-center p-4 text-[18px] md-lg:text-[30px] md-lg:h-[122px]">

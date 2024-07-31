@@ -10,7 +10,7 @@ const BarSecondBlock = () => {
   const barChartRef = React.useRef<HTMLDivElement | null>(null);
 
   return (
-    <div className="w-full 2xl:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50">
+    <div className="w-full 2xl:w-1/2 border border-black bg-white shadow-2xl rounded-xl divide-y-2 divide-gray/50 hover:scale-105 duration-300">
       <p className="text-[18px] md-lg:text-[30px] p-4 text-center md-lg:h-[122px]">
         Кол-во сотрудникам по уровню навыка и его прирост
       </p>

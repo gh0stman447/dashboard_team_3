@@ -35,8 +35,12 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
     setTypeOfSkill(initialTypeOfSkill);
   }, [initialTypeOfSkill]);
 
-  const { data, isLoading, isError } = useQuery('typeOfSkills', () =>
-    dataService.fetchTextLetAllTypesOfSkillData('typeOfSkills')
+  const { data, isLoading, isError } = useQuery(
+    'typeOfSkills',
+    () => dataService.fetchTextLetAllTypesOfSkillData('typeOfSkills'),
+    {
+      refetchOnWindowFocus: false
+    }
   );
 
   if (isLoading) {

@@ -40,7 +40,8 @@ const ComposedChartRenderContent = () => {
     ['employeeAllTimeData', filters],
     () => dataService.fetchBarChartEmployeeData(transformedFilters, 'employeeAllTimeData'),
     {
-      enabled: !!filters.empIdField
+      enabled: !!filters.empIdField && !filters.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -56,7 +57,8 @@ const ComposedChartRenderContent = () => {
         'employeeEndSelectedDate'
       ),
     {
-      enabled: !!filters.empIdField && !!filters.date
+      enabled: !!filters.empIdField && !!filters.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -72,7 +74,8 @@ const ComposedChartRenderContent = () => {
         'employeeBeginningSelectedDate'
       ),
     {
-      enabled: !!filters.empIdField && !!filters.date
+      enabled: !!filters.empIdField && !!filters.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -96,7 +99,8 @@ const ComposedChartRenderContent = () => {
         'allPeopleAllTimeDate'
       ),
     {
-      enabled: !!filters.empIdField && !!position
+      enabled: !!filters.empIdField && !!position,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -117,7 +121,8 @@ const ComposedChartRenderContent = () => {
         'allPeopleEndSelectedDate'
       ),
     {
-      enabled: !!filters.empIdField && !!filters.date
+      enabled: !!filters.empIdField && !!filters.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -193,6 +198,10 @@ const ComposedChartRenderContent = () => {
     empLvl: skill.empLvl,
     middleLvl: getAverageLevel(skill.name, peopleData)
   }));
+
+  if (!modifiedBarData || modifiedBarData.length === 0) {
+    return <NoChartComponent label="Нет данных" />;
+  }
 
   return (
     <ResponsiveContainer width="100%" height="100%">

@@ -18,7 +18,8 @@ const SideBarRenderContent = () => {
     ['empIdField', empIdField],
     () => dataService.fetchUserData(transformedFilters, 'empIdField'),
     {
-      enabled: !!empIdField
+      enabled: !!empIdField,
+      refetchOnWindowFocus: false
     }
   );
 

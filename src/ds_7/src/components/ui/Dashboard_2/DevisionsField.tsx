@@ -1,13 +1,10 @@
 import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
-import { devisions } from '../../../constants/Dashboard_2';
 import { InFormProps } from '../../../types';
-import useDB1FiltersStore from '../../../store/DB1FiltersStore';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { useQuery } from 'react-query';
 import { dataService } from '../../../services/DataDboard2.service';
 import { sortList } from '../../../utils/sortList';
-import { overflow } from 'html2canvas/dist/types/css/property-descriptors/overflow';
 
 interface DevisionFieldProps extends InFormProps {
   devisions?: string[];
@@ -26,8 +23,12 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
 
   const initialDevision = useDB2FiltersStore((state) => state.devision);
 
-  const { data, isLoading, isError } = useQuery('departments', () =>
-    dataService.fetchTextLetAllDepartmentsData('departments')
+  const { data, isLoading, isError } = useQuery(
+    'departments',
+    () => dataService.fetchTextLetAllDepartmentsData('departments'),
+    {
+      refetchOnWindowFocus: false
+    }
   );
 
   useEffect(() => {
@@ -37,9 +38,7 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
   const MenuProps = {
     PaperProps: {
       style: {
-        maxHeight: 300,
-        maxWidth: 200,
-        overflowX: 'scroll'
+        maxHeight: 300
       }
     }
   };

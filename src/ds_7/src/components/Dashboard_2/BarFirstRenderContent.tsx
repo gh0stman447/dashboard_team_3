@@ -50,7 +50,8 @@ const BarFirstRenderContent = () => {
         'departmentCountOfEmployeesBySkillsAllTimeDate'
       ),
     {
-      enabled: !!(filters.position.length || filters.devision.length) && !filters.date
+      enabled: !!(filters.position.length || filters.devision.length) && !filters.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -66,7 +67,8 @@ const BarFirstRenderContent = () => {
         'departmentCountOfEmployeesBySkillsBeggingSelectedDate'
       ),
     {
-      enabled: !!filters?.date && !!(filters.position.length || filters.devision.length)
+      enabled: !!filters?.date && !!(filters.position.length || filters.devision.length),
+      refetchOnWindowFocus: false
     }
   );
 
@@ -81,7 +83,7 @@ const BarFirstRenderContent = () => {
         { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
         'departmentCountOfEmployeesBySkillsEndSelectedDate'
       ),
-    { enabled: !!filters?.date && !!(filters.position.length || filters.devision.length) }
+    { enabled: !!filters?.date && !!(filters.position.length || filters.devision.length), refetchOnWindowFocus: false }
   );
 
   if (!filters.position.length && !filters.devision.length) {
@@ -158,6 +160,9 @@ const BarFirstRenderContent = () => {
       )
     : departmentCountOfEmployeesBySkillsAllTimeDate.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
+  if (!modifiedBarData.length) {
+    return <NoChartComponent label="Нет данных" />;
+  }
 
   return (
     <ResponsiveContainer width="100%" height="100%">
@@ -197,10 +202,10 @@ const BarFirstRenderContent = () => {
             <text
               x={x + width / 2}
               y={y + height / 2}
-              dy={5} // Позиционирование текста чуть ниже центра
+              dy={5}
               textAnchor="middle"
               fill="#000"
-              fontSize={14} // Увеличение размера шрифта
+              fontSize={14}
               fontWeight="bold"
             >
               {value !== 0 && value}
@@ -219,13 +224,7 @@ const BarFirstRenderContent = () => {
                   fill={'#000'}
                   content={({ x, y, value, width, height }) => {
                     return (
-                      <text
-                        x={x + width / 2} // Центрируем по горизонтали
-                        y={y + 20} // Поднимаем текст вверх
-                        textAnchor="middle" // Центрируем текст по горизонтали
-                        fill="#000"
-                        fontSize={15}
-                      >
+                      <text x={x + width / 2} y={y + 20} textAnchor="middle" fill="#000" fontSize={15}>
                         {value !== 0 && `+${value}`}
                       </text>
                     );

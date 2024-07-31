@@ -19,8 +19,12 @@ interface PositionFieldProps extends InFormProps {
 const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
   const [position, setPosition] = useState<string[]>([]);
 
-  const { data, isLoading, isError } = useQuery('positions', () =>
-    dataService.fetchTextLetAllPositionsData('positions')
+  const { data, isLoading, isError } = useQuery(
+    'positions',
+    () => dataService.fetchTextLetAllPositionsData('positions'),
+    {
+      refetchOnWindowFocus: false
+    }
   );
   const handleChangePosition = (event: SelectChangeEvent<string[]>) => {
     const {

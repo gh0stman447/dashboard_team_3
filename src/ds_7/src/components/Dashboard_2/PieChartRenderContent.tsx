@@ -31,8 +31,13 @@ const PieChartRenderContent = () => {
     data: departmentDataAllTimeDate,
     isLoading: isLoadingDepartmentAllTimeDate,
     isError: isErrorDepartmentAllTimeDate
-  } = useQuery(['departmentPieDataAllTimeDate', filters], () =>
-    dataService.fetchPieDepartmentData({ ...queryFilters, date: undefined }, 'departmentPieDataAllTimeDate')
+  } = useQuery(
+    ['departmentPieDataAllTimeDate', filters],
+    () => dataService.fetchPieDepartmentData({ ...queryFilters, date: undefined }, 'departmentPieDataAllTimeDate'),
+    {
+      refetchOnWindowFocus: false,
+      enabled: !filters.date
+    }
   );
 
   const {
@@ -47,7 +52,8 @@ const PieChartRenderContent = () => {
         'departmentPieDataBegginingSelectedDate'
       ),
     {
-      enabled: !!filters?.date
+      enabled: !!filters?.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -63,7 +69,8 @@ const PieChartRenderContent = () => {
         'departmentPieDataEndSelectedDate'
       ),
     {
-      enabled: !!filters?.date
+      enabled: !!filters?.date,
+      refetchOnWindowFocus: false
     }
   );
 
@@ -90,7 +97,7 @@ const PieChartRenderContent = () => {
   );
 
   if (!dataWithIncrease || dataWithIncrease.length === 0) {
-    return <span className=" flex items-center justify-center">Данных нет</span>;
+    return <span className="flex items-center justify-center">Данных нет</span>;
   }
 
   return (
