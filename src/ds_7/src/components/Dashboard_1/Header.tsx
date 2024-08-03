@@ -6,26 +6,16 @@ import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import DisplayDate from '../ui/Dashboard_1/DisplayDate';
 
 const Header = () => {
-  const clearFilters = () => {
-    useDB1FiltersStore.setState({ date: null, empIdField: '', typesOfSkill: [] });
-  };
+
 
   const date = useDB1FiltersStore((state) => state.date);
 
   return (
-    <header className="z-10 font-inter text-[15px] bg-gray-100 bg-navy py-[4px] px-[10px] h-[50px] flex justify-between items-center sticky top-0 border-b border-b-slate-400 border-l-0">
+    <header className="z-10 bg-sky-blue shadow-sm font-inter text-[15px] bg-gray-100 py-4 px-[10px] h-[70px] flex justify-between items-center sticky top-0">
       <div className="flex gap-4 items-center grow justify-between ">
         <BurgerMenu />
         <p className="hidden md:block">Статистика роста профессиональных компетенций сотрудника</p>
         <div className="flex items-center gap-2">
-          <NoFilter
-            height="23px"
-            width="23px"
-            onClick={clearFilters}
-            className={
-              'text-white cursor-pointer hover:text-gray hover:scale-125 duration-200 border rounded-md p-[3px]'
-            }
-          />
           <DialogSelect />
           <DisplayDate date={date} />
         </div>

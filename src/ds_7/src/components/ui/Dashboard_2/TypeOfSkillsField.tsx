@@ -44,11 +44,11 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
   );
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Загрузка...</div>;
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return <div>Ошибка</div>;
   }
 
   const MenuProps = {

@@ -6,13 +6,15 @@ const CustomNavButton = ({ text, dBoardNumber }: { text: string; dBoardNumber: s
   return (
     <Button
       size="small"
+      variant="outlined"
       sx={{
         color: 'black',
         padding: '10px',
+        px: '20px',
         border: '1px solid black',
-        backgroundColor: 'white',
         fontSize: '15px',
-        textTransform: 'none'
+        textTransform: 'none',
+        bgcolor: 'transparent'
       }}
       onClick={() => navigateToDboard(dBoardNumber)}
     >

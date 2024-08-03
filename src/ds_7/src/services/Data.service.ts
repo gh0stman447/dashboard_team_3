@@ -5,7 +5,7 @@ const { koobDataRequest3 } = KoobDataService;
 class DataService {
   fetchPieData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['skill_type', 'count(distinct(name)):totalSkills'],
       [],
       filters,
@@ -22,7 +22,7 @@ class DataService {
 
   fetchTextLetData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['count(distinct(name)):totalSkills'],
       [],
       filters,
@@ -35,7 +35,7 @@ class DataService {
 
   fetchTextLetDataSkills = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['count(distinct(name)):totalSkills', 'name', 'skill_type'],
       [],
       filters,
@@ -48,7 +48,7 @@ class DataService {
 
   fetchUserData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['employees_id', 'first_name', 'last_name', 'department', 'job_title', 'activity'],
       [],
       filters,
@@ -67,7 +67,7 @@ class DataService {
 
   fetchUsersIdData = async (requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['employees_id'],
       [],
       {},
@@ -85,7 +85,7 @@ class DataService {
 
   fetchTypeOfSkillsData = async (requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['skill_type'],
       [],
       {},
@@ -100,7 +100,7 @@ class DataService {
 
   fetchBarChartEmployeeData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['name', 'max(level_num)', 'job_title'],
       [],
       filters,
@@ -116,7 +116,7 @@ class DataService {
 
   fetchBarChartAllPeopleData = async (filters: {}, requestString: string) => {
     const res = (await koobDataRequest3(
-      'db__3.team_3_2',
+      'etl_db_3.team_3',
       ['name', 'round(avg(level_num))'],
       [],
       filters,

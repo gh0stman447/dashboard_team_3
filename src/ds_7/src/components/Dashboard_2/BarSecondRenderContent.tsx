@@ -1,23 +1,10 @@
 import React from 'react';
-import {
-  ResponsiveContainer,
-  Tooltip,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Legend,
-  Bar,
-  BarChart,
-  Cell,
-  LabelList
-} from 'recharts';
-import { transformFiltersFromDB2 } from '../../utils';
+import { ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis, Bar, BarChart, Cell, LabelList } from 'recharts';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
-import { useQuery } from 'react-query';
-import { dataService } from '../../services/DataDboard2.service';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomSecondBarTooltip from '../ui/Dashboard_2/CustomSecondBarTooltip';
 import { LEVEL_NAMES } from '../../constants/Dashboard_2';
+import { useSecondBarChartData } from '../hooks/Dashboard_2';
 
 const BarSecondRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -28,64 +15,19 @@ const BarSecondRenderContent = () => {
     skills: state.skills
   }));
 
-  const transformedFilters = transformFiltersFromDB2(filters);
-
-  const queryFilters =
-    filters.position.length === 0 && filters.devision.length === 0
-      ? { ...transformedFilters }
-      : filters.position.length === 0 && filters.devision.length > 0
-      ? { ...transformedFilters, is_depart_key_skill: ['=', true] }
-      : filters.devision.length === 0 && filters.position.length > 0
-      ? { ...transformedFilters, is_job_key_skill: ['=', true] }
-      : { ...transformedFilters, is_job_key_skill: ['=', true] };
-
   const {
-    data: departmentCountOfEmployeesBySkillLevelAllTimeDate,
-    isLoading: isLoadingDepartmentCountOfEmployeesBySkillLevelAllTimeDate,
-    isError: isErrorDepartmentCountOfEmployeesBySkillLevelAllTimeDate
-  } = useQuery(
-    ['departmentCountOfEmployeesBySkillLevelAllTimeDate', filters],
-    () =>
-      dataService.fetchBarDataCountOfEmployeesBySkillLevel(
-        { ...queryFilters, date: undefined },
-        'departmentCountOfEmployeesBySkillLevelAllTimeDate'
-      ),
-    {
-      enabled: !!(filters.position.length || filters.devision.length) && !filters.date,
-      refetchOnWindowFocus: false
-    }
-  );
+    departmentCountOfEmployeesBySkillLevelAllTimeDate,
+    departmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
+    departmentCountOfEmployeesBySkillLevelEndSelectedDate,
 
-  const {
-    data: departmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isLoading: isLoadingDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isError: isErrorDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate
-  } = useQuery(
-    ['departmentCountOfEmployeesBySkillLevelBeggingSelectedDate', filters],
-    () =>
-      dataService.fetchBarDataCountOfEmployeesBySkillLevel(
-        { ...queryFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
-        'departmentCountOfEmployeesBySkillLevelBeggingSelectedDate'
-      ),
-    {
-      enabled: !!filters?.date,
-      refetchOnWindowFocus: false
-    }
-  );
+    isErrorDepartmentCountOfEmployeesBySkillLevelAllTimeDate,
+    isErrorDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
+    isErrorDepartmentCountOfEmployeesBySkillLevelEndSelectedDate,
 
-  const {
-    data: departmentCountOfEmployeesBySkillLevelEndSelectedDate,
-    isLoading: isLoadingDepartmentCountOfEmployeesBySkillLevelEndSelectedDate,
-    isError: isErrorDepartmentCountOfEmployeesBySkillLevelEndSelectedDate
-  } = useQuery(
-    ['departmentCountOfEmployeesBySkillLevelEndSelectedDate', filters],
-    () =>
-      dataService.fetchBarDataCountOfEmployeesBySkillLevel(
-        { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
-        'departmentCountOfEmployeesBySkillLevelEndSelectedDate'
-      ),
-    { enabled: !!filters?.date, refetchOnWindowFocus: false }
-  );
+    isLoadingDepartmentCountOfEmployeesBySkillLevelAllTimeDate,
+    isLoadingDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
+    isLoadingDepartmentCountOfEmployeesBySkillLevelEndSelectedDate
+  } = useSecondBarChartData(filters);
 
   if (!filters.position.length && !filters.devision.length) {
     return <NoChartComponent label="Выберите должность или подразделение" />;
@@ -109,29 +51,6 @@ const BarSecondRenderContent = () => {
 
   const yAxisTickFormatter = (value: string) => {
     return LEVEL_NAMES[value] || value;
-  };
-
-  const CustomLegend = (props) => {
-    const { payload } = props;
-
-    return (
-      <div className="p-2 flex items-center justify-center gap-4">
-        {payload.map((entry, index) => (
-          <div key={`item-${index}`} style={{ marginBottom: '5px' }} className="flex items-center">
-            <span
-              style={{
-                backgroundColor: entry.payload.fill,
-                width: '20px',
-                height: '20px',
-                display: 'inline-block',
-                marginRight: '10px'
-              }}
-            />
-            {entry.value === 'countOfEmployees' ? 'Количество сотрудников' : 'Прирост'}
-          </div>
-        ))}
-      </div>
-    );
   };
 
   interface EmployeesBySkillLevelData {
@@ -160,12 +79,44 @@ const BarSecondRenderContent = () => {
     });
   };
 
+  const getHighestLevelData = (data: any) => {
+    const maxLevelMap = new Map();
+
+    data.forEach((item) => {
+      const { employees_id, name, level_num } = item;
+      const key = `${employees_id}_${name}`;
+      if (!maxLevelMap.has(key) || level_num > maxLevelMap.get(key)) {
+        maxLevelMap.set(key, level_num);
+      }
+    });
+
+    const levelCountMap = new Map();
+
+    data.forEach((item) => {
+      const { employees_id, name, level_num } = item;
+      const key = `${employees_id}_${name}`;
+      if (maxLevelMap.get(key) === level_num) {
+        if (!levelCountMap.has(level_num)) {
+          levelCountMap.set(level_num, 0);
+        }
+        levelCountMap.set(level_num, levelCountMap.get(level_num) + 1);
+      }
+    });
+
+    return Array.from(levelCountMap, ([level_num, countOfEmployees]) => ({
+      level_num,
+      countOfEmployees
+    }));
+  };
+
+  const allTimeData = !filters.date && getHighestLevelData(departmentCountOfEmployeesBySkillLevelAllTimeDate);
+  const begginData = filters.date && getHighestLevelData(departmentCountOfEmployeesBySkillLevelBeggingSelectedDate);
+  const endData = filters.date && getHighestLevelData(departmentCountOfEmployeesBySkillLevelEndSelectedDate);
+
+  console.log(allTimeData, 'allTimeData');
   const modifiedBarData = filters.date
-    ? getGrowthOfEmployeesBySkillLevel(
-        departmentCountOfEmployeesBySkillLevelEndSelectedDate,
-        departmentCountOfEmployeesBySkillLevelBeggingSelectedDate
-      )
-    : departmentCountOfEmployeesBySkillLevelAllTimeDate.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
+    ? getGrowthOfEmployeesBySkillLevel(endData, begginData)
+    : allTimeData.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
   if (!modifiedBarData.length) {
     return <NoChartComponent label="Нет данных" />;
@@ -184,14 +135,24 @@ const BarSecondRenderContent = () => {
           bottom: 0
         }}
       >
+        <defs>
+          <linearGradient id="colorCountOfEmployees" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#934983" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#934983" stopOpacity={0.2} />
+          </linearGradient>
+          <linearGradient id="colorImprovement" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#00ff00" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#00ff00" stopOpacity={0.2} />
+          </linearGradient>
+        </defs>
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis
           label={{
             value: 'Количество сотрудников',
             angle: -90,
             position: 'inside',
-            fontSize: 19,
-            dy: 20,
+            fontSize: 16,
+            dy: 10,
             dx: -25,
             rotate: 0,
             textAnchor: 'start',
@@ -204,11 +165,10 @@ const BarSecondRenderContent = () => {
         <XAxis dataKey="level_num" tickFormatter={yAxisTickFormatter} tickCount={6} />
         <YAxis />
         <Tooltip content={<CustomSecondBarTooltip />} />
-        <Legend content={<CustomLegend />} />
         <Bar
           dataKey="countOfEmployees"
           stackId="1"
-          fill="#8884d8"
+          fill="url(#colorCountOfEmployees)"
           label={({ x, y, width, height, value }) => (
             <text
               x={x + width / 2}
@@ -225,8 +185,8 @@ const BarSecondRenderContent = () => {
         />
 
         {filters.date && (
-          <Bar dataKey="growth" stackId="1" fill="#82ca9d">
-            {modifiedBarData.map((item, index) => (
+          <Bar dataKey="growth" stackId="1" fill="url(#colorImprovement)">
+            {modifiedBarData.map((_, index) => (
               <>
                 <Cell key={index} fill={'#82ca9d'} />
                 <LabelList
@@ -234,17 +194,11 @@ const BarSecondRenderContent = () => {
                   dataKey={'growth'}
                   position={'insideTop'}
                   fill={'#000'}
-                  content={({ x, y, value, width, height }) => {
+                  content={({ x, y, value, width }) => {
                     const numericValue = Number(value);
 
                     return (
-                      <text
-                        x={x + width / 2} // Центрируем по горизонтали
-                        y={y + 20} // Поднимаем текст вверх
-                        textAnchor="middle" // Центрируем текст по горизонтали
-                        fill="#000"
-                        fontSize={15}
-                      >
+                      <text x={x + width / 2} y={y + 15} textAnchor="middle" fill="#000" fontSize={13}>
                         {numericValue !== 0 && `+${numericValue}`}
                       </text>
                     );

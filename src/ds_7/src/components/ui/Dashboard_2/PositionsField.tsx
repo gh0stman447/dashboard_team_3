@@ -26,6 +26,7 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
       refetchOnWindowFocus: false
     }
   );
+
   const handleChangePosition = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value }
@@ -35,18 +36,18 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
     patchState({ position: newPosition });
   };
 
-  const initialPisition = useDB2FiltersStore((state) => state.position);
+  const initialPosition = useDB2FiltersStore((state) => state.position);
 
   useEffect(() => {
-    setPosition(initialPisition);
-  }, [initialPisition]);
+    setPosition(initialPosition);
+  }, [initialPosition]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Загрузка...</div>;
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return <div>Ошибка</div>;
   }
 
   const MenuProps = {

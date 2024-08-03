@@ -7,36 +7,31 @@ import { dataService } from '../../../services/Data.service';
 
 export interface SearchEmployeeFieldProps extends InFormProps {}
 
-const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
-  const [empIdField, setEmpIdField] = useState<string>('');
-
-  // const [isEffectRun, setIsEffectRun] = useState(false);
-
+export const UsersFetcher = () => {
   const { setUsers } = useDB1FiltersStore((state) => ({
     setUsers: state.setUsers
   }));
 
-  const { data, isLoading, isError } = useQuery('usersId', () => dataService.fetchUsersIdData('usersId'), {
+  const { data } = useQuery('usersId', () => dataService.fetchUsersIdData('usersId'), {
     refetchOnWindowFocus: false
   });
 
+  useEffect(() => {
+    if (data) setUsers([...data].sort((a, b) => a.value - b.value));
+  }, [data]);
+
+  return null;
+};
+const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
+  const [empIdField, setEmpIdField] = useState<string>('');
+
   const empField = useDB1FiltersStore((state) => state.empIdField);
+
+  const users = useDB1FiltersStore((state) => state.users);
 
   useEffect(() => {
     setEmpIdField(empField);
   }, [empField]);
-
-  // useEffect(() => {
-  //   if (data) setUsers([...data].sort((a, b) => a.value - b.value));
-  // }, [data]);
-
-  if (isLoading) {
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    return <div>Error</div>;
-  }
 
   const handleChangeSearchField = (value: string) => {
     setEmpIdField(value);
@@ -51,7 +46,7 @@ const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
         allowClear
         optionFilterProp="label"
         filterSort={(optionA, optionB) => (optionA.value > optionB.value ? 1 : -1)}
-        options={data}
+        options={users}
         onChange={(value) => handleChangeSearchField(value)}
         value={empIdField || 'Выберите ID'}
       />

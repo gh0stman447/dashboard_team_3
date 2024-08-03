@@ -5,19 +5,16 @@ import {
   CartesianGrid,
   XAxis,
   YAxis,
-  Legend,
   Bar,
   BarChart,
   Brush,
   LabelList,
   Cell
 } from 'recharts';
-import { transformFiltersFromDB2 } from '../../utils';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
-import { useQuery } from 'react-query';
-import { dataService } from '../../services/DataDboard2.service';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomFirstBarTooltip from '../ui/Dashboard_2/CustomFirstBarTooltip';
+import { useFirstBarChartData } from '../hooks/Dashboard_2';
 
 const BarFirstRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -27,64 +24,17 @@ const BarFirstRenderContent = () => {
     typesOfSkill: state.typesOfSkill
   }));
 
-  const transformedFilters = transformFiltersFromDB2(filters);
-
-  const queryFilters =
-    filters.position.length === 0 && filters.devision.length === 0
-      ? { ...transformedFilters }
-      : filters.position.length === 0 && filters.devision.length > 0
-      ? { ...transformedFilters, is_depart_key_skill: ['=', true] }
-      : filters.devision.length === 0 && filters.position.length > 0
-      ? { ...transformedFilters, is_job_key_skill: ['=', true] }
-      : { ...transformedFilters, is_job_key_skill: ['=', true] };
-
   const {
-    data: departmentCountOfEmployeesBySkillsAllTimeDate,
-    isLoading: isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate,
-    isError: isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate
-  } = useQuery(
-    ['departmentCountOfEmployeesBySkillsAllTimeDate', filters],
-    () =>
-      dataService.fetchBarDataCountOfEmployeesBySkills(
-        { ...queryFilters, date: undefined },
-        'departmentCountOfEmployeesBySkillsAllTimeDate'
-      ),
-    {
-      enabled: !!(filters.position.length || filters.devision.length) && !filters.date,
-      refetchOnWindowFocus: false
-    }
-  );
-
-  const {
-    data: departmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isLoading: isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isError: isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate
-  } = useQuery(
-    ['departmentCountOfEmployeesBySkillsBeggingSelectedDate', filters],
-    () =>
-      dataService.fetchBarDataCountOfEmployeesBySkills(
-        { ...queryFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
-        'departmentCountOfEmployeesBySkillsBeggingSelectedDate'
-      ),
-    {
-      enabled: !!filters?.date && !!(filters.position.length || filters.devision.length),
-      refetchOnWindowFocus: false
-    }
-  );
-
-  const {
-    data: departmentCountOfEmployeesBySkillsEndSelectedDate,
-    isLoading: isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate,
-    isError: isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate
-  } = useQuery(
-    ['departmentCountOfEmployeesBySkillsEndSelectedDate', filters],
-    () =>
-      dataService.fetchBarDataCountOfEmployeesBySkills(
-        { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
-        'departmentCountOfEmployeesBySkillsEndSelectedDate'
-      ),
-    { enabled: !!filters?.date && !!(filters.position.length || filters.devision.length), refetchOnWindowFocus: false }
-  );
+    departmentCountOfEmployeesBySkillsAllTimeDate,
+    departmentCountOfEmployeesBySkillsBeggingSelectedDate,
+    departmentCountOfEmployeesBySkillsEndSelectedDate,
+    isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate,
+    isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
+    isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate,
+    isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate,
+    isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
+    isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate
+  } = useFirstBarChartData(filters);
 
   if (!filters.position.length && !filters.devision.length) {
     return <NoChartComponent label="Выберите должность или подразделение" />;
@@ -105,29 +55,6 @@ const BarFirstRenderContent = () => {
   ) {
     return <NoChartComponent label="Ошибка" />;
   }
-
-  const CustomLegend = (props) => {
-    const { payload } = props;
-
-    return (
-      <div className="p-2 flex items-center justify-center gap-4">
-        {payload.map((entry, index) => (
-          <div key={`item-${index}`} style={{ marginBottom: '5px' }} className="flex items-center">
-            <span
-              style={{
-                backgroundColor: entry.payload.fill,
-                width: '20px',
-                height: '20px',
-                display: 'inline-block',
-                marginRight: '10px'
-              }}
-            />
-            {entry.value === 'countOfEmployees' ? 'Количество сотрудников' : 'Прирост'}
-          </div>
-        ))}
-      </div>
-    );
-  };
 
   interface EmployeesBySkillsData {
     name: string;
@@ -174,18 +101,28 @@ const BarFirstRenderContent = () => {
           top: 15,
           right: 19,
           left: 15,
-          bottom: 0
+          bottom: 20
         }}
       >
-        <Brush startIndex={0} endIndex={6} travellerWidth={5} height={30} stroke="#8884d8" />
+        <defs>
+          <linearGradient id="colorCountOfEmployees" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#934983" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#934983" stopOpacity={0.2} />
+          </linearGradient>
+          <linearGradient id="colorImprovement" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="5%" stopColor="#00ff00" stopOpacity={0.8} />
+            <stop offset="95%" stopColor="#00ff00" stopOpacity={0.2} />
+          </linearGradient>
+        </defs>
+        <Brush dataKey={'name'} startIndex={0} endIndex={2} travellerWidth={5} height={30} stroke="#8884d8" />
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis
           label={{
             value: 'Количество сотрудников',
             angle: -90,
             position: 'inside',
-            fontSize: 19,
-            dy: 40,
+            fontSize: 16,
+            dy: 20,
             dx: -25,
             fill: 'black'
           }}
@@ -193,11 +130,10 @@ const BarFirstRenderContent = () => {
         <YAxis />
         <XAxis dataKey="name" />
         <Tooltip content={<CustomFirstBarTooltip />} />
-        <Legend сontent={<CustomLegend />} />
         <Bar
           dataKey="countOfEmployees"
           stackId="1"
-          fill="#8884d8"
+          fill="url(#colorCountOfEmployees)"
           label={({ x, y, width, height, value }) => (
             <text
               x={x + width / 2}
@@ -213,7 +149,7 @@ const BarFirstRenderContent = () => {
           )}
         />
         {filters.date && (
-          <Bar dataKey="growth" stackId="1" fill="#82ca9d">
+          <Bar dataKey="growth" stackId="1" fill="url(#colorImprovement)">
             {modifiedBarData.map((item, index) => (
               <>
                 <Cell key={index} fill={'#82ca9d'} />
@@ -224,7 +160,7 @@ const BarFirstRenderContent = () => {
                   fill={'#000'}
                   content={({ x, y, value, width, height }) => {
                     return (
-                      <text x={x + width / 2} y={y + 20} textAnchor="middle" fill="#000" fontSize={15}>
+                      <text x={x + width / 2} y={y + 15} textAnchor="middle" fill="#000" fontSize={13}>
                         {value !== 0 && `+${value}`}
                       </text>
                     );

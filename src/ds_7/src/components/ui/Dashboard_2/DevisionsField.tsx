@@ -45,11 +45,11 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Загрузка...</div>;
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return <div>Ошибка</div>;
   }
 
   const sortedDevisions = sortList(data, 'department');

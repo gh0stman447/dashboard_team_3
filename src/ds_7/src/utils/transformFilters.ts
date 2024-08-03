@@ -1,14 +1,11 @@
 import { DB1FiltersStore } from '../store/DB1FiltersStore';
 import { DB2FiltersStore } from '../store/DB2FiltersStore';
-import { allSkillTypes } from '../constants/Dashboard_2';
 
 export const transformFiltersFromDB1 = (filters: Partial<DB1FiltersStore>) => {
   const transformedFilters: Record<string, any> = {};
 
   if (filters.typesOfSkill && filters.typesOfSkill.length > 0) {
     transformedFilters.skill_type = ['=', ...filters.typesOfSkill];
-  } else {
-    transformedFilters.skill_type = ['=', ...allSkillTypes];
   }
 
   if (filters.date) {

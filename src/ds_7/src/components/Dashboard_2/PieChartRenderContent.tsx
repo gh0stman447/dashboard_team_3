@@ -1,13 +1,11 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Label, ResponsiveContainer, Tooltip, Legend } from 'recharts';
-import { useQuery } from 'react-query';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
-import { dataService } from '../../services/DataDboard2.service';
 import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
-import { transformFiltersFromDB2 } from '../../utils';
 import CustomTooltip from '../ui/Charts/CustomTooltip';
-import CustomPieLegend from './CustomPieLegend';
 import CustomPieLabelList from '../ui/Charts/CustomPieLabelList';
+import CustomPieLegend from './CustomPieLegend';
+import { usePieData } from '../hooks/Dashboard_2';
 
 const PieChartRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -16,70 +14,24 @@ const PieChartRenderContent = () => {
     devision: state.devision
   }));
 
-  const transformedFilters = transformFiltersFromDB2(filters);
-
-  const queryFilters =
-    filters.position.length === 0 && filters.devision.length === 0
-      ? { ...transformedFilters }
-      : filters.position.length === 0 && filters.devision.length > 0
-      ? { ...transformedFilters, is_depart_key_skill_type: ['=', true] }
-      : filters.devision.length === 0 && filters.position.length > 0
-      ? { ...transformedFilters, is_job_key_skill_type: ['=', true] }
-      : { ...transformedFilters, is_job_key_skill_type: ['=', true] };
-
   const {
-    data: departmentDataAllTimeDate,
-    isLoading: isLoadingDepartmentAllTimeDate,
-    isError: isErrorDepartmentAllTimeDate
-  } = useQuery(
-    ['departmentPieDataAllTimeDate', filters],
-    () => dataService.fetchPieDepartmentData({ ...queryFilters, date: undefined }, 'departmentPieDataAllTimeDate'),
-    {
-      refetchOnWindowFocus: false,
-      enabled: !filters.date
-    }
-  );
-
-  const {
-    data: departmentDataBegginingSelectedDate,
-    isLoading: isLoadingDepartmentDataBegginingSelectedDate,
-    isError: isErrorDepartmentDataBegginingSelectedDate
-  } = useQuery(
-    ['departmentPieDataBegginingSelectedDate', filters],
-    () =>
-      dataService.fetchPieDepartmentData(
-        { ...queryFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
-        'departmentPieDataBegginingSelectedDate'
-      ),
-    {
-      enabled: !!filters?.date,
-      refetchOnWindowFocus: false
-    }
-  );
-
-  const {
-    data: departmentDataEndSelectedDate,
-    isLoading: isLoadingDepartmentDataEndSelectedDate,
-    isError: isErrorDepartmentDataEndSelectedDate
-  } = useQuery(
-    ['departmentPieDataEndSelectedDate', filters],
-    () =>
-      dataService.fetchPieDepartmentData(
-        { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
-        'departmentPieDataEndSelectedDate'
-      ),
-    {
-      enabled: !!filters?.date,
-      refetchOnWindowFocus: false
-    }
-  );
+    departmentDataAllTimeDate,
+    departmentDataBegginingSelectedDate,
+    departmentDataEndSelectedDate,
+    isErrorDepartmentAllTimeDate,
+    isErrorDepartmentDataBegginingSelectedDate,
+    isErrorDepartmentDataEndSelectedDate,
+    isLoadingDepartmentAllTimeDate,
+    isLoadingDepartmentDataBegginingSelectedDate,
+    isLoadingDepartmentDataEndSelectedDate
+  } = usePieData(filters);
 
   if (
     isLoadingDepartmentAllTimeDate ||
     isLoadingDepartmentDataBegginingSelectedDate ||
     isLoadingDepartmentDataEndSelectedDate
   ) {
-    return <div>Loading...</div>;
+    return <div>Загрузка...</div>;
   }
 
   if (
@@ -87,7 +39,7 @@ const PieChartRenderContent = () => {
     isErrorDepartmentDataBegginingSelectedDate ||
     isErrorDepartmentDataEndSelectedDate
   ) {
-    return <div>Error</div>;
+    return <div>Ошибка</div>;
   }
 
   const dataWithIncrease = calculateDifferenceForPie(

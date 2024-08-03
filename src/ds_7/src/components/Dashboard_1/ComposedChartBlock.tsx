@@ -1,12 +1,10 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 
 import { downloadPng } from '../../utils';
 import { Download } from '../../../../assets';
 
-import { lazy } from 'react';
-
-const DisabledSelectLazy = lazy(() => import('../ui/Dashboard_1/DisabledSelect'));
-const ComposedChartRenderContentLazy = lazy(() => import('./ComposedChartRenderContent'));
+import DisabledSelect from '../ui/Dashboard_1/DisabledSelect';
+import ComposedChartRenderContent from './ComposedChartRenderContent';
 
 const ComposedChartBlock = () => {
   const composedBarRef = React.useRef<HTMLDivElement | null>(null);
@@ -14,22 +12,20 @@ const ComposedChartBlock = () => {
 
   return (
     <div
-      className="order-3 4xl:order-none flex flex-col items-center justify-between w-full md-lg:w-1/2 bg-white border border-black shadow-2xl rounded-xl divide-y-2 divide-gray/50 hover:scale-[1.01] duration-300"
+      className="order-3 4xl:order-none flex flex-col items-center justify-between w-full md-lg:w-1/2 bg-white border border-black shadow-2xl rounded-xl hover:scale-[1.01] duration-300"
       ref={composedBarRef}
     >
-      <div className="w-full p-2">
-        <div className="flex flex-col gap-y-2 items-center text-center p-3">
-          <p className="text-[14px]">Уровень знаний сотрудника в сравнении со средним уровнем в пределах должности</p>
-          <Suspense fallback={<div>Загрузка выбора...</div>}>
-            <DisabledSelectLazy />
-          </Suspense>
+      <div className="w-full h-[600px] md:h-[770px] md:max-h-[750px] flex flex-col items-center justify-center divide-y-2 divide-gray/50">
+        <div className="p-2">
+          <div className="flex flex-col gap-y-2 items-center text-center p-3">
+            <p className="text-[16px] md-lg:text-[18px]">
+              Уровень знаний сотрудника в сравнении со средним уровнем в пределах должности
+            </p>
+            <DisabledSelect />
+          </div>
         </div>
-      </div>
-      <div className="w-full h-[400px] md:h-[700px] flex flex-col items-center justify-center divide-y-2 divide-gray/50">
         <div className="relative w-full h-full xl:p-4">
-          <Suspense fallback={<div>Загрузка графика...</div>}>
-            <ComposedChartRenderContentLazy />
-          </Suspense>
+          <ComposedChartRenderContent />
           <div className="absolute bottom-[10px] left-[10px]">
             <Download
               ref={downloadButtonRef}

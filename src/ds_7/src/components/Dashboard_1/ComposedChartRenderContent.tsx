@@ -1,25 +1,11 @@
 import React from 'react';
-import {
-  ComposedChart,
-  Line,
-  ResponsiveContainer,
-  Tooltip,
-  CartesianGrid,
-  XAxis,
-  YAxis,
-  Legend,
-  Bar,
-  Brush
-} from 'recharts';
-import { useQuery } from 'react-query';
+import { ComposedChart, Line, ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis, Bar, Brush } from 'recharts';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
-import { dataService } from '../../services/Data.service';
-import { useEffect, useState } from 'react';
 
-import { transformFiltersFromDB1 } from '../../utils';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomBarTooltip from '../ui/Dashboard_1/CustomBarTooltip';
 import { LEVEL_NAMES } from '../../constants/Dashboard_2';
+import { useComposedChartData } from '../hooks/Dashboard_1';
 
 const ComposedChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({
@@ -28,108 +14,37 @@ const ComposedChartRenderContent = () => {
     typesOfSkill: state.typesOfSkill
   }));
 
-  const transformedFilters = transformFiltersFromDB1(filters);
-
   const {
-    data: employeeAllTimeData,
-    isLoading: isLoagindEmployeeAllTimeData,
-    isError: isErrorEmployeeAllTimeData
-  } = useQuery(
-    ['employeeAllTimeData', filters],
-    () => dataService.fetchBarChartEmployeeData(transformedFilters, 'employeeAllTimeData'),
-    {
-      enabled: !!filters.empIdField && !filters.date,
-      refetchOnWindowFocus: false
-    }
-  );
+    allPeopleAllTimeDate,
+    allPeopleEndSelectedDate,
 
-  const {
-    data: employeeEndSelectedDate,
-    isLoading: isLoadingEmployeeEndSelectedDate,
-    isError: isErrorEmployeeEndSelectedDate
-  } = useQuery(
-    ['employeeEndSelectedDate', filters],
-    () =>
-      dataService.fetchBarChartEmployeeData(
-        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
-        'employeeEndSelectedDate'
-      ),
-    {
-      enabled: !!filters.empIdField && !!filters.date,
-      refetchOnWindowFocus: false
-    }
-  );
+    employeeAllTimeData,
+    employeeBeginningSelectedDate,
+    employeeEndSelectedDate,
 
-  const {
-    data: employeeBeginningSelectedDate,
-    isLoading: isLoadingEmployeeBeginningSelectedDate,
-    isError: isErrorEmployeeBeginningSelectedDate
-  } = useQuery(
-    ['employeeBeginningSelectedDate', filters],
-    () =>
-      dataService.fetchBarChartEmployeeData(
-        { ...transformedFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
-        'employeeBeginningSelectedDate'
-      ),
-    {
-      enabled: !!filters.empIdField && !!filters.date,
-      refetchOnWindowFocus: false
-    }
-  );
+    isErrorAllPeopleAllTimeDate,
+    isErrorAllPeopleEndSelectedDate,
 
-  const [position, setPosition] = useState<string | null>(null);
+    isErrorEmployeeAllTimeData,
+    isErrorEmployeeBeginningSelectedDate,
+    isErrorEmployeeEndSelectedDate,
 
-  useEffect(() => {
-    if (employeeAllTimeData && employeeAllTimeData.length > 0) {
-      setPosition(employeeAllTimeData[0].job_title);
-    }
-  }, [employeeAllTimeData]);
+    isLoadingAllPeopleAllTimeDate,
+    isLoadingAllPeopleEndSelectedDate,
 
-  const {
-    data: allPeopleAllTimeDate,
-    isLoading: isLoadingAllPeopleAllTimeDate,
-    isError: isErrorAllPeopleAllTimeDate
-  } = useQuery(
-    ['allPeopleAllTimeDate', filters],
-    () =>
-      dataService.fetchBarChartAllPeopleData(
-        { ...transformedFilters, job_title: ['=', position], employees_id: undefined, date: undefined },
-        'allPeopleAllTimeDate'
-      ),
-    {
-      enabled: !!filters.empIdField && !!position,
-      refetchOnWindowFocus: false
-    }
-  );
+    isLoadingEmployeeAllTimeData,
+    isLoadingEmployeeBeginningSelectedDate,
+    isLoadingEmployeeEndSelectedDate,
 
-  const {
-    data: allPeopleEndSelectedDate,
-    isLoading: isLoadingAllPeopleEndSelectedDate,
-    isError: isErrorAllPeopleEndSelectedDate
-  } = useQuery(
-    ['allPeopleEndSelectedDate', filters],
-    () =>
-      dataService.fetchBarChartAllPeopleData(
-        {
-          ...transformedFilters,
-          employees_id: undefined,
-          job_title: ['=', position],
-          date: ['<=', filters.date[1].format('YYYY-MM-DD')]
-        },
-        'allPeopleEndSelectedDate'
-      ),
-    {
-      enabled: !!filters.empIdField && !!filters.date,
-      refetchOnWindowFocus: false
-    }
-  );
+    position
+  } = useComposedChartData(filters);
 
   if (
     isLoadingAllPeopleAllTimeDate ||
     isLoadingAllPeopleEndSelectedDate ||
     isLoadingEmployeeBeginningSelectedDate ||
     isLoadingEmployeeEndSelectedDate ||
-    isLoagindEmployeeAllTimeData
+    isLoadingEmployeeAllTimeData
   ) {
     return <NoChartComponent label="Загрузка..." />;
   }
@@ -217,19 +132,11 @@ const ComposedChartRenderContent = () => {
             <stop offset="95%" stopColor="#0000ff" stopOpacity={0.2} />
           </linearGradient>
         </defs>
-        <Brush
-          dataKey="name"
-          startIndex={0}
-          endIndex={modifiedBarData.length - 1}
-          travellerWidth={20}
-          height={30}
-          stroke="#8884d8"
-        />
+        <Brush dataKey="name" startIndex={0} endIndex={6} travellerWidth={20} height={30} stroke="#8884d8" />
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" scale="band" />
         <YAxis tickFormatter={yAxisTickFormatter} tickCount={6} ticks={Object.keys(LEVEL_NAMES)} />
         <Tooltip content={<CustomBarTooltip />} />
-        {/* <Legend /> */}
         <Bar
           dataKey="empLvl"
           stackId={1}

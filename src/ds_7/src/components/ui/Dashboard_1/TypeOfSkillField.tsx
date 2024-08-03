@@ -43,11 +43,11 @@ const TypeOfSkillField: FC<PositionFieldProps> = ({ patchState }) => {
   }, [initialTypesOfSkill]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <div>Загрузка...</div>;
   }
 
   if (isError) {
-    return <div>Error</div>;
+    return <div>Ошибка</div>;
   }
 
   return (

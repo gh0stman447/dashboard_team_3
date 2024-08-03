@@ -5,11 +5,12 @@ import Button from '@mui/material/Button';
 import { useCallback, useRef, useEffect } from 'react';
 import SearchEmployeeField from './SearchEmployeeField';
 import useDB1FiltersStore from '../../../store/DB1FiltersStore';
-import CustomButton from '../CustomFilterButton';
 
 import { Modal } from 'antd';
 import DateComponent from '../DateComponent';
 import TypeOfSkillField from './TypeOfSkillField';
+import CustomFilterButton from '../CustomFilterButton';
+import { NoFilter } from '../../../../../assets/Dashboard_1/NoFilter';
 
 const DialogSelect: React.FC = () => {
   const [open, setOpen] = React.useState(false);
@@ -23,9 +24,9 @@ const DialogSelect: React.FC = () => {
 
   const currentFormStateRef = useRef<Record<string, any>>({});
 
-  useEffect(() => {
-    currentFormStateRef.current = useDB1FiltersStore.getState();
-  }, [open]);
+  // useEffect(() => {
+  //   currentFormStateRef.current = useDB1FiltersStore.getState();
+  // }, [open]);
 
   const patchFormStateRef = useCallback((patch: Record<string, any>) => {
     currentFormStateRef.current = { ...currentFormStateRef.current, ...patch };
@@ -55,9 +56,14 @@ const DialogSelect: React.FC = () => {
     setOpen(false);
   };
 
+  const clearFilters = () => {
+    useDB1FiltersStore.setState({ date: null, empIdField: '', typesOfSkill: [] });
+    currentFormStateRef.current = { date: null, empIdField: '', typesOfSkill: [] };
+  };
+
   return (
     <div>
-      <CustomButton handler={handleClickOpen} text="Фильтры" fontSize="13px" />
+      <CustomFilterButton handler={handleClickOpen} text="Фильтры" fontSize="13px" />
       <Modal
         open={open}
         onOk={handleApplyFilters}
@@ -80,6 +86,16 @@ const DialogSelect: React.FC = () => {
             <p>Выбор периода:</p>
             <DateComponent patchState={patchFormStateRef} page="1" />
           </div>
+          <span className="mt-1 hover:scale-[1.05] duration-200 border border-black rounded-md p-[3px] w-fit">
+            <Button
+              onClick={clearFilters}
+              sx={{
+                padding: '5px 10px'
+              }}
+            >
+              Очистить фильтры
+            </Button>
+          </span>
         </Box>
       </Modal>
     </div>

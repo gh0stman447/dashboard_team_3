@@ -1,5 +1,5 @@
 import React from 'react';
 
 export const Loader = () => {
-  return <div className="">Loading...</div>;
+  return <div className="">Загрузка...</div>;
 };

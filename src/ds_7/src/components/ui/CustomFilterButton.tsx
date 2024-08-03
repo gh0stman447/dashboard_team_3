@@ -10,13 +10,13 @@ const CustomFilterButton = ({ handler, text, fontSize }: { handler: () => void; 
       sx={{
         color: 'black',
         border: '1px solid black',
-        backgroundColor: 'white',
+        backgroundColor: 'transparent',
         padding: '5px 8px',
         '&:hover': {
-          backgroundColor: 'lightgray'
+          transition: '0.3s',
+          transform: 'scale(1.1)'
         },
-        fontSize: fontSize,
-        fontFamily: 'serif'
+        fontSize: fontSize
       }}
     >
       {text}

@@ -13,7 +13,7 @@ const PieBlock = () => {
       className="border border-black w-full md-lg:w-1/2 rounded-xl bg-white shadow-2xl hover:scale-[1.01] duration-300"
       ref={pieChartRef}
     >
-      <div className="text-center w-full h-[450px] md-lg:h-[350px] flex flex-col items-center justify-center divide-y-2 divide-gray/50">
+      <div className="text-center w-full h-[450px] md-lg:h-[400px] flex flex-col items-center justify-center divide-y-2 divide-gray/50">
         <p className="text-[18px] p-2">Количество и прирост навыков и их типов у сотрудников</p>
         <div className="relative w-full h-full flex items-center justify-center">
           <PieChartRenderContent />

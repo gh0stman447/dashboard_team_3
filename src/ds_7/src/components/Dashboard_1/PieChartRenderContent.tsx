@@ -1,78 +1,35 @@
 import React from 'react';
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from 'recharts';
-import { ArrowGreenUp } from '../../../../assets/Dashboard_1';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
-import { useQuery } from 'react-query';
-import { dataService } from '../../services/Data.service';
-import { transformFiltersFromDB1 } from '../../utils/transformFilters';
-import { difference } from 'react-query/types/core/utils';
 import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
 import CustomTooltip from '../ui/Charts/CustomTooltip';
 import CustomPieLegend from './CustomPieLegend';
 import CustomPieLabelList from '../ui/Charts/CustomPieLabelList';
+import { usePieData } from '../hooks/Dashboard_1';
 
 const PieChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({
-    // typesOfSkill: state.typesOfSkill,
     date: state.date,
     empIdField: state.empIdField
   }));
 
-  const transformedFilters = transformFiltersFromDB1(filters);
-
   const {
-    data: dataAllTimeDate,
-    isLoading: isLoadingDataAllTimeDate,
-    isError: isErrorDataAllTimeDate
-  } = useQuery(
-    ['PieDataAllTimeDate', filters.date, filters.empIdField],
-    () => dataService.fetchPieData(transformedFilters, 'PieDataAllTimeDate'),
-    {
-      enabled: !!filters?.empIdField && (!filters?.date || !filters?.date.length),
-
-      refetchOnWindowFocus: false
-    }
-  );
-
-  const {
-    data: dataBeforeSelectedDate,
-    isLoading: isLoadingDataBeforeSelectedDate,
-    isError: isErrorDataBeforeSelectedDate
-  } = useQuery(
-    ['pieDataBeforeSelectedDate', filters.date, filters.empIdField],
-    () =>
-      dataService.fetchPieData(
-        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
-        'PieDataBeforeSelectedDate'
-      ),
-    {
-      enabled: !!filters?.date && !!filters?.empIdField,
-      refetchOnWindowFocus: false
-    }
-  );
-
-  const {
-    data: dataPrevDate,
-    isLoading: isLoadingDataPrevDate,
-    isError: isErrorDataPrevDate
-  } = useQuery(
-    ['pieDataPrevDate', filters.date, filters.empIdField],
-    () =>
-      dataService.fetchPieData(
-        { ...transformedFilters, date: ['<=', filters.date[0].format('YYYY-MM-DD')] },
-        'PieDataPrevDate'
-      ),
-    {
-      enabled: !!filters?.date && !!filters?.empIdField,
-      refetchOnWindowFocus: false
-    }
-  );
+    dataAllTimeDate,
+    dataBeforeSelectedDate,
+    dataPrevDate,
+    isLoadingDataBeforeSelectedDate,
+    isLoadingDataAllTimeDate,
+    isLoadingDataPrevDate,
+    isErrorDataBeforeSelectedDate,
+    isErrorDataAllTimeDate,
+    isErrorDataPrevDate
+  } = usePieData(filters);
 
   if (isLoadingDataBeforeSelectedDate || isLoadingDataAllTimeDate || isLoadingDataPrevDate) {
-    return <div>Loading...</div>;
+    return <div>Загрузка...</div>;
   }
   if (isErrorDataAllTimeDate || isErrorDataBeforeSelectedDate || isErrorDataPrevDate) {
-    return <div>Error</div>;
+    return <div>Ошибка</div>;
   }
 
   if (!filters.empIdField) {

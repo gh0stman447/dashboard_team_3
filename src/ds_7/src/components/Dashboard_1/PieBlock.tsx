@@ -9,11 +9,11 @@ const PieBlock = () => {
 
   return (
     <div
-      className="order-last md-lgl:order-none text-center w-full h-[500px] md-lg:h-full flex-grow rounded-xl bg-white border border-black shadow-2xl flex flex-col items-center justify-center divide-y-2 divide-gray/50 hover:scale-[1.01] duration-300"
+      className="order-last md-lgl:order-none text-center w-full h-[500px] md-lg:h-full md-lg:max-h-[680px] flex-grow rounded-xl bg-white border border-black shadow-2xl flex flex-col items-center justify-center divide-y-2 divide-gray/50 hover:scale-[1.01] duration-300"
       ref={pieChartRef}
     >
-      <div className="w-full p-2">
-        <p className="text-[18px]">Количество и прирост навыков и их типов у сотрудника</p>
+      <div className="w-full p-2 md-lg:p-5">
+        <p className="text-[16px] md-lg:text-[18px]">Количество и прирост навыков и их типов у сотрудника</p>
       </div>
       <div className="relative w-full h-full flex items-center justify-center">
         <PieChartRenderContent />

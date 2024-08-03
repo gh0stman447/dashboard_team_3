@@ -12,20 +12,21 @@ module.exports = {
       '3xl': '1770px',
       '4xl': '1920px'
     },
-    colors: {
-      gray: '#c8c8c8',
-      black: '#000000',
-      navy: '#000621',
-      white: '#ffffff',
-      green: '#16c411',
-      pink: '#e5dfdf',
-      'sky-blue': '#eff1ff',
-      red: '#ff4000'
-    },
+
     extend: {
       gridTemplateColumns: {
         20: 'repeat(20, minmax(0, 1fr))',
         24: 'repeat(24, minmax(0, 1fr))'
+      },
+      colors: {
+        gray: '#c8c8c8',
+        black: '#000000',
+        navy: '#000621',
+        white: '#ffffff',
+        green: '#16c411',
+        pink: '#e5dfdf',
+        'sky-blue': '#eff1ff',
+        red: '#ff4000'
       }
     },
 
