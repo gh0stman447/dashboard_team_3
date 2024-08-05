@@ -55,7 +55,9 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="position-select">Должность</InputLabel>
+      <InputLabel id="position-select" sx={{ backgroundColor: 'white', px: '4px' }}>
+        Должность
+      </InputLabel>
       <Select
         id="position-select"
         multiple

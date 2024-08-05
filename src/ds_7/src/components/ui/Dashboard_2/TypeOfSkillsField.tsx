@@ -48,7 +48,9 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="typeOfSkills-select">Типы навыков</InputLabel>
+      <InputLabel id="typeOfSkills-select" sx={{ backgroundColor: 'white', px: '4px' }}>
+        Типы навыков
+      </InputLabel>
       <Select
         id="typeOfSkills-select"
         multiple

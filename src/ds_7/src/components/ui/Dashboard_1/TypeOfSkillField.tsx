@@ -43,7 +43,9 @@ const TypeOfSkillField: FC<PositionFieldProps> = ({ patchState }) => {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="position-select">Тип навыка</InputLabel>
+      <InputLabel id="position-select" sx={{ backgroundColor: 'white', px: '4px' }}>
+        Тип навыка
+      </InputLabel>
       <Select
         id="position-select"
         multiple

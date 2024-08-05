@@ -91,7 +91,9 @@ const SkillsField = () => {
         boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)'
       }}
     >
-      <InputLabel id="skills-select">Навыки</InputLabel>
+      <InputLabel id="skills-select" sx={{ backgroundColor: 'white', px: '4px' }}>
+        Навыки
+      </InputLabel>
       <Select
         id="skills-select"
         multiple

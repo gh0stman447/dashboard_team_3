@@ -49,7 +49,9 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="devision-select">Подразделение</InputLabel>
+      <InputLabel id="devision-select" sx={{ backgroundColor: 'white', px: '4px' }}>
+        Подразделение
+      </InputLabel>
       <Select
         id="devision-select"
         multiple
