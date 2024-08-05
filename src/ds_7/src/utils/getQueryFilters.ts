@@ -8,8 +8,6 @@ export const getQueryFiltersForBarChart = (filters: Partial<DB2FiltersStore>) =>
   const hasDevision = filters.devision.length > 0;
   const hasTypesOfSkill = filters.typesOfSkill.length > 0;
 
-  // Ебейшая логика
-
   if (hasPosition && hasDevision && hasTypesOfSkill) {
     return { ...transformedFilters, is_job_key_skill_type_skill: ['=', true] };
   }

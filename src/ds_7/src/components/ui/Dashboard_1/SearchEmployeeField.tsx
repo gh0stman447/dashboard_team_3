@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { Select } from 'antd';
 import useDB1FiltersStore from '../../../store/DB1FiltersStore';
 import { InFormProps } from '../../../types';
-import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_1.service';
 
 export interface SearchEmployeeFieldProps extends InFormProps {}
 

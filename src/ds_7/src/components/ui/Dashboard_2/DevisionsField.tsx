@@ -2,8 +2,6 @@ import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, Sele
 import React, { FC, useEffect, useState } from 'react';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_2.service';
 import { sortList } from '../../../utils';
 import { useDevisionsData } from '../../hooks/Dashboard_2';
 

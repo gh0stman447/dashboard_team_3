@@ -3,7 +3,7 @@ import SideBar from '../components/Dashboard_1/SideBar';
 import Header from '../components/Dashboard_1/Header';
 import Overlay from '../components/ui/Dashboard_1/Overlay';
 import Main from '../components/Dashboard_1/Main';
-import UsersFetcher from '../components/Dashboard_1/usersFetcher';
+import UsersFetcher from '../components/Dashboard_1/UsersFetcher';
 
 export const DashBoard_1 = () => {
   return (

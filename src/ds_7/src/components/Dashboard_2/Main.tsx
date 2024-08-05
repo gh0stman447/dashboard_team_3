@@ -6,7 +6,6 @@ import BarSecondBlock from './BarSecondBlock';
 import BarFirstBlock from './BarFirstBlock';
 import SkillsField from '../ui/Dashboard_2/SkillsField';
 import CustomNavButton from '../ui/CustomNavButton';
-import useDB2FiltersStore from '../../store/DB2FiltersStore';
 
 const Main = () => {
   return (

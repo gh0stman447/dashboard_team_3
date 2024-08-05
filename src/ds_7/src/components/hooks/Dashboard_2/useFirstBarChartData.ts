@@ -1,6 +1,5 @@
 import { useQuery } from 'react-query';
 import { dataService } from '../../../services/DataDboard_2.service';
-import { transformFiltersFromDB2 } from '../../../utils';
 import { DB2FiltersStore } from '../../../store/DB2FiltersStore';
 import { getQueryFiltersForBarChart } from '../../../utils/getQueryFilters';
 
