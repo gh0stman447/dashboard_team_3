@@ -3,25 +3,20 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
 import { FC, useState, useCallback, useRef } from 'react';
-import PositionsField from './PositionsField';
-import DevisionsField from './DevisionsField';
-import TypeOfSkillsField from './TypeOfSkillsField';
-import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import DateComponent from '../DateComponent';
+import PositionsField from '../ui/Dashboard_2/PositionsField';
+import DevisionsField from '../ui/Dashboard_2/DevisionsField';
+import TypeOfSkillsField from '../ui/Dashboard_2/TypeOfSkillsField';
+import useDB2FiltersStore from '../../store/DB2FiltersStore';
+import DateComponent from '../ui/DateComponent';
 import { Modal } from 'antd';
-import { useEffect } from 'react';
-import CustomFilterButton from '../CustomFilterButton';
+import CustomFilterButton from '../ui/CustomFilterButton';
+import ClearFiltersBtn from '../ui/ClearFiltersBtn';
 
 interface DialogSelectProps {}
 const DialogSelect: FC<DialogSelectProps> = () => {
   const [open, setOpen] = useState(false);
 
   const currentFormStateRef = useRef<Record<string, any>>({});
-
-  // useEffect(() => {
-  //   currentFormStateRef.current = useDB2FiltersStore.getState();
-  //   console.log(currentFormStateRef.current);
-  // }, [open]);
 
   const patchFormStateRef = useCallback((patch: Record<string, any>) => {
     currentFormStateRef.current = { ...currentFormStateRef.current, ...patch };
@@ -59,24 +54,15 @@ const DialogSelect: FC<DialogSelectProps> = () => {
           <Button onClick={handleApplyFilters}>Применить</Button>
         ]}
       >
-        {open && (
-          <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
-            <PositionsField patchState={patchFormStateRef} />
-            <DevisionsField patchState={patchFormStateRef} />
-            <TypeOfSkillsField patchState={patchFormStateRef} />
-            <DateComponent patchState={patchFormStateRef} />
-            <span className="mt-1 hover:scale-[1.05] duration-200 border border-black rounded-md p-[3px] w-fit">
-              <Button
-                onClick={clearFilters}
-                sx={{
-                  padding: '5px 10px'
-                }}
-              >
-                Очистить фильтры
-              </Button>
-            </span>
-          </Box>
-        )}
+        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
+          <PositionsField patchState={patchFormStateRef} />
+          <DevisionsField patchState={patchFormStateRef} />
+          <TypeOfSkillsField patchState={patchFormStateRef} />
+          <DateComponent patchState={patchFormStateRef} />
+          <span className="mt-1 hover:scale-[1.05] duration-200 border border-black rounded-md p-[3px] w-fit">
+            <ClearFiltersBtn text="Очистить фильтры" onClick={clearFilters} />
+          </span>
+        </Box>
       </Modal>
     </>
   );

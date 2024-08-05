@@ -1,14 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import SideBar from '../components/Dashboard_1/SideBar';
 import Header from '../components/Dashboard_1/Header';
 import Overlay from '../components/ui/Dashboard_1/Overlay';
 import Main from '../components/Dashboard_1/Main';
-import { UsersFetcher } from '../components/ui/Dashboard_1/SearchEmployeeField';
+import UsersFetcher from '../components/ui/Dashboard_1/UsersFetcher';
 
 export const DashBoard_1 = () => {
   return (
     <div className="font-montserrat flex flex-col justify-center bg-sky-blue h-full">
-      <UsersFetcher />
+      <UsersFetcher /> {/* Начальная подгрузка данных о сотрудинках для дальнейшего переключения между ними  */}
       <div className="overflow-y-scroll">
         <div className="flex border border-navy">
           <SideBar />

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const LeftArrow = ({ height = '24', width = '24' }: { height?: string; width?: string }) => {
+export const LeftArrow = ({ height = '24', width = '24' }: { height?: string; width?: string }) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -19,5 +19,3 @@ const LeftArrow = ({ height = '24', width = '24' }: { height?: string; width?: s
     </svg>
   );
 };
-
-export default LeftArrow;

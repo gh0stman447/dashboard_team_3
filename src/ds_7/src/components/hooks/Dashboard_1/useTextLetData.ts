@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
 import { transformFiltersFromDB1 } from '../../../utils';
-import { dataService } from '../../../services/Data.service';
+import { dataService } from '../../../services/DataDboard_1.service';
 import { DB1FiltersStore } from '../../../store/DB1FiltersStore';
 
 export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
-  const transformedFilters = transformFiltersFromDB1(filters);
+  const transformedFilters = transformFiltersFromDB1(filters); // Преобразуем фильтры из стора в формат который необходим для запроса
 
   const {
     data: dataAllTimeDate,
@@ -14,8 +14,8 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     ['textLetDataAllTimeDate', filters],
     () => dataService.fetchTextLetData(transformedFilters, 'textLetDataAllTimeDate'),
     {
-      enabled: !!filters.empIdField && !filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters.empIdField && !filters.date, // Делаем запрос только в случае если в фильтрах есть поле empIdField и нет даты
+      refetchOnWindowFocus: false // Отключаем повторный запрос при анфокусе
     }
   );
 
@@ -27,11 +27,11 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     ['textLetDataBeforeSelectedDate', filters],
     () =>
       dataService.fetchTextLetData(
-        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
+        { ...transformedFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] }, // Берем данные на конец периода
         'TextLetDataBeforeSelectedDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField,
+      enabled: !!filters?.date && !!filters?.empIdField, // Делаем запрос только в случае если в фильтрах есть поле empIdField и есть дата
       refetchOnWindowFocus: false
     }
   );
@@ -46,7 +46,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
       dataService.fetchTextLetData(
         {
           ...transformedFilters,
-          date: ['<=', filters.date[0].format('YYYY-MM-DD')]
+          date: ['<=', filters.date[0].format('YYYY-MM-DD')] // Берем данные на начало периода
         },
         'TextLetDataPrevDate'
       ),

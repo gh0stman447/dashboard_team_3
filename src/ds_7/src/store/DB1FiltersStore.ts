@@ -8,7 +8,6 @@ export interface DB1FiltersStore {
   date: DateRange<Dayjs> | null;
   empIdField: string;
   currentUserIndex: number;
-  setFilters: (filters: Partial<DB1FiltersStore>) => void;
 
   users: { label: string; value: number }[];
   setUsers: (users: { label: string; value: number }[]) => void;
@@ -24,7 +23,6 @@ const useDB1FiltersStore = create<DB1FiltersStore>()(
     empIdField: '',
     users: [],
     currentUserIndex: 0,
-    setFilters: (filters) => set(filters),
     setUsers: (users) => set({ users }),
     setCurrentUserIndex: (index) => {
       const user = get().users[index];

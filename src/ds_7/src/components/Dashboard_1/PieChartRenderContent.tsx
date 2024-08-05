@@ -1,11 +1,13 @@
 import React from 'react';
 import { PieChart, Pie, ResponsiveContainer, Cell, Tooltip, Legend } from 'recharts';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
-import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
-import CustomTooltip from '../ui/Charts/CustomTooltip';
-import CustomPieLegend from './CustomPieLegend';
+import CustomPieTooltip from '../ui/Charts/CustomPieTooltip';
 import CustomPieLabelList from '../ui/Charts/CustomPieLabelList';
 import { usePieData } from '../hooks/Dashboard_1';
+import { calculateDifferenceForPie } from '../../utils';
+import { PageInfo } from '../../constants';
+import CustomPieLegend from '../ui/Charts/CustomPieLegend';
+import NoChartComponent from '../ui/NoChartComponent';
 
 const PieChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({
@@ -17,25 +19,28 @@ const PieChartRenderContent = () => {
     dataAllTimeDate,
     dataBeforeSelectedDate,
     dataPrevDate,
+
     isLoadingDataBeforeSelectedDate,
     isLoadingDataAllTimeDate,
     isLoadingDataPrevDate,
+
     isErrorDataBeforeSelectedDate,
     isErrorDataAllTimeDate,
     isErrorDataPrevDate
   } = usePieData(filters);
 
   if (isLoadingDataBeforeSelectedDate || isLoadingDataAllTimeDate || isLoadingDataPrevDate) {
-    return <div>Загрузка...</div>;
+    return <NoChartComponent label="Загрузка..." />;
   }
   if (isErrorDataAllTimeDate || isErrorDataBeforeSelectedDate || isErrorDataPrevDate) {
-    return <div>Ошибка</div>;
+    return <NoChartComponent label="Ошибка" />;
   }
 
   if (!filters.empIdField) {
-    return <span className="4xl:h-[700px] flex items-center justify-center">Выберите сотрудника</span>;
+    return <NoChartComponent label="Выберите сотрудника" />;
   }
 
+  // Рассчитываем разницу на конец периода и начало. Если дата не указана, то берем данные за все время, и прирост делаем равный null
   const dataWithIncrease = calculateDifferenceForPie(
     filters.date ? dataBeforeSelectedDate : dataAllTimeDate,
     dataPrevDate,
@@ -43,7 +48,7 @@ const PieChartRenderContent = () => {
   );
 
   if (!dataWithIncrease || dataWithIncrease.length === 0) {
-    return <span className="4xl:h-[700px] flex items-center justify-center">Данных нет</span>;
+    return <NoChartComponent label="Нет данных" />;
   }
 
   return (
@@ -64,8 +69,10 @@ const PieChartRenderContent = () => {
             <Cell key={`cell-${index}`} fill={entry.color} />
           ))}
         </Pie>
-        <Tooltip content={<CustomTooltip />} />
-        <Legend content={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} />} />
+        <Tooltip content={<CustomPieTooltip />} />
+
+        {/** PageInfo определяет, на какой странице отображается компонент. Тупо для того, чтобы не дублировать его */}
+        <Legend content={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} pageInfo={PageInfo.FIRST} />} />
       </PieChart>
     </ResponsiveContainer>
   );

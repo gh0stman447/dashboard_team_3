@@ -16,7 +16,7 @@ const PieBlock = () => {
         <p className="text-[16px] md-lg:text-[18px]">Количество и прирост навыков и их типов у сотрудника</p>
       </div>
       <div className="relative w-full h-full flex items-center justify-center">
-        <PieChartRenderContent />
+        <PieChartRenderContent /> {/* Вся внутрянка компонента */}
         <div className="absolute top-[6px] left-[6px] md-lg:top-5 md-lg:left-5">
           <Download
             ref={downloadButtonRef}

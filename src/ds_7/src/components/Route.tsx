@@ -1,6 +1,5 @@
 import React from 'react';
 import { UrlState } from 'bi-internal/core';
-// import { useLocationChange } from './hooks/useLocationChange';
 
 export const Route = ({ pageName, children }: any) => {
   const stateCharts = UrlState.getModel();

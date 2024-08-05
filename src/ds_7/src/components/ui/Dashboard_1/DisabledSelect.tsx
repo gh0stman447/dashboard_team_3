@@ -1,7 +1,7 @@
 import React from 'react';
 import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
 import useDB1FiltersStore from '../../../store/DB1FiltersStore';
-import { allSkillTypes } from '../../../constants/Dashboard_2';
+import { ALL_SKILL_TYPES } from '../../../constants/Dashboard_2';
 
 const DisabledSelect = () => {
   const { employeeId, skillTypes } = useDB1FiltersStore((state) => ({
@@ -9,7 +9,7 @@ const DisabledSelect = () => {
     employeeId: state.empIdField
   }));
 
-  const renderArray = skillTypes.length === 0 ? allSkillTypes : skillTypes;
+  const renderArray = skillTypes.length === 0 ? ALL_SKILL_TYPES : skillTypes;
 
   return (
     <div className="flex gap-4 text-[23px] 2xl:text-[36px] w-full">

@@ -1,28 +1,16 @@
-import React, { Suspense, useState } from 'react';
+import React, { useState } from 'react';
 import { Avatar } from '@mui/material';
 import useUiStore from '../../store/uiStore';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
-import LeftArrow from '../../../../assets/Dashboard_1/LeftArrow';
-import RightArrow from '../../../../assets/Dashboard_1/RightArrow';
 import DarLogo from '../ui/DarLogo';
 import SideBarRenderContent from './SideBarRenderContent';
 import { CATS } from '../../constants/Dashboard_1';
+import UserSwitcher from './UserSwitcher';
 
 const SideBar = () => {
   const [currentAvatarIndex, setCurrentAvatarIndex] = useState(0);
 
-  const handleNextAvatar = () => {
-    setCurrentAvatarIndex((prevIndex) => (prevIndex + 1) % CATS.length);
-  };
-
-  const handlePrevAvatar = () => {
-    setCurrentAvatarIndex((prevIndex) => (prevIndex - 1 + CATS.length) % CATS.length);
-  };
-
   const isOpen = useUiStore((state) => state.isSidebarOpen);
-
-  const nextUser = useDB1FiltersStore((state) => state.nextUser);
-  const prevUser = useDB1FiltersStore((state) => state.prevUser);
 
   const currentUser = useDB1FiltersStore((state) => state.empIdField);
 
@@ -45,29 +33,12 @@ const SideBar = () => {
           )}
         </div>
         <div className="flex flex-col gap-y-2 ">
-          <p className="text-[19px] mb-2">Общая Информация о сотруднике:</p>
+          <p className="text-[19px] mb-2">Общая информация о сотруднике:</p>
           <SideBarRenderContent />
         </div>
         {currentUser && (
           <div className="flex gap-4 self-center mt-[50px]">
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                prevUser();
-                handlePrevAvatar();
-              }}
-            >
-              <LeftArrow />
-            </button>
-            <button
-              className="btn btn-primary"
-              onClick={() => {
-                nextUser();
-                handleNextAvatar();
-              }}
-            >
-              <RightArrow />
-            </button>
+            <UserSwitcher userHandler={setCurrentAvatarIndex} />
           </div>
         )}
       </div>

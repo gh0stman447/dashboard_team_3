@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { DatePicker, ConfigProvider } from 'antd';
+import { DatePicker } from 'antd';
 import { DateRange } from '@mui/x-date-pickers-pro/models';
 import { Dayjs } from 'dayjs';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
@@ -32,7 +32,7 @@ const DateComponent: React.FC<DateComponentProps> = ({ patchState, page }) => {
       value={date}
       onChange={handleDateChange}
       placeholder={['Начало периода', 'Конец периода']}
-      className="h-[50px] border border-black"
+      className="h-[50px]"
       defaultValue={[null, null]}
     />
   );

@@ -1,47 +1,32 @@
 import React from 'react';
-import { useQuery } from 'react-query';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
-import { dataService } from '../../services/Data.service';
-import { transformFiltersFromDB1 } from '../../utils';
+import { Activity } from '../../constants/Dashboard_1';
+import { useEmployeeData } from '../hooks/Dashboard_1/useEmployeeData';
 
 const SideBarRenderContent = () => {
   const empIdField = useDB1FiltersStore((state) => state.empIdField);
 
-  const transformedFilters = transformFiltersFromDB1({ empIdField });
+  const { empData, isLoadingEmpData, isErrorEmpData } = useEmployeeData(empIdField);
 
-  enum Activity {
-    active = 'Да',
-    notActive = 'Нет'
-  }
-
-  const { data, isLoading, isError } = useQuery(
-    ['empIdField', empIdField],
-    () => dataService.fetchUserData(transformedFilters, 'empIdField'),
-    {
-      enabled: !!empIdField,
-      refetchOnWindowFocus: false
-    }
-  );
-
-  if (isLoading) {
+  if (isLoadingEmpData) {
     return <div>Загрузка...</div>;
   }
 
-  if (isError) {
+  if (isErrorEmpData) {
     return <div>Произошла ошибка</div>;
   }
 
-  return data ? (
+  return empData ? (
     <>
-      <p>ID сотрудника: {data[0].employees_id}</p>
+      <p>ID сотрудника: {empData[0].employees_id}</p>
       <p>
-        ФИО: {data[0].first_name} {data[0].last_name}
+        ФИО: {empData[0].first_name} {empData[0].last_name}
       </p>
-      <p>Подразделение: {data[0].department}</p>
-      <p>Должность: {data[0].job_title}</p>
+      <p>Подразделение: {empData[0].department}</p>
+      <p>Должность: {empData[0].job_title}</p>
       <p>
         Активность:{' '}
-        {data[0].activity === Activity.active ? (
+        {empData[0].activity === Activity.ACTIVE ? (
           <span className="text-green">Активен</span>
         ) : (
           <span className="text-red"> Уволен</span>

@@ -1,5 +1,5 @@
 import { KoobDataService } from 'bi-internal/services';
-import { COLORS } from '../constants/Dashboard_2';
+import { COLORS } from '../constants';
 const { koobDataRequest3 } = KoobDataService;
 
 class DataService {

@@ -3,8 +3,8 @@ import React, { FC, useEffect, useState } from 'react';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard2.service';
-import { sortList } from '../../../utils/sortList';
+import { dataService } from '../../../services/DataDboard_2.service';
+import { sortList } from '../../../utils';
 
 interface DevisionFieldProps extends InFormProps {
   devisions?: string[];

@@ -1,42 +1,11 @@
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard2.service';
+import { dataService } from '../../../services/DataDboard_2.service';
 import { transformFiltersFromDB2 } from '../../../utils';
 import { DB2FiltersStore } from '../../../store/DB2FiltersStore';
+import { getQueryFiltersForBarChart } from '../../../utils/getQueryFilters';
 
 export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
-  const transformedFilters = transformFiltersFromDB2(filters);
-
-  const queryFilters = (() => {
-    const hasPosition = filters.position.length > 0;
-    const hasDevision = filters.devision.length > 0;
-    const hasTypesOfSkill = filters.typesOfSkill.length > 0;
-
-    if (hasPosition && hasDevision && hasTypesOfSkill) {
-      return { ...transformedFilters, is_job_key_skill_type_skill: ['=', true] };
-    }
-
-    if (hasPosition && hasDevision) {
-      return { ...transformedFilters, is_job_key_skill: ['=', true] };
-    }
-
-    if (hasPosition && hasTypesOfSkill) {
-      return { ...transformedFilters, is_job_key_skill_type_skill: ['=', true] };
-    }
-
-    if (hasDevision && hasTypesOfSkill) {
-      return { ...transformedFilters, is_depart_key_skill: ['=', true] };
-    }
-
-    if (hasPosition) {
-      return { ...transformedFilters, is_job_key_skill: ['=', true] };
-    }
-
-    if (hasDevision) {
-      return { ...transformedFilters, is_depart_key_skill: ['=', true] };
-    }
-
-    return { ...transformedFilters };
-  })();
+  const queryFilters = getQueryFiltersForBarChart(filters); // Преобразование фильтров для запроса
 
   const {
     data: departmentCountOfEmployeesBySkillsAllTimeDate,

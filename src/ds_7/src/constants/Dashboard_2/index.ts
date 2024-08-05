@@ -1,3 +1,3 @@
-export * from './PieСolors';
-export * from './levelNames';
+export * from '../PieСolors';
+export * from '../LevelNames';
 export * from './AllSkillTypes';

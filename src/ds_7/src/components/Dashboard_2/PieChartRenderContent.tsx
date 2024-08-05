@@ -1,11 +1,13 @@
 import React from 'react';
 import { PieChart, Pie, Cell, Label, ResponsiveContainer, Tooltip, Legend } from 'recharts';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
-import { calculateDifferenceForPie } from '../../utils/calculateDifferenceForPie';
-import CustomTooltip from '../ui/Charts/CustomTooltip';
+import CustomPieTooltip from '../ui/Charts/CustomPieTooltip';
 import CustomPieLabelList from '../ui/Charts/CustomPieLabelList';
-import CustomPieLegend from './CustomPieLegend';
 import { usePieData } from '../hooks/Dashboard_2';
+import { calculateDifferenceForPie } from '../../utils';
+import NoChartComponent from '../ui/NoChartComponent';
+import CustomPieLegend from '../ui/Charts/CustomPieLegend';
+import { PageInfo } from '../../constants';
 
 const PieChartRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -18,9 +20,11 @@ const PieChartRenderContent = () => {
     departmentDataAllTimeDate,
     departmentDataBegginingSelectedDate,
     departmentDataEndSelectedDate,
+
     isErrorDepartmentAllTimeDate,
     isErrorDepartmentDataBegginingSelectedDate,
     isErrorDepartmentDataEndSelectedDate,
+
     isLoadingDepartmentAllTimeDate,
     isLoadingDepartmentDataBegginingSelectedDate,
     isLoadingDepartmentDataEndSelectedDate
@@ -49,7 +53,7 @@ const PieChartRenderContent = () => {
   );
 
   if (!dataWithIncrease || dataWithIncrease.length === 0) {
-    return <span className="flex items-center justify-center">Данных нет</span>;
+    return <NoChartComponent label="Нет данных" />;
   }
 
   return (
@@ -68,8 +72,10 @@ const PieChartRenderContent = () => {
           ))}
           <Label />
         </Pie>
-        <Tooltip content={<CustomTooltip />} />
-        <Legend content={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} />} />
+        <Tooltip content={<CustomPieTooltip />} />
+
+        {/* PageInfo для определения того, на какой странице мы отображаем компонент */}
+        <Legend content={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} pageInfo={PageInfo.SECOND} />} />
       </PieChart>
     </ResponsiveContainer>
   );

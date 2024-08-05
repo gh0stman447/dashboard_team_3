@@ -1,6 +1,6 @@
 import React from 'react';
 import { TooltipProps } from 'recharts';
-import { LEVEL_NAMES } from '../../../constants/Dashboard_2';
+import { LEVEL_NAMES } from '../../../constants';
 
 const CustomBarTooltip: React.FC<TooltipProps<any, any>> = ({ payload, label }) => {
   if (!payload || payload.length === 0) return null;

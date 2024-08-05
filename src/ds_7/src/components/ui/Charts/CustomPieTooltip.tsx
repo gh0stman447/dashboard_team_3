@@ -1,11 +1,10 @@
 import React from 'react';
 import { TooltipProps } from 'recharts';
 
-const CustomTooltip: React.FC<TooltipProps<any, any>> = ({ active, payload }) => {
+const CustomPieTooltip: React.FC<TooltipProps<any, any>> = ({ active, payload }) => {
   if (active && payload && payload.length) {
     const {
       name,
-      value,
       payload: { color }
     } = payload[0];
 
@@ -19,4 +18,4 @@ const CustomTooltip: React.FC<TooltipProps<any, any>> = ({ active, payload }) =>
   return null;
 };
 
-export default CustomTooltip;
+export default CustomPieTooltip;

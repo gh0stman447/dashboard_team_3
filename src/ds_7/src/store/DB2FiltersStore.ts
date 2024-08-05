@@ -10,7 +10,6 @@ export interface DB2FiltersStore {
   date: DateRange<Dayjs> | null;
   skills: string[];
   setSkills: (skills: string[]) => void;
-  setFilters: (filters: Partial<DB2FiltersStore>) => void;
 }
 
 const useDB2FiltersStore = create<DB2FiltersStore>()(
@@ -20,8 +19,7 @@ const useDB2FiltersStore = create<DB2FiltersStore>()(
     typesOfSkill: [],
     date: null,
     skills: [],
-    setSkills: (skills) => set({ skills }),
-    setFilters: (filters) => set(filters)
+    setSkills: (skills) => set({ skills })
   }))
 );
 

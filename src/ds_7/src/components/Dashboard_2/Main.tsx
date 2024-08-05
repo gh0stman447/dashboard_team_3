@@ -9,11 +9,6 @@ import CustomNavButton from '../ui/CustomNavButton';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 
 const Main = () => {
-  const { devision, position } = useDB2FiltersStore((state) => ({
-    position: state.position,
-    devision: state.devision
-  }));
-
   return (
     <div className="flex flex-col gap-5 md-lg:gap-2 p-2 px-3 2xl:p-8 overflow-y-scroll">
       <div className="text-center">
@@ -23,11 +18,9 @@ const Main = () => {
         <PieBlock />
         <TextLetBlock />
       </div>
-      {(devision.length !== 0 || position.length !== 0) && (
-        <div className="flex items-center justify-center self-center rounded-xl">
-          <SkillsField />
-        </div>
-      )}
+      <div className="flex items-center justify-center self-center rounded-xl">
+        <SkillsField />
+      </div>
       <div className="flex flex-col gap-5 md-lg:gap-2 md-lg:flex-row">
         <BarFirstBlock />
         <BarSecondBlock />

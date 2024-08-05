@@ -3,8 +3,9 @@ import { ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis, Bar, BarChar
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomSecondBarTooltip from '../ui/Dashboard_2/CustomSecondBarTooltip';
-import { LEVEL_NAMES } from '../../constants/Dashboard_2';
 import { useSecondBarChartData } from '../hooks/Dashboard_2';
+import { LEVEL_NAMES } from '../../constants';
+import { getGrowthOfEmployeesBySkillLevelForBarChart, getHighestLevelDataForBarChart } from '../../utils';
 
 const BarSecondRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -16,17 +17,17 @@ const BarSecondRenderContent = () => {
   }));
 
   const {
-    departmentCountOfEmployeesBySkillLevelAllTimeDate,
-    departmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    departmentCountOfEmployeesBySkillLevelEndSelectedDate,
+    countOfEmployeesBySkillLevelAllTimeDate,
+    countOfEmployeesBySkillLevelBeggingSelectedDate,
+    countOfEmployeesBySkillLevelEndSelectedDate,
 
-    isErrorDepartmentCountOfEmployeesBySkillLevelAllTimeDate,
-    isErrorDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isErrorDepartmentCountOfEmployeesBySkillLevelEndSelectedDate,
+    isErrorCountOfEmployeesBySkillLevelAllTimeDate,
+    isErrorCountOfEmployeesBySkillLevelBeggingSelectedDate,
+    isErrorCountOfEmployeesBySkillLevelEndSelectedDate,
 
-    isLoadingDepartmentCountOfEmployeesBySkillLevelAllTimeDate,
-    isLoadingDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isLoadingDepartmentCountOfEmployeesBySkillLevelEndSelectedDate
+    isLoadingCountOfEmployeesBySkillLevelAllTimeDate,
+    isLoadingCountOfEmployeesBySkillLevelBeggingSelectedDate,
+    isLoadingCountOfEmployeesBySkillLevelEndSelectedDate
   } = useSecondBarChartData(filters);
 
   if (!filters.position.length && !filters.devision.length) {
@@ -34,17 +35,17 @@ const BarSecondRenderContent = () => {
   }
 
   if (
-    isLoadingDepartmentCountOfEmployeesBySkillLevelAllTimeDate ||
-    isLoadingDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate ||
-    isLoadingDepartmentCountOfEmployeesBySkillLevelEndSelectedDate
+    isLoadingCountOfEmployeesBySkillLevelAllTimeDate ||
+    isLoadingCountOfEmployeesBySkillLevelBeggingSelectedDate ||
+    isLoadingCountOfEmployeesBySkillLevelEndSelectedDate
   ) {
     return <NoChartComponent label="Загрузка..." />;
   }
 
   if (
-    isErrorDepartmentCountOfEmployeesBySkillLevelAllTimeDate ||
-    isErrorDepartmentCountOfEmployeesBySkillLevelBeggingSelectedDate ||
-    isErrorDepartmentCountOfEmployeesBySkillLevelEndSelectedDate
+    isErrorCountOfEmployeesBySkillLevelAllTimeDate ||
+    isErrorCountOfEmployeesBySkillLevelBeggingSelectedDate ||
+    isErrorCountOfEmployeesBySkillLevelEndSelectedDate
   ) {
     return <NoChartComponent label="Ошибка" />;
   }
@@ -53,69 +54,12 @@ const BarSecondRenderContent = () => {
     return LEVEL_NAMES[value] || value;
   };
 
-  interface EmployeesBySkillLevelData {
-    level_num: number;
-    countOfEmployees: number;
-  }
-  const getGrowthOfEmployeesBySkillLevel = (
-    endData: EmployeesBySkillLevelData[],
-    begginData: EmployeesBySkillLevelData[]
-  ) => {
-    return endData.map((skill) => {
-      const beggingSkill = begginData.find((beggingSkill) => beggingSkill.level_num === skill.level_num);
+  const allTimeData = !filters.date && getHighestLevelDataForBarChart(countOfEmployeesBySkillLevelAllTimeDate);
+  const begginData = filters.date && getHighestLevelDataForBarChart(countOfEmployeesBySkillLevelBeggingSelectedDate);
+  const endData = filters.date && getHighestLevelDataForBarChart(countOfEmployeesBySkillLevelEndSelectedDate);
 
-      return {
-        ...skill,
-        growth: beggingSkill
-          ? Math.abs(skill.countOfEmployees - beggingSkill.countOfEmployees)
-          : skill.countOfEmployees,
-        countOfEmployees: beggingSkill
-          ? skill.countOfEmployees - beggingSkill.countOfEmployees < 0
-            ? skill.countOfEmployees
-            : beggingSkill.countOfEmployees
-          : 0,
-        wasNegative: !(skill.countOfEmployees - (beggingSkill?.countOfEmployees || 0) > 0)
-      };
-    });
-  };
-
-  const getHighestLevelData = (data: any) => {
-    const maxLevelMap = new Map();
-
-    data.forEach((item) => {
-      const { employees_id, name, level_num } = item;
-      const key = `${employees_id}_${name}`;
-      if (!maxLevelMap.has(key) || level_num > maxLevelMap.get(key)) {
-        maxLevelMap.set(key, level_num);
-      }
-    });
-
-    const levelCountMap = new Map();
-
-    data.forEach((item) => {
-      const { employees_id, name, level_num } = item;
-      const key = `${employees_id}_${name}`;
-      if (maxLevelMap.get(key) === level_num) {
-        if (!levelCountMap.has(level_num)) {
-          levelCountMap.set(level_num, 0);
-        }
-        levelCountMap.set(level_num, levelCountMap.get(level_num) + 1);
-      }
-    });
-
-    return Array.from(levelCountMap, ([level_num, countOfEmployees]) => ({
-      level_num,
-      countOfEmployees
-    }));
-  };
-
-  const allTimeData = !filters.date && getHighestLevelData(departmentCountOfEmployeesBySkillLevelAllTimeDate);
-  const begginData = filters.date && getHighestLevelData(departmentCountOfEmployeesBySkillLevelBeggingSelectedDate);
-  const endData = filters.date && getHighestLevelData(departmentCountOfEmployeesBySkillLevelEndSelectedDate);
-
-  console.log(allTimeData, 'allTimeData');
   const modifiedBarData = filters.date
-    ? getGrowthOfEmployeesBySkillLevel(endData, begginData)
+    ? getGrowthOfEmployeesBySkillLevelForBarChart(endData, begginData)
     : allTimeData.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
   if (!modifiedBarData.length) {
@@ -136,7 +80,7 @@ const BarSecondRenderContent = () => {
         }}
       >
         <defs>
-          <linearGradient id="colorCountOfEmployees" x1="0" y1="0" x2="0" y2="1">
+          <linearGradient id="colorcountOfEmployees" x1="0" y1="0" x2="0" y2="1">
             <stop offset="5%" stopColor="#934983" stopOpacity={0.8} />
             <stop offset="95%" stopColor="#934983" stopOpacity={0.2} />
           </linearGradient>
@@ -168,7 +112,7 @@ const BarSecondRenderContent = () => {
         <Bar
           dataKey="countOfEmployees"
           stackId="1"
-          fill="url(#colorCountOfEmployees)"
+          fill="url(#colorcountOfEmployees)"
           label={({ x, y, width, height, value }) => (
             <text
               x={x + width / 2}

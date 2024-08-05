@@ -1,4 +1,4 @@
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas'; // Тяжелая п*здец
 
 const exportToPng = async (ref: React.RefObject<HTMLDivElement>) => {
   const element = ref.current;
@@ -23,11 +23,13 @@ export const downloadPng = (
   downloadButtonRef: React.RefObject<HTMLDivElement>,
   exportedElementRef: React.RefObject<HTMLDivElement>
 ) => {
+  // Скрываем кнопку во время загрузки
   if (downloadButtonRef.current) {
     downloadButtonRef.current.style.display = 'none';
   }
 
   exportToPng(exportedElementRef).finally(() => {
+    // Показываем кнопку по завершении загрузки
     if (downloadButtonRef.current) {
       downloadButtonRef.current.style.display = 'block';
     }

@@ -1,10 +1,10 @@
 import { useQuery } from 'react-query';
 import { transformFiltersFromDB2 } from '../../../utils';
-import { dataService } from '../../../services/DataDboard2.service';
+import { dataService } from '../../../services/DataDboard_2.service';
 import { DB2FiltersStore } from '../../../store/DB2FiltersStore';
 
 export const usePieData = (filters: Partial<DB2FiltersStore>) => {
-  const transformedFilters = transformFiltersFromDB2(filters);
+  const transformedFilters = transformFiltersFromDB2(filters); // Преобразование фильтров для запроса
 
   const queryFilters =
     filters.position.length === 0 && filters.devision.length === 0

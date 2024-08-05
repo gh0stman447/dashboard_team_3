@@ -1,10 +1,7 @@
 import React from 'react';
-import { ArrowGreenUp } from '../../../../assets/Dashboard_1';
-import { Download } from '../../../../assets';
-import { downloadPng, transformFiltersFromDB2 } from '../../utils';
+import { ArrowGreenUp, Download } from '../../../../assets';
+import { downloadPng } from '../../utils';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
-import { useQuery } from 'react-query';
-import { dataService } from '../../services/DataDboard2.service';
 import NoChartComponent from '../ui/NoChartComponent';
 import { useTextLetData } from '../hooks/Dashboard_2';
 
@@ -26,16 +23,18 @@ const TextLetRenderContent = ({
     departmentSkillsDataBeggingSelectedDate,
     departmentSkillsDataEndSelectedDate,
     departmentSkillsUpDataForThePeriodDate,
-    isErrorDepartmentSkillsUpDataForThePeriodDate,
-    isErrorSkillsDataAllTimeDate,
-    isErrorSkillsDataBeggingSelectedDate,
-    isErrorSkillsDataEndSelectedDate,
+
     isLoadingSkillsDataAllTimeDate,
     isLoadingSkillsDataBeggingSelectedDate,
     isLoadingSkillsDataEndSelectedDate,
-    isLoadingdepartmentSkillsUpDataForThePeriodDateLoading
+    isLoadingdepartmentSkillsUpDataForThePeriodDateLoading,
+
+    isErrorDepartmentSkillsUpDataForThePeriodDate,
+    isErrorSkillsDataAllTimeDate,
+    isErrorSkillsDataBeggingSelectedDate,
+    isErrorSkillsDataEndSelectedDate
   } = useTextLetData(filters);
-  
+
   if (
     isLoadingSkillsDataAllTimeDate ||
     isLoadingSkillsDataBeggingSelectedDate ||

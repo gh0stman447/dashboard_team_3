@@ -15,6 +15,7 @@ import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomFirstBarTooltip from '../ui/Dashboard_2/CustomFirstBarTooltip';
 import { useFirstBarChartData } from '../hooks/Dashboard_2';
+import { getGrowthOfEmployeesBySkillForBarChart } from '../../utils';
 
 const BarFirstRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -28,12 +29,14 @@ const BarFirstRenderContent = () => {
     departmentCountOfEmployeesBySkillsAllTimeDate,
     departmentCountOfEmployeesBySkillsBeggingSelectedDate,
     departmentCountOfEmployeesBySkillsEndSelectedDate,
-    isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate,
-    isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate,
+
     isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate,
     isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate
+    isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate,
+
+    isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate,
+    isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
+    isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate
   } = useFirstBarChartData(filters);
 
   if (!filters.position.length && !filters.devision.length) {
@@ -56,32 +59,9 @@ const BarFirstRenderContent = () => {
     return <NoChartComponent label="Ошибка" />;
   }
 
-  interface EmployeesBySkillsData {
-    name: string;
-    countOfEmployees: number;
-  }
-
-  const getGrowthOfEmployeesBySkills = (endData: EmployeesBySkillsData[], begginData: EmployeesBySkillsData[]) => {
-    return endData.map((skill) => {
-      const beggingSkill = begginData.find((beggingSkill) => beggingSkill.name === skill.name);
-
-      return {
-        ...skill,
-        growth: beggingSkill
-          ? Math.abs(skill.countOfEmployees - beggingSkill.countOfEmployees)
-          : skill.countOfEmployees,
-        countOfEmployees: beggingSkill
-          ? skill.countOfEmployees - beggingSkill.countOfEmployees < 0
-            ? skill.countOfEmployees
-            : beggingSkill.countOfEmployees
-          : 0,
-        wasNegative: !(skill.countOfEmployees - (beggingSkill?.countOfEmployees || 0) > 0)
-      };
-    });
-  };
-
+  //
   const modifiedBarData = filters.date
-    ? getGrowthOfEmployeesBySkills(
+    ? getGrowthOfEmployeesBySkillForBarChart(
         departmentCountOfEmployeesBySkillsEndSelectedDate,
         departmentCountOfEmployeesBySkillsBeggingSelectedDate
       )

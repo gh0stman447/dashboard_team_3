@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import { dataService } from '../../../services/DataDboard2.service';
+import { dataService } from '../../../services/DataDboard_2.service';
 import { sortList } from '../../../utils/sortList';
 import { useQuery } from 'react-query';
 

@@ -2,32 +2,27 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 
-import { useCallback, useRef, useEffect } from 'react';
-import SearchEmployeeField from './SearchEmployeeField';
-import useDB1FiltersStore from '../../../store/DB1FiltersStore';
+import { useCallback, useRef } from 'react';
+import SearchEmployeeField from '../ui/Dashboard_1/SearchEmployeeField';
+import useDB1FiltersStore from '../../store/DB1FiltersStore';
 
 import { Modal } from 'antd';
-import DateComponent from '../DateComponent';
-import TypeOfSkillField from './TypeOfSkillField';
-import CustomFilterButton from '../CustomFilterButton';
-import { NoFilter } from '../../../../../assets/Dashboard_1/NoFilter';
+import DateComponent from '../ui/DateComponent';
+import TypeOfSkillField from '../ui/Dashboard_1/TypeOfSkillField';
+import CustomFilterButton from '../ui/CustomFilterButton';
+import ClearFiltersBtn from '../ui/ClearFiltersBtn';
 
 const DialogSelect: React.FC = () => {
   const [open, setOpen] = React.useState(false);
-
-  const date = useDB1FiltersStore((state) => state.date);
 
   const { setCurrentUserIndex, users } = useDB1FiltersStore((state) => ({
     setCurrentUserIndex: state.setCurrentUserIndex,
     users: state.users
   }));
 
-  const currentFormStateRef = useRef<Record<string, any>>({});
+  const currentFormStateRef = useRef<Record<string, any>>({}); // Храню состояние формы в ссылке. Так, оптимальнее
 
-  // useEffect(() => {
-  //   currentFormStateRef.current = useDB1FiltersStore.getState();
-  // }, [open]);
-
+  // Метод обновления поля в форме
   const patchFormStateRef = useCallback((patch: Record<string, any>) => {
     currentFormStateRef.current = { ...currentFormStateRef.current, ...patch };
   }, []);
@@ -37,10 +32,11 @@ const DialogSelect: React.FC = () => {
   };
 
   const handleApplyFilters = () => {
-    useDB1FiltersStore.setState(currentFormStateRef.current);
+    useDB1FiltersStore.setState(currentFormStateRef.current); // Сохраняю состояние формы в хранилище
 
     const empId = currentFormStateRef.current.empIdField;
 
+    // В случае если выбран пользователь, делаю его текущим (для переключения между сотрудниками)
     if (empId) {
       const index = users.findIndex((user) => user.value === empId);
 
@@ -56,6 +52,7 @@ const DialogSelect: React.FC = () => {
     setOpen(false);
   };
 
+  // Очищаю ссылку и глобальное состояние
   const clearFilters = () => {
     useDB1FiltersStore.setState({ date: null, empIdField: '', typesOfSkill: [] });
     currentFormStateRef.current = { date: null, empIdField: '', typesOfSkill: [] };
@@ -87,14 +84,7 @@ const DialogSelect: React.FC = () => {
             <DateComponent patchState={patchFormStateRef} page="1" />
           </div>
           <span className="mt-1 hover:scale-[1.05] duration-200 border border-black rounded-md p-[3px] w-fit">
-            <Button
-              onClick={clearFilters}
-              sx={{
-                padding: '5px 10px'
-              }}
-            >
-              Очистить фильтры
-            </Button>
+            <ClearFiltersBtn text="Очистить фильтры" onClick={clearFilters} />
           </span>
         </Box>
       </Modal>

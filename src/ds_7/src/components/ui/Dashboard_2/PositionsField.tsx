@@ -1,15 +1,14 @@
-import React, { ChangeEvent, FC, useEffect, useState } from 'react';
+import React, { FC, useEffect, useState } from 'react';
 import FormControl from '@mui/material/FormControl';
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
-import { positions } from '../../../constants/Dashboard_2';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard2.service';
+import { dataService } from '../../../services/DataDboard_2.service';
 import { sortList } from '../../../utils/sortList';
 
 interface PositionFieldProps extends InFormProps {

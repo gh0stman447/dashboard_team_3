@@ -3,29 +3,14 @@ import { Select } from 'antd';
 import useDB1FiltersStore from '../../../store/DB1FiltersStore';
 import { InFormProps } from '../../../types';
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/Data.service';
+import { dataService } from '../../../services/DataDboard_1.service';
 
 export interface SearchEmployeeFieldProps extends InFormProps {}
 
-export const UsersFetcher = () => {
-  const { setUsers } = useDB1FiltersStore((state) => ({
-    setUsers: state.setUsers
-  }));
-
-  const { data } = useQuery('usersId', () => dataService.fetchUsersIdData('usersId'), {
-    refetchOnWindowFocus: false
-  });
-
-  useEffect(() => {
-    if (data) setUsers([...data].sort((a, b) => a.value - b.value));
-  }, [data]);
-
-  return null;
-};
 const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
   const [empIdField, setEmpIdField] = useState<string>('');
 
-  const empField = useDB1FiltersStore((state) => state.empIdField);
+  const empField = useDB1FiltersStore((state) => state.empIdField); // Беру значение из хранилища и присваиваю его в стейт
 
   const users = useDB1FiltersStore((state) => state.users);
 

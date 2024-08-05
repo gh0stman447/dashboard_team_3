@@ -1,10 +1,13 @@
 import { useQuery } from 'react-query';
 import { DB1FiltersStore } from '../../../store/DB1FiltersStore';
 import { useEffect, useState } from 'react';
-import { dataService } from '../../../services/Data.service';
+import { dataService } from '../../../services/DataDboard_1.service';
 import { transformFiltersFromDB1 } from '../../../utils';
 
 export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
+  const [position, setPosition] = useState<string | null>(null);
+  const [resetPosition, setResetPosition] = useState<boolean>(false);
+
   const transformedFilters = transformFiltersFromDB1(filters);
 
   const {
@@ -16,9 +19,22 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     () => dataService.fetchBarChartEmployeeData(transformedFilters, 'employeeAllTimeData'),
     {
       enabled: !!filters.empIdField && !filters.date,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        if (data && data.length > 0) {
+          setPosition(data[0].job_title);
+          setResetPosition(true); // Ставим флаг в true после раждого запроса, чтобы сбросить значение position в null. Иначе в запрос будет уходить предыдущее значение
+        }
+      }
     }
   );
+
+  useEffect(() => {
+    if (resetPosition) {
+      setPosition(null);
+      setResetPosition(false);
+    }
+  }, [resetPosition]);
 
   const {
     data: employeeEndSelectedDate,
@@ -33,7 +49,13 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
       ),
     {
       enabled: !!filters.empIdField && !!filters.date,
-      refetchOnWindowFocus: false
+      refetchOnWindowFocus: false,
+      onSuccess: (data) => {
+        if (data && data.length > 0) {
+          setPosition(data[0].job_title);
+          setResetPosition(true);
+        }
+      }
     }
   );
 
@@ -54,14 +76,6 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     }
   );
 
-  const [position, setPosition] = useState<string | null>(null);
-
-  useEffect(() => {
-    if (employeeAllTimeData && employeeAllTimeData.length > 0) {
-      setPosition(employeeAllTimeData[0].job_title);
-    }
-  }, [employeeAllTimeData]);
-
   const {
     data: allPeopleAllTimeDate,
     isLoading: isLoadingAllPeopleAllTimeDate,
@@ -74,7 +88,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
         'allPeopleAllTimeDate'
       ),
     {
-      enabled: !!filters.empIdField && !!position,
+      enabled: !!filters.empIdField && !!position, //Пока нет фильтра по должности и по айди сотрудника, запрос не будет вызываться
       refetchOnWindowFocus: false
     }
   );

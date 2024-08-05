@@ -1,16 +1,10 @@
-export const calculateDifferenceForPie = (
-  arr1: {
-    name: string;
-    value: number;
-    color: string;
-  }[],
-  arr2: {
-    name: string;
-    value: number;
-    color: string;
-  }[],
-  hasDateFilter: boolean
-) => {
+interface PieData {
+  name: string;
+  value: number;
+  color: string;
+}
+
+export const calculateDifferenceForPie = (arr1: PieData[], arr2: PieData[], hasDateFilter: boolean) => {
   if (!hasDateFilter) {
     return arr1?.map((el) => ({
       ...el,

@@ -1,10 +1,10 @@
 import React from 'react';
-import { downloadPng, transformFiltersFromDB1 } from '../../utils';
-import { ArrowGreenUp, ArrowUp } from '../../../../assets/Dashboard_1';
-import { Download } from '../../../../assets';
+import { downloadPng } from '../../utils';
+import { ArrowGreenUp, Download } from '../../../../assets';
 
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import { useTextLetData } from '../hooks/Dashboard_1';
+import NoChartComponent from '../ui/NoChartComponent';
 
 const TextLetRenderContent = ({
   downloadButtonRef,
@@ -22,23 +22,26 @@ const TextLetRenderContent = ({
     dataAllTimeDate,
     dataBeforeSelectedDate,
     dataPrevDate,
+
     isErrorDataAllTimeDate,
     isErrorDataBeforeSelectedDate,
     isErrorDataPrevDate,
+
     isLoadingDataAllTimeDate,
     isLoadingDataBeforeSelectedDate,
     isLoadingDataPrevDate,
+
     isLoadingSkills,
     isErrorSkills,
     skills
   } = useTextLetData(filters);
 
   if (isLoadingDataBeforeSelectedDate || isLoadingDataAllTimeDate || isLoadingDataPrevDate || isLoadingSkills) {
-    return <div className="flex justify-center items-center h-full p-4">Загрузка...</div>;
+    return <NoChartComponent className="p-4" label="Загрузка..." />;
   }
 
   if (isErrorDataBeforeSelectedDate || isErrorDataAllTimeDate || isErrorDataPrevDate || isErrorSkills) {
-    return <div className="flex justify-center items-center h-full p-4">Ошибка</div>;
+    return <NoChartComponent className="p-4" label="Ошибка" />;
   }
 
   let skillsGrowht = null;
@@ -47,6 +50,7 @@ const TextLetRenderContent = ({
     skillsGrowht = dataBeforeSelectedDate[0].totalSkills - dataPrevDate[0].totalSkills;
   }
 
+  // Если дата не указана, берем данные за всё время. Иначе данные на конец периода
   const countOfSkills = !filters.date ? dataAllTimeDate?.[0].totalSkills : dataBeforeSelectedDate?.[0].totalSkills;
   const totalSkillsUp = skills?.[0]?.totalSkills || 0;
 
@@ -80,7 +84,7 @@ const TextLetRenderContent = ({
       )}
     </div>
   ) : (
-    <div className="flex items-center justify-center h-full py-4">Выберите сотрудника</div>
+    <NoChartComponent className="p-4" label="Выберите сотрудника" />
   );
 };
 

@@ -1,13 +1,10 @@
 import React from 'react';
-import DialogSelect from '../ui/Dashboard_1/DialogSelect';
+import DialogSelect from './DialogSelect';
 import BurgerMenu from '../ui/Dashboard_1/BurgerMenu';
-import { NoFilter } from '../../../../assets/Dashboard_1/NoFilter';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import DisplayDate from '../ui/Dashboard_1/DisplayDate';
 
 const Header = () => {
-
-
   const date = useDB1FiltersStore((state) => state.date);
 
   return (

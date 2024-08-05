@@ -6,10 +6,8 @@ import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard2.service';
-import { transformFiltersFromDB2 } from '../../../utils';
 import { useSKillsData } from '../../hooks/Dashboard_2/useSkillsData';
+import NoChartComponent from '../NoChartComponent';
 
 const SkillsField = () => {
   const [skills, setSkills] = useState<string[]>([]);
@@ -21,14 +19,6 @@ const SkillsField = () => {
     date: state.date
   }));
 
-  const storeSkills = useDB2FiltersStore((state) => state.skills);
-
-  useEffect(() => {
-    setSkills(storeSkills);
-  }, [storeSkills]);
-
-  const storeSetSkills = useDB2FiltersStore((state) => state.setSkills);
-
   const {
     skillsAllTimeDate,
     skillsEndSelectedDate,
@@ -38,16 +28,34 @@ const SkillsField = () => {
     isErrorSkillsEndSelectedDate
   } = useSKillsData(filters);
 
+  const storeSetSkills = useDB2FiltersStore((state) => state.setSkills);
+
   useEffect(() => {
     storeSetSkills([]);
-  }, [skillsAllTimeDate, skillsEndSelectedDate]); //! ???
+  }, [skillsAllTimeDate, skillsEndSelectedDate]);
+
+  const storeSkills = useDB2FiltersStore((state) => state.skills);
+
+  useEffect(() => {
+    setSkills(storeSkills);
+  }, [storeSkills]);
+
+  const { devision, position } = useDB2FiltersStore((state) => ({
+    position: state.position,
+    devision: state.devision
+  }));
+
+  // Если нет выбранных подразделений и должностей, то не отображаем селект
+  if (devision.length === 0 && position.length === 0) {
+    return null;
+  }
 
   if (isLoadingSkillsAllTimeDate || isLoadingSkillsEndSelectedDate) {
-    return <div>Загрузка...</div>;
+    return <NoChartComponent label="Загрузка..." />;
   }
 
   if (isErrorSkillsAllTimeDate || isErrorSkillsEndSelectedDate) {
-    return <div>Ошибка</div>;
+    return <NoChartComponent label="Ошибка" />;
   }
 
   const handleChangeSkillLevel = (event: SelectChangeEvent<string[]>) => {
