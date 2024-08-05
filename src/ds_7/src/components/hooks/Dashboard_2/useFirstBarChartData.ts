@@ -19,6 +19,7 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
         'departmentCountOfEmployeesBySkillsAllTimeDate'
       ),
     {
+      // Делаю запрос, если в фильтрах указана должность либо подразделение и не стоит дата
       enabled: !!(filters.position.length || filters.devision.length) && !filters.date,
       refetchOnWindowFocus: false
     }
@@ -36,6 +37,7 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
         'departmentCountOfEmployeesBySkillsBeggingSelectedDate'
       ),
     {
+      // Делаю запрос, если в фильтрах указана должность либо подразделение и стоит дата
       enabled: !!filters?.date && !!(filters.position.length || filters.devision.length),
       refetchOnWindowFocus: false
     }

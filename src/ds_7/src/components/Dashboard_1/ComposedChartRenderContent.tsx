@@ -110,7 +110,9 @@ const ComposedChartRenderContent = () => {
             <stop offset="95%" stopColor="#0000ff" stopOpacity={0.2} />
           </linearGradient>
         </defs>
-        <Brush dataKey="name" startIndex={0} endIndex={6} travellerWidth={20} height={30} stroke="#8884d8" />
+        {modifiedBarData.length > 3 && (
+          <Brush dataKey="name" startIndex={0} endIndex={6} travellerWidth={20} height={30} stroke="#8884d8" />
+        )}
         <CartesianGrid stroke="#f5f5f5" />
         <XAxis dataKey="name" scale="band" />
         <YAxis tickFormatter={yAxisTickFormatter} tickCount={6} ticks={Object.keys(LEVEL_NAMES)} />

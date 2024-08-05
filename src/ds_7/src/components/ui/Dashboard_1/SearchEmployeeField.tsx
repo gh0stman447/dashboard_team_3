@@ -15,7 +15,8 @@ const SearchEmployeeField: React.FC<InFormProps> = ({ patchState }) => {
   const users = useDB1FiltersStore((state) => state.users);
 
   useEffect(() => {
-    setEmpIdField(empField);
+    setEmpIdField(empField); // Присваиваю значение в стейт и в ссылку на каждое изменение поля empIdField в хранилище
+    patchState({ empIdField: empField });
   }, [empField]);
 
   const handleChangeSearchField = (value: string) => {
