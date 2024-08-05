@@ -5,6 +5,7 @@ import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { useQuery } from 'react-query';
 import { dataService } from '../../../services/DataDboard_2.service';
 import { sortList } from '../../../utils';
+import { useDevisionsData } from '../../hooks/Dashboard_2';
 
 interface DevisionFieldProps extends InFormProps {
   devisions?: string[];
@@ -23,13 +24,7 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
 
   const initialDevision = useDB2FiltersStore((state) => state.devision);
 
-  const { data, isLoading, isError } = useQuery(
-    'departments',
-    () => dataService.fetchTextLetAllDepartmentsData('departments'),
-    {
-      refetchOnWindowFocus: false
-    }
-  );
+  const { departments, isLoadingDepartments, isErrorDepartments } = useDevisionsData();
 
   useEffect(() => {
     setDevision(initialDevision);
@@ -44,15 +39,15 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
     }
   };
 
-  if (isLoading) {
+  if (isLoadingDepartments) {
     return <div>Загрузка...</div>;
   }
 
-  if (isError) {
+  if (isErrorDepartments) {
     return <div>Ошибка</div>;
   }
 
-  const sortedDevisions = sortList(data, 'department');
+  const sortedDevisions = sortList(departments, 'department');
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>

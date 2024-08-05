@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
-import useDB1FiltersStore from '../../../store/DB1FiltersStore';
+import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_1.service';
+import { dataService } from '../../services/DataDboard_1.service';
 
 const UsersFetcher = () => {
   const { setUsers } = useDB1FiltersStore((state) => ({

@@ -2,10 +2,10 @@ import React from 'react';
 import { ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis, Bar, BarChart, Cell, LabelList } from 'recharts';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';
-import CustomSecondBarTooltip from '../ui/Dashboard_2/CustomSecondBarTooltip';
+import CustomSecondBarTooltip from '../ui/Charts/Dashboard_2/CustomSecondBarTooltip';
 import { useSecondBarChartData } from '../hooks/Dashboard_2';
 import { LEVEL_NAMES } from '../../constants';
-import { getGrowthOfEmployeesBySkillLevelForBarChart, getHighestLevelDataForBarChart } from '../../utils';
+import { getGrowthOfEmployeesForBarChart, getHighestLevelDataForBarChart } from '../../utils';
 
 const BarSecondRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -31,7 +31,7 @@ const BarSecondRenderContent = () => {
   } = useSecondBarChartData(filters);
 
   if (!filters.position.length && !filters.devision.length) {
-    return <NoChartComponent label="Выберите должность или подразделение" />;
+    return <NoChartComponent label="Выберите должность или подразделение" className="text-center" />;
   }
 
   if (
@@ -59,7 +59,7 @@ const BarSecondRenderContent = () => {
   const endData = filters.date && getHighestLevelDataForBarChart(countOfEmployeesBySkillLevelEndSelectedDate);
 
   const modifiedBarData = filters.date
-    ? getGrowthOfEmployeesBySkillLevelForBarChart(endData, begginData)
+    ? getGrowthOfEmployeesForBarChart(endData, begginData, 'level_num')
     : allTimeData.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
   if (!modifiedBarData.length) {

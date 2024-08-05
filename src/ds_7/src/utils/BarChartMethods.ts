@@ -21,16 +21,23 @@ interface EmployeesBySkillsData {
   countOfEmployees: number;
 }
 
-export const getGrowthOfEmployeesBySkillForBarChart = (
-  endData: EmployeesBySkillsData[],
-  begginData: EmployeesBySkillsData[]
+interface EmployeesBySkillLevelData {
+  level_num: number;
+  countOfEmployees: number;
+}
+
+export const getGrowthOfEmployeesForBarChart = <T extends EmployeesBySkillsData | EmployeesBySkillLevelData>(
+  endData: T[],
+  begginData: T[],
+  key: keyof T
 ) => {
   return endData.map((skill) => {
-    const beggingSkill = begginData.find((beggingSkill) => beggingSkill.name === skill.name); // Находим такой же навык, как и на конец периода
+    const beggingSkill = begginData.find((beggingSkill) => beggingSkill[key] === skill[key]);
 
     return {
       ...skill,
       // Прирост будет всегда положительный. Если на начало периода нет данных, то прирост равен количеству сотрудников на конец периода
+
       growth: beggingSkill ? Math.abs(skill.countOfEmployees - beggingSkill.countOfEmployees) : skill.countOfEmployees,
       // Если на начало периода нет данных, то кол-во сотрудников равно 0. Иначе если разность
       // данных на конец и начало периода < 0, то кол-во сотрудников равно кол-ву на конец периода, иначе на начало
@@ -40,30 +47,7 @@ export const getGrowthOfEmployeesBySkillForBarChart = (
           : beggingSkill.countOfEmployees
         : 0,
       // Делаем соответствующий флаг в зависимости от знака разности данных на конец и на начало периода
-      wasNegative: !(skill.countOfEmployees - (beggingSkill?.countOfEmployees || 0) > 0)
-    };
-  });
-};
 
-interface EmployeesBySkillLevelData {
-  level_num: number;
-  countOfEmployees: number;
-}
-export const getGrowthOfEmployeesBySkillLevelForBarChart = (
-  endData: EmployeesBySkillLevelData[],
-  begginData: EmployeesBySkillLevelData[]
-) => {
-  return endData.map((skill) => {
-    const beggingSkill = begginData.find((beggingSkill) => beggingSkill.level_num === skill.level_num);
-
-    return {
-      ...skill,
-      growth: beggingSkill ? Math.abs(skill.countOfEmployees - beggingSkill.countOfEmployees) : skill.countOfEmployees,
-      countOfEmployees: beggingSkill
-        ? skill.countOfEmployees - beggingSkill.countOfEmployees < 0
-          ? skill.countOfEmployees
-          : beggingSkill.countOfEmployees
-        : 0,
       wasNegative: !(skill.countOfEmployees - (beggingSkill?.countOfEmployees || 0) > 0)
     };
   });

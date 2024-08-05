@@ -17,8 +17,7 @@ const DialogSelect: React.FC = () => {
 
   const { setCurrentUserIndex, users } = useDB1FiltersStore((state) => ({
     setCurrentUserIndex: state.setCurrentUserIndex,
-    users: state.users,
-    
+    users: state.users
   }));
 
   const currentFormStateRef = useRef<Record<string, any>>({}); // Храню состояние формы в ссылке. Так, оптимальнее
@@ -34,8 +33,6 @@ const DialogSelect: React.FC = () => {
 
   const handleApplyFilters = () => {
     useDB1FiltersStore.setState(currentFormStateRef.current); // Сохраняю состояние формы в хранилище
-
-    console.log(currentFormStateRef.current, 'currentFormStateRef.current');
 
     const empId = currentFormStateRef.current.empIdField;
 

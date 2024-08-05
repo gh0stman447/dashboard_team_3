@@ -18,10 +18,10 @@ const CustomFirstBarTooltip: React.FC<TooltipProps<any, any>> = ({ payload, labe
 
   return (
     <div className="bg-white border border-gray-300 rounded-lg p-3 shadow-lg divide-y-2 divide-gray/80">
-      <div className="text-xl font-medium mb-2 text-gray-800">
+      <div className="text-[16px] font-medium mb-2 text-gray-800">
         Навык: <span className="font-semibold">{skillName}</span>
       </div>
-      <div className="text-lg text-gray-600">
+      <div className="text-[14px] text-gray-600">
         <div>
           <strong>Количество сотрудников на начало периода:</strong> {countOfEmployees}
         </div>

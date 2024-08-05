@@ -7,9 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import { dataService } from '../../../services/DataDboard_2.service';
 import { sortList } from '../../../utils/sortList';
-import { useQuery } from 'react-query';
+import { useTypesOfSkill } from '../../hooks/Dashboard_2';
 
 interface TypeOfSkillFieldProps extends InFormProps {
   typeOfSkills?: string[];
@@ -35,32 +34,17 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
     setTypeOfSkill(initialTypeOfSkill);
   }, [initialTypeOfSkill]);
 
-  const { data, isLoading, isError } = useQuery(
-    'typeOfSkills',
-    () => dataService.fetchTextLetAllTypesOfSkillData('typeOfSkills'),
-    {
-      refetchOnWindowFocus: false
-    }
-  );
+  const { typesOfSkill: typesOfSkillData, isLoadingTypesOfSkill, isErrorTypesOfSkill } = useTypesOfSkill();
 
-  if (isLoading) {
+  if (isLoadingTypesOfSkill) {
     return <div>Загрузка...</div>;
   }
 
-  if (isError) {
+  if (isErrorTypesOfSkill) {
     return <div>Ошибка</div>;
   }
 
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 300,
-        maxWidth: 200
-      }
-    }
-  };
-
-  const sortedTypeOfSkills = sortList(data, 'skill_type');
+  const sortedTypeOfSkills = sortList(typesOfSkillData, 'skill_type');
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>

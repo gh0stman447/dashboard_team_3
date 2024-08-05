@@ -1,6 +1,6 @@
 import React from 'react';
 import { TooltipProps } from 'recharts';
-import { LEVEL_NAMES } from '../../../constants';
+import { LEVEL_NAMES } from '../../../../constants';
 
 const CustomSecondBarTooltip: React.FC<TooltipProps<any, any>> = ({ payload }) => {
   if (!payload || payload.length === 0) return null;
@@ -19,10 +19,10 @@ const CustomSecondBarTooltip: React.FC<TooltipProps<any, any>> = ({ payload }) =
 
   return (
     <div className="bg-white border border-gray-300 rounded-lg p-3 shadow-lg divide-y-2 divide-gray/80">
-      <div className="text-xl font-medium mb-2">
+      <div className="text-[16px] font-medium mb-2">
         Уровень навыка: <span className="font-semibold">{LEVEL_NAMES[skillLevel]}</span>
       </div>
-      <div className="text-lg">
+      <div className="text-[14px]">
         <div>
           <strong>Количество сотрудников на начало периода:</strong> {countOfEmployees}
         </div>

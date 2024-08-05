@@ -13,9 +13,9 @@ import {
 } from 'recharts';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';
-import CustomFirstBarTooltip from '../ui/Dashboard_2/CustomFirstBarTooltip';
+import CustomFirstBarTooltip from '../ui/Charts/Dashboard_2/CustomFirstBarTooltip';
 import { useFirstBarChartData } from '../hooks/Dashboard_2';
-import { getGrowthOfEmployeesBySkillForBarChart } from '../../utils';
+import { getGrowthOfEmployeesForBarChart } from '../../utils';
 
 const BarFirstRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
@@ -40,7 +40,7 @@ const BarFirstRenderContent = () => {
   } = useFirstBarChartData(filters);
 
   if (!filters.position.length && !filters.devision.length) {
-    return <NoChartComponent label="Выберите должность или подразделение" />;
+    return <NoChartComponent label="Выберите должность или подразделение" className="text-center" />;
   }
 
   if (
@@ -61,9 +61,10 @@ const BarFirstRenderContent = () => {
 
   //
   const modifiedBarData = filters.date
-    ? getGrowthOfEmployeesBySkillForBarChart(
+    ? getGrowthOfEmployeesForBarChart(
         departmentCountOfEmployeesBySkillsEndSelectedDate,
-        departmentCountOfEmployeesBySkillsBeggingSelectedDate
+        departmentCountOfEmployeesBySkillsBeggingSelectedDate,
+        'name'
       )
     : departmentCountOfEmployeesBySkillsAllTimeDate.map((skill) => ({ ...skill, growth: 0, wasNegative: false }));
 
@@ -94,7 +95,9 @@ const BarFirstRenderContent = () => {
             <stop offset="95%" stopColor="#00ff00" stopOpacity={0.2} />
           </linearGradient>
         </defs>
-        <Brush dataKey={'name'} startIndex={0} endIndex={2} travellerWidth={5} height={30} stroke="#8884d8" />
+        {modifiedBarData.length > 3 && (
+          <Brush dataKey={'name'} startIndex={0} endIndex={5} travellerWidth={5} height={30} stroke="#8884d8" />
+        )}
         <CartesianGrid strokeDasharray="3 3" />
         <YAxis
           label={{
@@ -130,7 +133,7 @@ const BarFirstRenderContent = () => {
         />
         {filters.date && (
           <Bar dataKey="growth" stackId="1" fill="url(#colorImprovement)">
-            {modifiedBarData.map((item, index) => (
+            {modifiedBarData.map((_, index) => (
               <>
                 <Cell key={index} fill={'#82ca9d'} />
                 <LabelList

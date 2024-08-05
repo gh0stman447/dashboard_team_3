@@ -3,7 +3,7 @@ import { ComposedChart, Line, ResponsiveContainer, Tooltip, CartesianGrid, XAxis
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 
 import NoChartComponent from '../ui/NoChartComponent';
-import CustomBarTooltip from '../ui/Dashboard_1/CustomBarTooltip';
+import CustomBarTooltip from '../ui/Charts/Dashboard_1/CustomBarTooltip';
 import { useComposedChartData } from '../hooks/Dashboard_1';
 import { LEVEL_NAMES } from '../../constants';
 import { calculateImprovementForBarChart } from '../../utils';
@@ -63,7 +63,7 @@ const ComposedChartRenderContent = () => {
   }
 
   const yAxisTickFormatter = (value: string) => {
-    return LEVEL_NAMES[value] || ''; //Отображаем исключительно стринговые значения
+    return LEVEL_NAMES[value] || ''; //Отображаем исключительно стринговые значения из объекта
   };
 
   // Вычисляем средний уровень по департаменту среди сотрудников по соответствующим навыкам

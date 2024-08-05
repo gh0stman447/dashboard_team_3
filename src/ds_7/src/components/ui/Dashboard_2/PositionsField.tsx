@@ -7,9 +7,8 @@ import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_2.service';
 import { sortList } from '../../../utils/sortList';
+import { usePositionsData } from '../../hooks/Dashboard_2';
 
 interface PositionFieldProps extends InFormProps {
   positions?: string[];
@@ -18,13 +17,7 @@ interface PositionFieldProps extends InFormProps {
 const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
   const [position, setPosition] = useState<string[]>([]);
 
-  const { data, isLoading, isError } = useQuery(
-    'positions',
-    () => dataService.fetchTextLetAllPositionsData('positions'),
-    {
-      refetchOnWindowFocus: false
-    }
-  );
+  const { positions, isLoadingPositions, isErrorPositions } = usePositionsData();
 
   const handleChangePosition = (event: SelectChangeEvent<string[]>) => {
     const {
@@ -41,11 +34,11 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
     setPosition(initialPosition);
   }, [initialPosition]);
 
-  if (isLoading) {
+  if (isLoadingPositions) {
     return <div>Загрузка...</div>;
   }
 
-  if (isError) {
+  if (isErrorPositions) {
     return <div>Ошибка</div>;
   }
 
@@ -58,7 +51,7 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
     }
   };
 
-  const sortedPositions = sortList(data, 'job_title');
+  const sortedPositions = sortList(positions, 'job_title');
 
   return (
     <FormControl sx={{ m: 1, minWidth: 120 }}>

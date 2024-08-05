@@ -54,7 +54,11 @@ const TextLetRenderContent = ({
   const countOfSkills = !filters.date ? dataAllTimeDate?.[0].totalSkills : dataBeforeSelectedDate?.[0].totalSkills;
   const totalSkillsUp = skills?.[0]?.totalSkills || 0;
 
-  return filters.empIdField ? (
+  if (!filters.empIdField) {
+    return <NoChartComponent className="p-4" label="Выберите сотрудника" />;
+  }
+
+  return (
     <div className="flex flex-col p-4 text-[20px] 4xl:text-[32px]">
       <div className="flex justify-between items-center">
         <div className="flex gap-x-4 items-center text-[25px]">
@@ -83,8 +87,6 @@ const TextLetRenderContent = ({
         </div>
       )}
     </div>
-  ) : (
-    <NoChartComponent className="p-4" label="Выберите сотрудника" />
   );
 };
 

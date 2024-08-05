@@ -24,6 +24,7 @@ const useDB1FiltersStore = create<DB1FiltersStore>()(
     users: [],
     currentUserIndex: 0,
     setUsers: (users) => set({ users }),
+
     setCurrentUserIndex: (index) => {
       const user = get().users[index];
       set({
@@ -31,12 +32,14 @@ const useDB1FiltersStore = create<DB1FiltersStore>()(
         empIdField: user ? user.label : ''
       });
     },
+
     nextUser: () =>
       set((state) => {
         const newIndex = (state.currentUserIndex + 1) % state.users.length;
         const newEmpIdField = state.users[newIndex]?.label || '';
         return { currentUserIndex: newIndex, empIdField: newEmpIdField };
       }),
+
     prevUser: () =>
       set((state) => {
         const newIndex = (state.currentUserIndex - 1 + state.users.length) % state.users.length;

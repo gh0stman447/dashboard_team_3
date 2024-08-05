@@ -31,7 +31,6 @@ const DialogSelect: FC<DialogSelectProps> = () => {
   };
 
   const handleApplyFilters = () => {
-    console.log(currentFormStateRef.current);
     useDB2FiltersStore.setState(currentFormStateRef.current);
     setOpen(false);
   };
