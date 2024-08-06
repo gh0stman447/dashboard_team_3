@@ -1,6 +1,10 @@
-import { IPieData } from '../models';
+import { IDifferenceData, IPieData } from '../models';
 
-export const calculateDifferenceForPie = (arr1: IPieData[], arr2: IPieData[], hasDateFilter: boolean) => {
+export const calculateDifferenceForPie = (
+  arr1: IPieData[],
+  arr2: IPieData[],
+  hasDateFilter: boolean
+): (IPieData & IDifferenceData)[] => {
   if (!hasDateFilter) {
     return arr1?.map((el) => ({
       ...el,

@@ -24,6 +24,10 @@ export interface IPieData {
   color: string;
 }
 
+export interface IDifferenceData {
+  difference: number;
+}
+
 export interface ITextLetData {
   totalSkills: number;
 }

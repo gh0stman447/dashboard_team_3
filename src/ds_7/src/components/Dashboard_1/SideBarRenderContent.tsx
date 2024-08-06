@@ -8,33 +8,37 @@ const SideBarRenderContent = () => {
 
   const { empData, isLoadingEmpData, isErrorEmpData } = useEmployeeData(empIdField);
 
-  if (isLoadingEmpData) {
-    return <div>Загрузка...</div>;
+  const statusMessage = !empIdField
+    ? 'Выберите сотрудника'
+    : isLoadingEmpData
+    ? 'Загрузка...'
+    : isErrorEmpData
+    ? 'Oшибка'
+    : undefined;
+
+  if (statusMessage) {
+    return <p className="text-center p-4">{statusMessage}</p>;
   }
 
-  if (isErrorEmpData) {
-    return <div>Произошла ошибка</div>;
-  }
+  const { activity, department, employees_id, first_name, job_title, last_name } = empData[0];
 
-  return empData ? (
+  return (
     <>
-      <p>ID сотрудника: {empData[0].employees_id}</p>
+      <p>ID сотрудника: {employees_id}</p>
       <p>
-        ФИО: {empData[0].first_name} {empData[0].last_name}
+        ФИО: {first_name} {last_name}
       </p>
-      <p>Подразделение: {empData[0].department}</p>
-      <p>Должность: {empData[0].job_title}</p>
+      <p>Подразделение: {department}</p>
+      <p>Должность: {job_title}</p>
       <p>
         Активность:{' '}
-        {empData[0].activity === Activity.ACTIVE ? (
+        {activity === Activity.ACTIVE ? (
           <span className="text-green">Активен</span>
         ) : (
           <span className="text-red"> Уволен</span>
         )}
       </p>
     </>
-  ) : (
-    <p className="text-center p-4">(Не выбран сотрудник)</p>
   );
 };
 

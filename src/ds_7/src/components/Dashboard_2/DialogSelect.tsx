@@ -12,8 +12,7 @@ import { Modal } from 'antd';
 import CustomFilterButton from '../ui/CustomFilterButton';
 import ClearFiltersBtn from '../ui/ClearFiltersBtn';
 
-interface DialogSelectProps {}
-const DialogSelect: FC<DialogSelectProps> = () => {
+const DialogSelect: FC = () => {
   const [open, setOpen] = useState(false);
 
   const currentFormStateRef = useRef<Record<string, any>>({});

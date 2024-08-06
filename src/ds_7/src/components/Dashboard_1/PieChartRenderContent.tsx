@@ -8,6 +8,7 @@ import { PageInfo } from '../../constants';
 import CustomPieLegend from '../ui/Charts/CustomPieLegend';
 import NoChartComponent from '../ui/NoChartComponent';
 import { usePieData } from '../../hooks/Dashboard_1';
+import CustomPieChart from '../CustomPieChart';
 
 const PieChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({
@@ -41,29 +42,14 @@ const PieChartRenderContent = () => {
   }
 
   return (
-    <ResponsiveContainer width="100%" height="100%">
-      <PieChart>
-        <Pie
-          dataKey={'value'}
-          data={dataWithIncrease}
-          innerRadius={0}
-          outerRadius={'95%'}
-          label={CustomPieLabelList(dataWithIncrease, 'black', '25px')}
-          labelLine={false}
-          animationBegin={0}
-          animationDuration={1500}
-          animationEasing="ease-out"
-        >
-          {dataWithIncrease.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.color} />
-          ))}
-        </Pie>
-        <Tooltip content={<CustomPieTooltip />} />
-
-        {/** PageInfo определяет, на какой странице отображается компонент. Тупо для того, чтобы не дублировать его */}
-        <Legend content={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} pageInfo={PageInfo.FIRST} />} />
-      </PieChart>
-    </ResponsiveContainer>
+    <CustomPieChart
+      data={dataWithIncrease}
+      innerRadius={0}
+      outerRadius={'95%'}
+      label={CustomPieLabelList(dataWithIncrease, 'black', '25px')}
+      legend={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} pageInfo={PageInfo.FIRST} />}
+      tooltip={<CustomPieTooltip />}
+    />
   );
 };
 
