@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { transformFiltersFromDB1 } from '../../utils';
 import { DB1FiltersStore } from '../../store/DB1FiltersStore';
 import { dataService } from '../../services/DataDboard_1.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { ITextLetData } from '../../models';
 
 export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB1(filters); // Преобразуем фильтры из стора в формат который необходим для запроса
@@ -10,12 +11,11 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: dataAllTimeDate,
     isLoading: isLoadingDataAllTimeDate,
     isError: isErrorDataAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<ITextLetData[]>(
     ['textLetDataAllTimeDate', filters],
     () => dataService.fetchTextLetData(transformedFilters, 'textLetDataAllTimeDate'),
     {
-      enabled: !!filters.empIdField && !filters.date, // Делаем запрос только в случае если в фильтрах есть поле empIdField и нет даты
-      refetchOnWindowFocus: false // Отключаем повторный запрос при анфокусе
+      enabled: !!filters.empIdField && !filters.date // Делаем запрос только в случае если в фильтрах есть поле empIdField и нет даты
     }
   );
 
@@ -23,7 +23,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: dataBeforeSelectedDate,
     isLoading: isLoadingDataBeforeSelectedDate,
     isError: isErrorDataBeforeSelectedDate
-  } = useQuery(
+  } = useCustomQuery<ITextLetData[]>(
     ['textLetDataBeforeSelectedDate', filters],
     () =>
       dataService.fetchTextLetData(
@@ -31,8 +31,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
         'TextLetDataBeforeSelectedDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField, // Делаем запрос только в случае если в фильтрах есть поле empIdField и есть дата
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date && !!filters?.empIdField // Делаем запрос только в случае если в фильтрах есть поле empIdField и есть дата
     }
   );
 
@@ -40,7 +39,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: dataPrevDate,
     isLoading: isLoadingDataPrevDate,
     isError: isErrorDataPrevDate
-  } = useQuery(
+  } = useCustomQuery<ITextLetData[]>(
     ['textLetDataPrevDate', filters],
     () =>
       dataService.fetchTextLetData(
@@ -51,8 +50,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
         'TextLetDataPrevDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField,
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date && !!filters?.empIdField
     }
   );
 
@@ -60,12 +58,11 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: skills,
     isLoading: isLoadingSkills,
     isError: isErrorSkills
-  } = useQuery(
+  } = useCustomQuery<ITextLetData[]>(
     ['textLetDataSkills', filters],
     () => dataService.fetchTextLetDataSkills({ ...transformedFilters, skill_status: ['=', 'up'] }, 'TextLetDataSKills'),
     {
-      enabled: !!filters?.empIdField && !!filters?.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters?.empIdField && !!filters?.date
     }
   );
 

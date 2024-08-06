@@ -1,8 +1,9 @@
-import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
 import { DB1FiltersStore } from '../../store/DB1FiltersStore';
 import { transformFiltersFromDB1 } from '../../utils';
 import { dataService } from '../../services/DataDboard_1.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { IBarChartAllPeopleData, IBarChartEmployeeData } from '../../models';
 
 export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
   const [position, setPosition] = useState<string | null>(null);
@@ -14,12 +15,11 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     data: employeeAllTimeData,
     isLoading: isLoadingEmployeeAllTimeData,
     isError: isErrorEmployeeAllTimeData
-  } = useQuery(
+  } = useCustomQuery<IBarChartEmployeeData[]>(
     ['employeeAllTimeData', filters],
     () => dataService.fetchBarChartEmployeeData(transformedFilters, 'employeeAllTimeData'),
     {
       enabled: !!filters.empIdField && !filters.date,
-      refetchOnWindowFocus: false,
       onSuccess: (data) => {
         if (data && data.length > 0) {
           setPosition(data[0].job_title);
@@ -40,7 +40,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     data: employeeEndSelectedDate,
     isLoading: isLoadingEmployeeEndSelectedDate,
     isError: isErrorEmployeeEndSelectedDate
-  } = useQuery(
+  } = useCustomQuery<IBarChartEmployeeData[]>(
     ['employeeEndSelectedDate', filters],
     () =>
       dataService.fetchBarChartEmployeeData(
@@ -49,7 +49,6 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
       ),
     {
       enabled: !!filters.empIdField && !!filters.date,
-      refetchOnWindowFocus: false,
       onSuccess: (data) => {
         if (data && data.length > 0) {
           setPosition(data[0].job_title);
@@ -63,7 +62,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     data: employeeBeginningSelectedDate,
     isLoading: isLoadingEmployeeBeginningSelectedDate,
     isError: isErrorEmployeeBeginningSelectedDate
-  } = useQuery(
+  } = useCustomQuery<IBarChartEmployeeData[]>(
     ['employeeBeginningSelectedDate', filters],
     () =>
       dataService.fetchBarChartEmployeeData(
@@ -71,8 +70,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
         'employeeBeginningSelectedDate'
       ),
     {
-      enabled: !!filters.empIdField && !!filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters.empIdField && !!filters.date
     }
   );
 
@@ -80,7 +78,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     data: allPeopleAllTimeDate,
     isLoading: isLoadingAllPeopleAllTimeDate,
     isError: isErrorAllPeopleAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<IBarChartAllPeopleData[]>(
     ['allPeopleAllTimeDate', filters],
     () =>
       dataService.fetchBarChartAllPeopleData(
@@ -88,8 +86,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
         'allPeopleAllTimeDate'
       ),
     {
-      enabled: !!filters.empIdField && !!position, //Пока нет фильтра по должности и по айди сотрудника, запрос не будет вызываться
-      refetchOnWindowFocus: false
+      enabled: !!filters.empIdField && !!position //Пока нет фильтра по должности и по айди сотрудника, запрос не будет вызываться
     }
   );
 
@@ -97,7 +94,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     data: allPeopleEndSelectedDate,
     isLoading: isLoadingAllPeopleEndSelectedDate,
     isError: isErrorAllPeopleEndSelectedDate
-  } = useQuery(
+  } = useCustomQuery<IBarChartAllPeopleData[]>(
     ['allPeopleEndSelectedDate', filters],
     () =>
       dataService.fetchBarChartAllPeopleData(
@@ -110,8 +107,7 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
         'allPeopleEndSelectedDate'
       ),
     {
-      enabled: !!filters.empIdField && !!filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters.empIdField && !!filters.date
     }
   );
 

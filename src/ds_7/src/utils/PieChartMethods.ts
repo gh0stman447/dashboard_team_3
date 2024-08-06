@@ -1,10 +1,6 @@
-interface PieData {
-  name: string;
-  value: number;
-  color: string;
-}
+import { IPieData } from '../models';
 
-export const calculateDifferenceForPie = (arr1: PieData[], arr2: PieData[], hasDateFilter: boolean) => {
+export const calculateDifferenceForPie = (arr1: IPieData[], arr2: IPieData[], hasDateFilter: boolean) => {
   if (!hasDateFilter) {
     return arr1?.map((el) => ({
       ...el,

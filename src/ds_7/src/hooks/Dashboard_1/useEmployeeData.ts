@@ -1,6 +1,7 @@
-import { useQuery } from 'react-query';
 import { transformFiltersFromDB1 } from '../../utils';
 import { dataService } from '../../services/DataDboard_1.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { IUserData } from '../../models';
 
 export const useEmployeeData = (empIdField: string) => {
   const transformedFilters = transformFiltersFromDB1({ empIdField });
@@ -9,10 +10,13 @@ export const useEmployeeData = (empIdField: string) => {
     data: empData,
     isLoading: isLoadingEmpData,
     isError: isErrorEmpData
-  } = useQuery(['empIdField', empIdField], () => dataService.fetchUserData(transformedFilters, 'empIdField'), {
-    enabled: !!empIdField, // Делаем запрос только в том случае, если поле сотрудника выбрано
-    refetchOnWindowFocus: false // Отключаем refetch при потере фокуса
-  });
+  } = useCustomQuery<IUserData[]>(
+    ['empIdField', empIdField],
+    () => dataService.fetchUserData(transformedFilters, 'empIdField'),
+    {
+      enabled: !!empIdField // Делаем запрос только в том случае, если поле сотрудника выбрано
+    }
+  );
 
   return { empData, isLoadingEmpData, isErrorEmpData };
 };

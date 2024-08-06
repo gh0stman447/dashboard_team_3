@@ -1,5 +1,5 @@
 import React from 'react';
-import { Download } from '../../../../assets';
+import { Download } from '../../../assets';
 import BarSecondRenderContent from './BarSecondRenderContent';
 import { downloadPng } from '../../utils';
 

@@ -1,10 +1,9 @@
-interface EmpInfo {
-  name: string;
-  level_num: number;
-  job_title: string;
-}
+import { IBarChartEmployeeData, ICountOfEmpBySkillData, ICountOfEmpBySkillLevelData } from '../models';
 
-export const calculateImprovementForBarChart = (endData: EmpInfo[], beginData: EmpInfo[]) => {
+export const calculateImprovementForBarChart = (
+  endData: IBarChartEmployeeData[],
+  beginData: IBarChartEmployeeData[]
+) => {
   return endData.map((endSkill) => {
     const beginSkill = beginData.find((skill) => skill.name === endSkill.name);
     const improvement = beginSkill ? endSkill.level_num - beginSkill.level_num : endSkill.level_num;
@@ -16,17 +15,9 @@ export const calculateImprovementForBarChart = (endData: EmpInfo[], beginData: E
   });
 };
 
-interface EmployeesBySkillsData {
-  name: string;
-  countOfEmployees: number;
-}
-
-interface EmployeesBySkillLevelData {
-  level_num: number;
-  countOfEmployees: number;
-}
-
-export const getGrowthOfEmployeesForBarChart = <T extends EmployeesBySkillsData | EmployeesBySkillLevelData>(
+export const getGrowthOfEmployeesForBarChart = <
+  T extends ICountOfEmpBySkillData | Pick<ICountOfEmpBySkillLevelData, 'level_num' | 'countOfEmployees'>
+>(
   endData: T[],
   begginData: T[],
   key: keyof T
@@ -54,12 +45,7 @@ export const getGrowthOfEmployeesForBarChart = <T extends EmployeesBySkillsData 
 };
 
 export const getHighestLevelDataForBarChart = (
-  data: {
-    level_num: number;
-    countOfEmployees: number;
-    employees_id: number;
-    name: string;
-  }[]
+  data: ICountOfEmpBySkillLevelData[]
 ): { level_num: number; countOfEmployees: number }[] => {
   const maxLevelMap = new Map();
 
@@ -71,8 +57,6 @@ export const getHighestLevelDataForBarChart = (
       maxLevelMap.set(key, level_num);
     }
   });
-
-  console.log(maxLevelMap, 'maxLevelMap');
 
   const levelCountMap = new Map();
 
@@ -88,8 +72,6 @@ export const getHighestLevelDataForBarChart = (
       levelCountMap.set(level_num, levelCountMap.get(level_num) + 1);
     }
   });
-
-  console.log(levelCountMap, 'levelCountMap');
 
   return Array.from(levelCountMap, ([level_num, countOfEmployees]) => ({
     level_num,

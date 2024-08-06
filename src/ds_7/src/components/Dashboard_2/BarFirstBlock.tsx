@@ -1,7 +1,7 @@
 import React from 'react';
 import { downloadPng } from '../../utils';
-import { Download } from '../../../../assets';
 import BarFirstRenderContent from './BarFirstRenderContent';
+import { Download } from '../../../assets';
 
 const BarFirstBlock = () => {
   const downloadButtonRef = React.useRef<HTMLDivElement | null>(null);

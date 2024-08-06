@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { DB1FiltersStore } from '../../store/DB1FiltersStore';
 import { transformFiltersFromDB2 } from '../../utils';
 import { dataService } from '../../services/DataDboard_2.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { ITextLetDepartmentData } from '../../models';
 
 export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB2(filters);
@@ -10,7 +11,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: departmentSkillsDataAllTimeDate,
     isLoading: isLoadingSkillsDataAllTimeDate,
     isError: isErrorSkillsDataAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<ITextLetDepartmentData[]>(
     ['departmentSkillsDataAllTimeDate', filters],
     () =>
       dataService.fetchTextLetDepartmentData(
@@ -18,8 +19,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
         'departmentSkillsDataAllTimeDate'
       ),
     {
-      enabled: !filters.date,
-      refetchOnWindowFocus: false
+      enabled: !filters.date
     }
   );
 
@@ -27,7 +27,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: departmentSkillsDataBeggingSelectedDate,
     isLoading: isLoadingSkillsDataBeggingSelectedDate,
     isError: isErrorSkillsDataBeggingSelectedDate
-  } = useQuery(
+  } = useCustomQuery<ITextLetDepartmentData[]>(
     ['departmentSkillsDataBeggingSelectedDate', filters],
     () =>
       dataService.fetchTextLetDepartmentData(
@@ -35,8 +35,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
         'departmentSkillsDataBeggingSelectedDate'
       ),
     {
-      enabled: !!filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters.date
     }
   );
 
@@ -44,7 +43,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: departmentSkillsDataEndSelectedDate,
     isLoading: isLoadingSkillsDataEndSelectedDate,
     isError: isErrorSkillsDataEndSelectedDate
-  } = useQuery(
+  } = useCustomQuery<ITextLetDepartmentData[]>(
     ['departmentSkillsDataEndSelectedDate', filters],
     () =>
       dataService.fetchTextLetDepartmentData(
@@ -52,8 +51,7 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
         'departmentSkillsDataEndSelectedDate'
       ),
     {
-      enabled: !!filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters.date
     }
   );
 
@@ -61,17 +59,14 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     data: departmentSkillsUpDataForThePeriodDate,
     isLoading: isLoadingdepartmentSkillsUpDataForThePeriodDateLoading,
     isError: isErrorDepartmentSkillsUpDataForThePeriodDate
-  } = useQuery(
+  } = useCustomQuery<ITextLetDepartmentData[]>(
     ['departmentSkillsUpDataForThePeriodDate', filters],
     () =>
       dataService.fetchTextLetCountOfAdvancedSkillsDepartmentData(
         { ...transformedFilters, skill_status: ['=', 'up'] },
         'departmentSkillsUpDataForThePeriodDate'
       ),
-    {
-      enabled: !!filters.date,
-      refetchOnWindowFocus: false
-    }
+    { enabled: !!filters.date }
   );
 
   return {

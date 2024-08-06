@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { transformFiltersFromDB2 } from '../../utils';
 import { DB2FiltersStore } from '../../store/DB2FiltersStore';
 import { dataService } from '../../services/DataDboard_2.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { IPieData } from '../../models';
 
 export const usePieData = (filters: Partial<DB2FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB2(filters); // Преобразование фильтров для запроса
@@ -19,11 +20,10 @@ export const usePieData = (filters: Partial<DB2FiltersStore>) => {
     data: departmentDataAllTimeDate,
     isLoading: isLoadingDepartmentAllTimeDate,
     isError: isErrorDepartmentAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<IPieData[]>(
     ['departmentPieDataAllTimeDate', filters],
     () => dataService.fetchPieDepartmentData({ ...queryFilters, date: undefined }, 'departmentPieDataAllTimeDate'),
     {
-      refetchOnWindowFocus: false,
       enabled: !filters.date
     }
   );
@@ -32,7 +32,7 @@ export const usePieData = (filters: Partial<DB2FiltersStore>) => {
     data: departmentDataBegginingSelectedDate,
     isLoading: isLoadingDepartmentDataBegginingSelectedDate,
     isError: isErrorDepartmentDataBegginingSelectedDate
-  } = useQuery(
+  } = useCustomQuery<IPieData[]>(
     ['departmentPieDataBegginingSelectedDate', filters],
     () =>
       dataService.fetchPieDepartmentData(
@@ -40,8 +40,7 @@ export const usePieData = (filters: Partial<DB2FiltersStore>) => {
         'departmentPieDataBegginingSelectedDate'
       ),
     {
-      enabled: !!filters?.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date
     }
   );
 
@@ -49,7 +48,7 @@ export const usePieData = (filters: Partial<DB2FiltersStore>) => {
     data: departmentDataEndSelectedDate,
     isLoading: isLoadingDepartmentDataEndSelectedDate,
     isError: isErrorDepartmentDataEndSelectedDate
-  } = useQuery(
+  } = useCustomQuery<IPieData[]>(
     ['departmentPieDataEndSelectedDate', filters],
     () =>
       dataService.fetchPieDepartmentData(
@@ -57,8 +56,7 @@ export const usePieData = (filters: Partial<DB2FiltersStore>) => {
         'departmentPieDataEndSelectedDate'
       ),
     {
-      enabled: !!filters?.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date
     }
   );
 

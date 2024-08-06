@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowGreenUp, Download } from '../../../../assets';
+import { ArrowGreenUp, Download } from '../../../assets';
 import { downloadPng } from '../../utils';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';

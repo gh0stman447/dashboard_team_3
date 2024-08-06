@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { DB2FiltersStore } from '../../store/DB2FiltersStore';
 import { transformFiltersFromDB2 } from '../../utils';
 import { dataService } from '../../services/DataDboard_2.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { IAllSkillsData } from '../../models';
 
 export const useSKillsData = (filters: Partial<DB2FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB2(filters);
@@ -19,11 +20,10 @@ export const useSKillsData = (filters: Partial<DB2FiltersStore>) => {
     data: skillsAllTimeDate,
     isLoading: isLoadingSkillsAllTimeDate,
     isError: isErrorSkillsAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<IAllSkillsData[]>(
     ['skillsAllTimeDate', filters],
     () => dataService.fetchSkillsData({ ...queryFilters, date: undefined }, 'skillsAllTimeDate'),
     {
-      refetchOnWindowFocus: false,
       enabled: !filters.date
     }
   );
@@ -32,7 +32,7 @@ export const useSKillsData = (filters: Partial<DB2FiltersStore>) => {
     data: skillsEndSelectedDate,
     isLoading: isLoadingSkillsEndSelectedDate,
     isError: isErrorSkillsEndSelectedDate
-  } = useQuery(
+  } = useCustomQuery<IAllSkillsData[]>(
     ['skillsEndSelectedDate', filters],
     () =>
       dataService.fetchSkillsData(
@@ -40,8 +40,7 @@ export const useSKillsData = (filters: Partial<DB2FiltersStore>) => {
         'skillsEndSelectedDate'
       ),
     {
-      enabled: !!filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters.date
     }
   );
 

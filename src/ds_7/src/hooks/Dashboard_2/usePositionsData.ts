@@ -1,14 +1,13 @@
-import { useQuery } from 'react-query';
 import { dataService } from '../../services/DataDboard_2.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { IAllPositionsData } from '../../models';
 
 export const usePositionsData = () => {
   const {
     data: positions,
     isLoading: isLoadingPositions,
     isError: isErrorPositions
-  } = useQuery('positions', () => dataService.fetchTextLetAllPositionsData('positions'), {
-    refetchOnWindowFocus: false
-  });
+  } = useCustomQuery<IAllPositionsData[]>('positions', () => dataService.fetchTextLetAllPositionsData('positions'));
 
   return { positions, isLoadingPositions, isErrorPositions };
 };

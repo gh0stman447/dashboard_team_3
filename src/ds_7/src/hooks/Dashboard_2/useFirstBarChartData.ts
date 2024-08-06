@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { getQueryFiltersForBarChart } from '../../utils/getQueryFilters';
 import { DB2FiltersStore } from '../../store/DB2FiltersStore';
 import { dataService } from '../../services/DataDboard_2.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { ICountOfEmpBySkillData } from '../../models';
 
 export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
   const queryFilters = getQueryFiltersForBarChart(filters); // Преобразование фильтров для запроса
@@ -10,7 +11,7 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
     data: departmentCountOfEmployeesBySkillsAllTimeDate,
     isLoading: isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate,
     isError: isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<ICountOfEmpBySkillData[]>(
     ['departmentCountOfEmployeesBySkillsAllTimeDate', filters],
     () =>
       dataService.fetchBarDataCountOfEmployeesBySkills(
@@ -19,8 +20,7 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
       ),
     {
       // Делаю запрос, если в фильтрах указана должность либо подразделение и не стоит дата
-      enabled: !!(filters.position.length || filters.devision.length) && !filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!(filters.position.length || filters.devision.length) && !filters.date
     }
   );
 
@@ -28,7 +28,7 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
     data: departmentCountOfEmployeesBySkillsBeggingSelectedDate,
     isLoading: isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
     isError: isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate
-  } = useQuery(
+  } = useCustomQuery<ICountOfEmpBySkillData[]>(
     ['departmentCountOfEmployeesBySkillsBeggingSelectedDate', filters],
     () =>
       dataService.fetchBarDataCountOfEmployeesBySkills(
@@ -37,8 +37,7 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
       ),
     {
       // Делаю запрос, если в фильтрах указана должность либо подразделение и стоит дата
-      enabled: !!filters?.date && !!(filters.position.length || filters.devision.length),
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date && !!(filters.position.length || filters.devision.length)
     }
   );
 
@@ -46,14 +45,16 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
     data: departmentCountOfEmployeesBySkillsEndSelectedDate,
     isLoading: isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate,
     isError: isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate
-  } = useQuery(
+  } = useCustomQuery<ICountOfEmpBySkillData[]>(
     ['departmentCountOfEmployeesBySkillsEndSelectedDate', filters],
     () =>
       dataService.fetchBarDataCountOfEmployeesBySkills(
         { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
         'departmentCountOfEmployeesBySkillsEndSelectedDate'
       ),
-    { enabled: !!filters?.date && !!(filters.position.length || filters.devision.length), refetchOnWindowFocus: false }
+    {
+      enabled: !!filters?.date && !!(filters.position.length || filters.devision.length)
+    }
   );
 
   return {

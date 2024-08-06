@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { downloadPng } from '../../utils';
-import { Download } from '../../../../assets';
+import { Download } from '../../../assets';
 
 import DisabledSelect from '../ui/Dashboard_1/DisabledSelect';
 import ComposedChartRenderContent from './ComposedChartRenderContent';

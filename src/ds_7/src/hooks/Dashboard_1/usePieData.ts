@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { transformFiltersFromDB1 } from '../../utils';
 import { DB1FiltersStore } from '../../store/DB1FiltersStore';
 import { dataService } from '../../services/DataDboard_1.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { IPieData } from '../../models';
 
 export const usePieData = (filters: Partial<DB1FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB1(filters);
@@ -10,12 +11,11 @@ export const usePieData = (filters: Partial<DB1FiltersStore>) => {
     data: dataAllTimeDate,
     isLoading: isLoadingDataAllTimeDate,
     isError: isErrorDataAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<IPieData[]>(
     ['PieDataAllTimeDate', filters.date, filters.empIdField],
     () => dataService.fetchPieData(transformedFilters, 'PieDataAllTimeDate'),
     {
-      enabled: !!filters?.empIdField && (!filters?.date || !filters?.date.length),
-      refetchOnWindowFocus: false
+      enabled: !!filters?.empIdField && (!filters?.date || !filters?.date.length)
     }
   );
 
@@ -23,7 +23,7 @@ export const usePieData = (filters: Partial<DB1FiltersStore>) => {
     data: dataBeforeSelectedDate,
     isLoading: isLoadingDataBeforeSelectedDate,
     isError: isErrorDataBeforeSelectedDate
-  } = useQuery(
+  } = useCustomQuery<IPieData[]>(
     ['pieDataBeforeSelectedDate', filters.date, filters.empIdField],
     () =>
       dataService.fetchPieData(
@@ -31,8 +31,7 @@ export const usePieData = (filters: Partial<DB1FiltersStore>) => {
         'PieDataBeforeSelectedDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField,
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date && !!filters?.empIdField
     }
   );
 
@@ -40,7 +39,7 @@ export const usePieData = (filters: Partial<DB1FiltersStore>) => {
     data: dataPrevDate,
     isLoading: isLoadingDataPrevDate,
     isError: isErrorDataPrevDate
-  } = useQuery(
+  } = useCustomQuery<IPieData[]>(
     ['pieDataPrevDate', filters.date, filters.empIdField],
     () =>
       dataService.fetchPieData(
@@ -48,8 +47,7 @@ export const usePieData = (filters: Partial<DB1FiltersStore>) => {
         'PieDataPrevDate'
       ),
     {
-      enabled: !!filters?.date && !!filters?.empIdField,
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date && !!filters?.empIdField
     }
   );
 

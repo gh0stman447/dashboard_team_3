@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowGreenUp, ArrowRedDown } from '../../../../../assets';
+import { ArrowGreenUp, ArrowRedDown } from '../../../../assets';
 
 interface CustomLabelListProps {
   data: { name: string; value: number; color: string; difference: number | null }[];

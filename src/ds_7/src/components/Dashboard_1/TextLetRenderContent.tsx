@@ -1,6 +1,6 @@
 import React from 'react';
 import { downloadPng } from '../../utils';
-import { ArrowGreenUp, Download } from '../../../../assets';
+import { ArrowGreenUp, Download } from '../../../assets';
 
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';

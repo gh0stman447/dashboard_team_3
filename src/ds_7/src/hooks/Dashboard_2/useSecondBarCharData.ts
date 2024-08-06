@@ -1,7 +1,8 @@
-import { useQuery } from 'react-query';
 import { DB2FiltersStore } from '../../store/DB2FiltersStore';
 import { getQueryFiltersForBarChart } from '../../utils/getQueryFilters';
 import { dataService } from '../../services/DataDboard_2.service';
+import { useCustomQuery } from '../useCustomQuery';
+import { ICountOfEmpBySkillLevelData } from '../../models';
 
 export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
   const queryFilters = getQueryFiltersForBarChart(filters);
@@ -10,7 +11,7 @@ export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
     data: countOfEmployeesBySkillLevelAllTimeDate,
     isLoading: isLoadingCountOfEmployeesBySkillLevelAllTimeDate,
     isError: isErrorCountOfEmployeesBySkillLevelAllTimeDate
-  } = useQuery(
+  } = useCustomQuery<ICountOfEmpBySkillLevelData[]>(
     ['countOfEmployeesBySkillLevelAllTimeDate', filters],
     () =>
       dataService.fetchBarDataCountOfEmployeesBySkillLevel(
@@ -18,8 +19,7 @@ export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
         'countOfEmployeesBySkillLevelAllTimeDate'
       ),
     {
-      enabled: !!(filters.position.length || filters.devision.length) && !filters.date,
-      refetchOnWindowFocus: false
+      enabled: !!(filters.position.length || filters.devision.length) && !filters.date
     }
   );
 
@@ -27,7 +27,7 @@ export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
     data: countOfEmployeesBySkillLevelBeggingSelectedDate,
     isLoading: isLoadingCountOfEmployeesBySkillLevelBeggingSelectedDate,
     isError: isErrorCountOfEmployeesBySkillLevelBeggingSelectedDate
-  } = useQuery(
+  } = useCustomQuery<ICountOfEmpBySkillLevelData[]>(
     ['countOfEmployeesBySkillLevelBeggingSelectedDate', filters],
     () =>
       dataService.fetchBarDataCountOfEmployeesBySkillLevel(
@@ -35,8 +35,7 @@ export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
         'countOfEmployeesBySkillLevelBeggingSelectedDate'
       ),
     {
-      enabled: !!filters?.date,
-      refetchOnWindowFocus: false
+      enabled: !!filters?.date
     }
   );
 
@@ -44,14 +43,14 @@ export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
     data: countOfEmployeesBySkillLevelEndSelectedDate,
     isLoading: isLoadingCountOfEmployeesBySkillLevelEndSelectedDate,
     isError: isErrorCountOfEmployeesBySkillLevelEndSelectedDate
-  } = useQuery(
+  } = useCustomQuery<ICountOfEmpBySkillLevelData[]>(
     ['countOfEmployeesBySkillLevelEndSelectedDate', filters],
     () =>
       dataService.fetchBarDataCountOfEmployeesBySkillLevel(
         { ...queryFilters, date: ['<=', filters.date[1].format('YYYY-MM-DD')] },
         'countOfEmployeesBySkillLevelEndSelectedDate'
       ),
-    { enabled: !!filters?.date, refetchOnWindowFocus: false }
+    { enabled: !!filters?.date }
   );
 
   return {

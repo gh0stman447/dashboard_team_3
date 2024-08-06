@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Download } from '../../../../assets';
+import { Download } from '../../../assets';
 import { downloadPng } from '../../utils';
 import PieChartRenderContent from './PieChartRenderContent';
 
