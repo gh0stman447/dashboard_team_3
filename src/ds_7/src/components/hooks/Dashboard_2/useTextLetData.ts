@@ -79,13 +79,17 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     departmentSkillsDataBeggingSelectedDate,
     departmentSkillsDataEndSelectedDate,
     departmentSkillsUpDataForThePeriodDate,
-    isLoadingSkillsDataAllTimeDate,
-    isLoadingSkillsDataBeggingSelectedDate,
-    isLoadingSkillsDataEndSelectedDate,
-    isLoadingdepartmentSkillsUpDataForThePeriodDateLoading,
-    isErrorSkillsDataAllTimeDate,
-    isErrorSkillsDataBeggingSelectedDate,
-    isErrorSkillsDataEndSelectedDate,
-    isErrorDepartmentSkillsUpDataForThePeriodDate
+
+    isLoading:
+      isLoadingSkillsDataAllTimeDate ||
+      isLoadingSkillsDataBeggingSelectedDate ||
+      isLoadingSkillsDataEndSelectedDate ||
+      isLoadingdepartmentSkillsUpDataForThePeriodDateLoading,
+
+    isError:
+      isErrorSkillsDataAllTimeDate ||
+      isErrorSkillsDataBeggingSelectedDate ||
+      isErrorSkillsDataEndSelectedDate ||
+      isErrorDepartmentSkillsUpDataForThePeriodDate
   };
 };

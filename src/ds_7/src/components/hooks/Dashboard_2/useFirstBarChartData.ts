@@ -61,12 +61,14 @@ export const useFirstBarChartData = (filters: Partial<DB2FiltersStore>) => {
     departmentCountOfEmployeesBySkillsBeggingSelectedDate,
     departmentCountOfEmployeesBySkillsEndSelectedDate,
 
-    isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate,
-    isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate,
+    isLoading:
+      isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate ||
+      isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate ||
+      isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate,
 
-    isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate,
-    isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate
+    isError:
+      isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate ||
+      isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate ||
+      isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate
   };
 };

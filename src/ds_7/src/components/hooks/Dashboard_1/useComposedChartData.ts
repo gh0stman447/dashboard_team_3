@@ -123,20 +123,18 @@ export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
     allPeopleAllTimeDate,
     allPeopleEndSelectedDate,
 
-    isLoadingAllPeopleAllTimeDate,
-    isLoadingAllPeopleEndSelectedDate,
+    isLoading:
+      isLoadingAllPeopleAllTimeDate ||
+      isLoadingAllPeopleEndSelectedDate ||
+      isLoadingEmployeeAllTimeData ||
+      isLoadingEmployeeBeginningSelectedDate ||
+      isLoadingEmployeeEndSelectedDate,
 
-    isLoadingEmployeeAllTimeData,
-    isLoadingEmployeeBeginningSelectedDate,
-    isLoadingEmployeeEndSelectedDate,
-
-    isErrorAllPeopleAllTimeDate,
-    isErrorAllPeopleEndSelectedDate,
-
-    isErrorEmployeeBeginningSelectedDate,
-    isErrorEmployeeEndSelectedDate,
-    isErrorEmployeeAllTimeData,
-
-    position
+    isError:
+      isErrorAllPeopleAllTimeDate ||
+      isErrorAllPeopleEndSelectedDate ||
+      isErrorEmployeeBeginningSelectedDate ||
+      isErrorEmployeeEndSelectedDate ||
+      isErrorEmployeeAllTimeData
   };
 };

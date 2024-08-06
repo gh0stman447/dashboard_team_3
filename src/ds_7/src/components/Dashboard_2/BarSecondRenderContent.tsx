@@ -21,33 +21,20 @@ const BarSecondRenderContent = () => {
     countOfEmployeesBySkillLevelBeggingSelectedDate,
     countOfEmployeesBySkillLevelEndSelectedDate,
 
-    isErrorCountOfEmployeesBySkillLevelAllTimeDate,
-    isErrorCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isErrorCountOfEmployeesBySkillLevelEndSelectedDate,
-
-    isLoadingCountOfEmployeesBySkillLevelAllTimeDate,
-    isLoadingCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isLoadingCountOfEmployeesBySkillLevelEndSelectedDate
+    isLoading,
+    isError
   } = useSecondBarChartData(filters);
 
-  if (!filters.position.length && !filters.devision.length) {
-    return <NoChartComponent label="Выберите должность или подразделение" className="text-center" />;
-  }
+  const availableText = isError
+    ? 'Ошибка'
+    : isLoading
+    ? 'Загрузка...'
+    : !filters.position.length && !filters.devision.length
+    ? 'Выберите должность или подразделение'
+    : undefined;
 
-  if (
-    isLoadingCountOfEmployeesBySkillLevelAllTimeDate ||
-    isLoadingCountOfEmployeesBySkillLevelBeggingSelectedDate ||
-    isLoadingCountOfEmployeesBySkillLevelEndSelectedDate
-  ) {
-    return <NoChartComponent label="Загрузка..." />;
-  }
-
-  if (
-    isErrorCountOfEmployeesBySkillLevelAllTimeDate ||
-    isErrorCountOfEmployeesBySkillLevelBeggingSelectedDate ||
-    isErrorCountOfEmployeesBySkillLevelEndSelectedDate
-  ) {
-    return <NoChartComponent label="Ошибка" />;
+  if (availableText) {
+    return <NoChartComponent label={availableText} className="text-center" />;
   }
 
   const yAxisTickFormatter = (value: string) => {

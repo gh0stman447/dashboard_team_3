@@ -18,30 +18,18 @@ const TextLetRenderContent = ({
     empIdField: state.empIdField
   }));
 
-  const {
-    dataAllTimeDate,
-    dataBeforeSelectedDate,
-    dataPrevDate,
+  const { dataAllTimeDate, dataBeforeSelectedDate, dataPrevDate, skills, isLoading, isError } = useTextLetData(filters);
 
-    isErrorDataAllTimeDate,
-    isErrorDataBeforeSelectedDate,
-    isErrorDataPrevDate,
+  const availableText = isLoading
+    ? 'Загрузка...'
+    : isError
+    ? 'Ошибка'
+    : !filters.empIdField
+    ? 'Выберите сотрудника'
+    : undefined;
 
-    isLoadingDataAllTimeDate,
-    isLoadingDataBeforeSelectedDate,
-    isLoadingDataPrevDate,
-
-    isLoadingSkills,
-    isErrorSkills,
-    skills
-  } = useTextLetData(filters);
-
-  if (isLoadingDataBeforeSelectedDate || isLoadingDataAllTimeDate || isLoadingDataPrevDate || isLoadingSkills) {
-    return <NoChartComponent className="p-4" label="Загрузка..." />;
-  }
-
-  if (isErrorDataBeforeSelectedDate || isErrorDataAllTimeDate || isErrorDataPrevDate || isErrorSkills) {
-    return <NoChartComponent className="p-4" label="Ошибка" />;
+  if (availableText) {
+    return <NoChartComponent label={availableText} className="p-4" />;
   }
 
   let skillsGrowht = null;
@@ -53,10 +41,6 @@ const TextLetRenderContent = ({
   // Если дата не указана, берем данные за всё время. Иначе данные на конец периода
   const countOfSkills = !filters.date ? dataAllTimeDate?.[0].totalSkills : dataBeforeSelectedDate?.[0].totalSkills;
   const totalSkillsUp = skills?.[0]?.totalSkills || 0;
-
-  if (!filters.empIdField) {
-    return <NoChartComponent className="p-4" label="Выберите сотрудника" />;
-  }
 
   return (
     <div className="flex flex-col p-4 text-[20px] 4xl:text-[32px]">

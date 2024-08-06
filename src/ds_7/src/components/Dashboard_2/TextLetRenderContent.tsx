@@ -24,32 +24,15 @@ const TextLetRenderContent = ({
     departmentSkillsDataEndSelectedDate,
     departmentSkillsUpDataForThePeriodDate,
 
-    isLoadingSkillsDataAllTimeDate,
-    isLoadingSkillsDataBeggingSelectedDate,
-    isLoadingSkillsDataEndSelectedDate,
-    isLoadingdepartmentSkillsUpDataForThePeriodDateLoading,
-
-    isErrorDepartmentSkillsUpDataForThePeriodDate,
-    isErrorSkillsDataAllTimeDate,
-    isErrorSkillsDataBeggingSelectedDate,
-    isErrorSkillsDataEndSelectedDate
+    isLoading,
+    isError
   } = useTextLetData(filters);
 
-  if (
-    isLoadingSkillsDataAllTimeDate ||
-    isLoadingSkillsDataBeggingSelectedDate ||
-    isLoadingSkillsDataEndSelectedDate ||
-    isLoadingdepartmentSkillsUpDataForThePeriodDateLoading
-  )
-    return <NoChartComponent label="Загрузка..." />;
+  const availableText = isLoading ? 'Загрузка...' : isError ? 'Ошибка' : undefined;
 
-  if (
-    isErrorSkillsDataAllTimeDate ||
-    isErrorSkillsDataBeggingSelectedDate ||
-    isErrorSkillsDataEndSelectedDate ||
-    isErrorDepartmentSkillsUpDataForThePeriodDate
-  )
-    return <NoChartComponent label="Ошибка" />;
+  if (availableText) {
+    return <NoChartComponent label={availableText} />;
+  }
 
   const countOfSkillsLevelUp = filters.date ? departmentSkillsUpDataForThePeriodDate[0].totalCountOfSkills : null;
 

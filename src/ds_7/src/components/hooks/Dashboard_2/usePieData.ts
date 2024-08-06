@@ -67,12 +67,12 @@ export const usePieData = (filters: Partial<DB2FiltersStore>) => {
     departmentDataBegginingSelectedDate,
     departmentDataEndSelectedDate,
 
-    isLoadingDepartmentAllTimeDate,
-    isLoadingDepartmentDataBegginingSelectedDate,
-    isLoadingDepartmentDataEndSelectedDate,
+    isLoading:
+      isLoadingDepartmentAllTimeDate ||
+      isLoadingDepartmentDataBegginingSelectedDate ||
+      isLoadingDepartmentDataEndSelectedDate,
 
-    isErrorDepartmentAllTimeDate,
-    isErrorDepartmentDataBegginingSelectedDate,
-    isErrorDepartmentDataEndSelectedDate
+    isError:
+      isErrorDepartmentAllTimeDate || isErrorDepartmentDataBegginingSelectedDate || isErrorDepartmentDataEndSelectedDate
   };
 };

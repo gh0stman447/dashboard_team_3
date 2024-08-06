@@ -23,43 +23,20 @@ const ComposedChartRenderContent = () => {
     employeeBeginningSelectedDate,
     employeeEndSelectedDate,
 
-    isErrorAllPeopleAllTimeDate,
-    isErrorAllPeopleEndSelectedDate,
-
-    isErrorEmployeeAllTimeData,
-    isErrorEmployeeBeginningSelectedDate,
-    isErrorEmployeeEndSelectedDate,
-
-    isLoadingAllPeopleAllTimeDate,
-    isLoadingAllPeopleEndSelectedDate,
-
-    isLoadingEmployeeAllTimeData,
-    isLoadingEmployeeBeginningSelectedDate,
-    isLoadingEmployeeEndSelectedDate
+    isLoading,
+    isError
   } = useComposedChartData(filters);
 
-  if (
-    isLoadingAllPeopleAllTimeDate ||
-    isLoadingAllPeopleEndSelectedDate ||
-    isLoadingEmployeeBeginningSelectedDate ||
-    isLoadingEmployeeEndSelectedDate ||
-    isLoadingEmployeeAllTimeData
-  ) {
-    return <NoChartComponent label="Загрузка..." />;
-  }
+  const availableText = isError
+    ? 'Ошибка'
+    : isLoading
+    ? 'Загрузка...'
+    : !filters.empIdField
+    ? 'Выберите сотрудника'
+    : undefined;
 
-  if (
-    isErrorAllPeopleAllTimeDate ||
-    isErrorAllPeopleEndSelectedDate ||
-    isErrorEmployeeBeginningSelectedDate ||
-    isErrorEmployeeEndSelectedDate ||
-    isErrorEmployeeAllTimeData
-  ) {
-    return <NoChartComponent label="Ошибка" />;
-  }
-
-  if (!filters.empIdField) {
-    return <NoChartComponent label="Выберите сотрудника" />;
+  if (availableText) {
+    return <NoChartComponent label={availableText} />;
   }
 
   const yAxisTickFormatter = (value: string) => {

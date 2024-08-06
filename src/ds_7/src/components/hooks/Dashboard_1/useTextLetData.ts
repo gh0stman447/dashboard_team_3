@@ -73,17 +73,9 @@ export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
     dataAllTimeDate,
     dataBeforeSelectedDate,
     dataPrevDate,
-
-    isLoadingDataAllTimeDate,
-    isLoadingDataPrevDate,
-    isLoadingDataBeforeSelectedDate,
-
-    isErrorDataAllTimeDate,
-    isErrorDataPrevDate,
-    isErrorDataBeforeSelectedDate,
-
     skills,
-    isLoadingSkills,
-    isErrorSkills
+
+    isLoading: isLoadingDataAllTimeDate || isLoadingDataPrevDate || isLoadingDataBeforeSelectedDate || isLoadingSkills,
+    isError: isErrorDataAllTimeDate || isErrorDataPrevDate || isErrorDataBeforeSelectedDate || isErrorSkills
   };
 };

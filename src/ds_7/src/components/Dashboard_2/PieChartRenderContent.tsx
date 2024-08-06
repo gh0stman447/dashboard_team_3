@@ -20,30 +20,14 @@ const PieChartRenderContent = () => {
     departmentDataAllTimeDate,
     departmentDataBegginingSelectedDate,
     departmentDataEndSelectedDate,
-
-    isErrorDepartmentAllTimeDate,
-    isErrorDepartmentDataBegginingSelectedDate,
-    isErrorDepartmentDataEndSelectedDate,
-
-    isLoadingDepartmentAllTimeDate,
-    isLoadingDepartmentDataBegginingSelectedDate,
-    isLoadingDepartmentDataEndSelectedDate
+    isLoading,
+    isError
   } = usePieData(filters);
 
-  if (
-    isLoadingDepartmentAllTimeDate ||
-    isLoadingDepartmentDataBegginingSelectedDate ||
-    isLoadingDepartmentDataEndSelectedDate
-  ) {
-    return <div>Загрузка...</div>;
-  }
+  const availableText = isError ? 'Ошибка' : isLoading ? 'Загрузка...' : undefined;
 
-  if (
-    isErrorDepartmentAllTimeDate ||
-    isErrorDepartmentDataBegginingSelectedDate ||
-    isErrorDepartmentDataEndSelectedDate
-  ) {
-    return <div>Ошибка</div>;
+  if (availableText) {
+    return <NoChartComponent label={availableText} />;
   }
 
   const dataWithIncrease = calculateDifferenceForPie(

@@ -59,12 +59,14 @@ export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
     countOfEmployeesBySkillLevelBeggingSelectedDate,
     countOfEmployeesBySkillLevelEndSelectedDate,
 
-    isLoadingCountOfEmployeesBySkillLevelAllTimeDate,
-    isLoadingCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isLoadingCountOfEmployeesBySkillLevelEndSelectedDate,
+    isLoading:
+      isLoadingCountOfEmployeesBySkillLevelAllTimeDate ||
+      isLoadingCountOfEmployeesBySkillLevelBeggingSelectedDate ||
+      isLoadingCountOfEmployeesBySkillLevelEndSelectedDate,
 
-    isErrorCountOfEmployeesBySkillLevelAllTimeDate,
-    isErrorCountOfEmployeesBySkillLevelBeggingSelectedDate,
-    isErrorCountOfEmployeesBySkillLevelEndSelectedDate
+    isError:
+      isErrorCountOfEmployeesBySkillLevelAllTimeDate ||
+      isErrorCountOfEmployeesBySkillLevelBeggingSelectedDate ||
+      isErrorCountOfEmployeesBySkillLevelEndSelectedDate
   };
 };

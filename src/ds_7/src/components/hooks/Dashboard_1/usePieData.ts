@@ -59,12 +59,8 @@ export const usePieData = (filters: Partial<DB1FiltersStore>) => {
     dataBeforeSelectedDate,
     dataPrevDate,
 
-    isLoadingDataAllTimeDate,
-    isLoadingDataBeforeSelectedDate,
-    isLoadingDataPrevDate,
+    isLoading: isLoadingDataAllTimeDate || isLoadingDataBeforeSelectedDate || isLoadingDataPrevDate,
 
-    isErrorDataAllTimeDate,
-    isErrorDataBeforeSelectedDate,
-    isErrorDataPrevDate
+    isError: isErrorDataAllTimeDate || isErrorDataBeforeSelectedDate || isErrorDataPrevDate
   };
 };

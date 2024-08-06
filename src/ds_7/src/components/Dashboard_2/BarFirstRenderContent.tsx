@@ -30,36 +30,22 @@ const BarFirstRenderContent = () => {
     departmentCountOfEmployeesBySkillsBeggingSelectedDate,
     departmentCountOfEmployeesBySkillsEndSelectedDate,
 
-    isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate,
-    isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate,
-
-    isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate,
-    isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate,
-    isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate
+    isLoading,
+    isError
   } = useFirstBarChartData(filters);
 
-  if (!filters.position.length && !filters.devision.length) {
-    return <NoChartComponent label="Выберите должность или подразделение" className="text-center" />;
+  const availableText = isError
+    ? 'Ошибка'
+    : isLoading
+    ? 'Загрузка...'
+    : !filters.position.length && !filters.devision.length
+    ? 'Выберите должность или подразделение'
+    : undefined;
+
+  if (availableText) {
+    return <NoChartComponent label={availableText} className="text-center" />;
   }
 
-  if (
-    isLoadingDepartmentCountOfEmployeesBySkillsAllTimeDate ||
-    isLoadingDepartmentCountOfEmployeesBySkillsBeggingSelectedDate ||
-    isLoadingDepartmentCountOfEmployeesBySkillsEndSelectedDate
-  ) {
-    return <NoChartComponent label="Загрузка..." />;
-  }
-
-  if (
-    isErrorDepartmentCountOfEmployeesBySkillsAllTimeDate ||
-    isErrorDepartmentCountOfEmployeesBySkillsBeggingSelectedDate ||
-    isErrorDepartmentCountOfEmployeesBySkillsEndSelectedDate
-  ) {
-    return <NoChartComponent label="Ошибка" />;
-  }
-
-  //
   const modifiedBarData = filters.date
     ? getGrowthOfEmployeesForBarChart(
         departmentCountOfEmployeesBySkillsEndSelectedDate,
