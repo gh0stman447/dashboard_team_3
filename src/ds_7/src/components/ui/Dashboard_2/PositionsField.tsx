@@ -34,12 +34,10 @@ const PositionsField: FC<PositionFieldProps> = ({ patchState }) => {
     setPosition(initialPosition);
   }, [initialPosition]);
 
-  if (isLoadingPositions) {
-    return <div>Загрузка...</div>;
-  }
+  const statusMessage = isLoadingPositions ? 'Загрузка...' : isErrorPositions ? 'Ошибка' : undefined;
 
-  if (isErrorPositions) {
-    return <div>Ошибка</div>;
+  if (statusMessage) {
+    return <div>{statusMessage}</div>;
   }
 
   const MenuProps = {

@@ -49,10 +49,8 @@ export const useSKillsData = (filters: Partial<DB2FiltersStore>) => {
     skillsAllTimeDate,
     skillsEndSelectedDate,
 
-    isLoadingSkillsAllTimeDate,
-    isLoadingSkillsEndSelectedDate,
+    isLoading: isLoadingSkillsAllTimeDate || isLoadingSkillsEndSelectedDate,
 
-    isErrorSkillsAllTimeDate,
-    isErrorSkillsEndSelectedDate
+    isError: isErrorSkillsAllTimeDate || isErrorSkillsEndSelectedDate
   };
 };

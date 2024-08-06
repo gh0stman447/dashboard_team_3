@@ -35,15 +35,11 @@ const TypeOfSkillsField: FC<TypeOfSkillFieldProps> = ({ patchState }) => {
   }, [initialTypeOfSkill]);
 
   const { typesOfSkill: typesOfSkillData, isLoadingTypesOfSkill, isErrorTypesOfSkill } = useTypesOfSkill();
+  const statusMessage = isLoadingTypesOfSkill ? 'Загрузка...' : isErrorTypesOfSkill ? 'Ошибка' : undefined;
 
-  if (isLoadingTypesOfSkill) {
-    return <div>Загрузка...</div>;
+  if (statusMessage) {
+    return <div>{statusMessage}</div>;
   }
-
-  if (isErrorTypesOfSkill) {
-    return <div>Ошибка</div>;
-  }
-
   const sortedTypeOfSkills = sortList(typesOfSkillData, 'skill_type');
 
   return (

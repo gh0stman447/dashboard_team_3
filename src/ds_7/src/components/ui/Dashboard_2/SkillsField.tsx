@@ -19,14 +19,7 @@ const SkillsField = () => {
     date: state.date
   }));
 
-  const {
-    skillsAllTimeDate,
-    skillsEndSelectedDate,
-    isLoadingSkillsAllTimeDate,
-    isLoadingSkillsEndSelectedDate,
-    isErrorSkillsAllTimeDate,
-    isErrorSkillsEndSelectedDate
-  } = useSKillsData(filters);
+  const { skillsAllTimeDate, skillsEndSelectedDate, isLoading, isError } = useSKillsData(filters);
 
   const storeSetSkills = useDB2FiltersStore((state) => state.setSkills);
 
@@ -50,12 +43,10 @@ const SkillsField = () => {
     return null;
   }
 
-  if (isLoadingSkillsAllTimeDate || isLoadingSkillsEndSelectedDate) {
-    return <NoChartComponent label="Загрузка..." />;
-  }
+  const statusMessage = isLoading ? 'Загрузка...' : isError ? 'Ошибка' : undefined;
 
-  if (isErrorSkillsAllTimeDate || isErrorSkillsEndSelectedDate) {
-    return <NoChartComponent label="Ошибка" />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} />;
   }
 
   const handleChangeSkillLevel = (event: SelectChangeEvent<string[]>) => {

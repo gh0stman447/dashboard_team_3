@@ -37,12 +37,10 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
     }
   };
 
-  if (isLoadingDepartments) {
-    return <div>Загрузка...</div>;
-  }
+  const statusMessage = isLoadingDepartments ? 'Загрузка...' : isErrorDepartments ? 'Ошибка' : undefined;
 
-  if (isErrorDepartments) {
-    return <div>Ошибка</div>;
+  if (statusMessage) {
+    return <div>{statusMessage}</div>;
   }
 
   const sortedDevisions = sortList(departments, 'department');
