@@ -7,7 +7,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
 import { InFormProps } from '../../../types';
 import useDB1FiltersStore from '../../../store/DB1FiltersStore';
-import { useTypesOfSkill } from '../../hooks/Dashboard_1';
+import { useTypesOfSkill } from '../../../hooks/Dashboard_1';
 
 interface PositionFieldProps extends InFormProps {}
 

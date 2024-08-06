@@ -8,7 +8,7 @@ import { InputLabel } from '@mui/material';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { sortList } from '../../../utils/sortList';
-import { useTypesOfSkill } from '../../hooks/Dashboard_2';
+import { useTypesOfSkill } from '../../../hooks/Dashboard_2';
 
 interface TypeOfSkillFieldProps extends InFormProps {
   typeOfSkills?: string[];

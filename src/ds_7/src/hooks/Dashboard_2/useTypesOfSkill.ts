@@ -1,12 +1,12 @@
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_1.service';
+import { dataService } from '../../services/DataDboard_2.service';
 
 export const useTypesOfSkill = () => {
   const {
     data: typesOfSkill,
     isLoading: isLoadingTypesOfSkill,
     isError: isErrorTypesOfSkill
-  } = useQuery('typesOfSkill', () => dataService.fetchTypeOfSkillsData('typesOfSkill'), {
+  } = useQuery('typesOfSkill', () => dataService.fetchTextLetAllTypesOfSkillData('typesOfSkill'), {
     refetchOnWindowFocus: false
   });
 

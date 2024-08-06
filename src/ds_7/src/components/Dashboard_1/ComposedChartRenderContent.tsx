@@ -4,9 +4,9 @@ import useDB1FiltersStore from '../../store/DB1FiltersStore';
 
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomBarTooltip from '../ui/Charts/Dashboard_1/CustomBarTooltip';
-import { useComposedChartData } from '../hooks/Dashboard_1';
 import { LEVEL_NAMES } from '../../constants';
 import { calculateImprovementForBarChart } from '../../utils';
+import { useComposedChartData } from '../../hooks/Dashboard_1';
 
 const ComposedChartRenderContent = () => {
   const filters = useDB1FiltersStore((state) => ({

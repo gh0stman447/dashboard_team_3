@@ -1,8 +1,8 @@
 import { useQuery } from 'react-query';
-import { DB1FiltersStore } from '../../../store/DB1FiltersStore';
 import { useEffect, useState } from 'react';
-import { dataService } from '../../../services/DataDboard_1.service';
-import { transformFiltersFromDB1 } from '../../../utils';
+import { DB1FiltersStore } from '../../store/DB1FiltersStore';
+import { transformFiltersFromDB1 } from '../../utils';
+import { dataService } from '../../services/DataDboard_1.service';
 
 export const useComposedChartData = (filters: Partial<DB1FiltersStore>) => {
   const [position, setPosition] = useState<string | null>(null);

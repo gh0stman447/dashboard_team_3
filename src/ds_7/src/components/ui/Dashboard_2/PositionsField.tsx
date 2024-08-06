@@ -8,7 +8,7 @@ import { InputLabel } from '@mui/material';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { sortList } from '../../../utils/sortList';
-import { usePositionsData } from '../../hooks/Dashboard_2';
+import { usePositionsData } from '../../../hooks/Dashboard_2';
 
 interface PositionFieldProps extends InFormProps {
   positions?: string[];

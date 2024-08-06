@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from 'react';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { sortList } from '../../../utils';
-import { useDevisionsData } from '../../hooks/Dashboard_2';
+import { useDevisionsData } from '../../../hooks/Dashboard_2';
 
 interface DevisionFieldProps extends InFormProps {
   devisions?: string[];

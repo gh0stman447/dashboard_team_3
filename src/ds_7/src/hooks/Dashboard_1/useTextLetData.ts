@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { transformFiltersFromDB1 } from '../../../utils';
-import { dataService } from '../../../services/DataDboard_1.service';
-import { DB1FiltersStore } from '../../../store/DB1FiltersStore';
+import { transformFiltersFromDB1 } from '../../utils';
+import { DB1FiltersStore } from '../../store/DB1FiltersStore';
+import { dataService } from '../../services/DataDboard_1.service';
 
 export const useTextLetData = (filters: Partial<DB1FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB1(filters); // Преобразуем фильтры из стора в формат который необходим для запроса

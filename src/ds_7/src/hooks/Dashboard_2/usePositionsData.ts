@@ -1,5 +1,5 @@
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_2.service';
+import { dataService } from '../../services/DataDboard_2.service';
 
 export const usePositionsData = () => {
   const {

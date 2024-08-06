@@ -3,8 +3,8 @@ import { downloadPng } from '../../utils';
 import { ArrowGreenUp, Download } from '../../../../assets';
 
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
-import { useTextLetData } from '../hooks/Dashboard_1';
 import NoChartComponent from '../ui/NoChartComponent';
+import { useTextLetData } from '../../hooks/Dashboard_1';
 
 const TextLetRenderContent = ({
   downloadButtonRef,

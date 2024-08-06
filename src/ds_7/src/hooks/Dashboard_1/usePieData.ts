@@ -1,8 +1,7 @@
-import { DB1FiltersStore } from '../../../store/DB1FiltersStore';
 import { useQuery } from 'react-query';
-
-import { transformFiltersFromDB1 } from '../../../utils/transformFilters';
-import { dataService } from '../../../services/DataDboard_1.service';
+import { transformFiltersFromDB1 } from '../../utils';
+import { DB1FiltersStore } from '../../store/DB1FiltersStore';
+import { dataService } from '../../services/DataDboard_1.service';
 
 export const usePieData = (filters: Partial<DB1FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB1(filters);

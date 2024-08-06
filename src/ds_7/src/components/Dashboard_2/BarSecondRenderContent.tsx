@@ -3,9 +3,9 @@ import { ResponsiveContainer, Tooltip, CartesianGrid, XAxis, YAxis, Bar, BarChar
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomSecondBarTooltip from '../ui/Charts/Dashboard_2/CustomSecondBarTooltip';
-import { useSecondBarChartData } from '../hooks/Dashboard_2';
 import { LEVEL_NAMES } from '../../constants';
 import { getGrowthOfEmployeesForBarChart, getHighestLevelDataForBarChart } from '../../utils';
+import { useSecondBarChartData } from '../../hooks/Dashboard_2';
 
 const BarSecondRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({

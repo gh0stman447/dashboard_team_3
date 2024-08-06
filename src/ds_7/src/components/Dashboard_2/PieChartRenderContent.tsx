@@ -3,11 +3,11 @@ import { PieChart, Pie, Cell, Label, ResponsiveContainer, Tooltip, Legend } from
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import CustomPieTooltip from '../ui/Charts/CustomPieTooltip';
 import CustomPieLabelList from '../ui/Charts/CustomPieLabelList';
-import { usePieData } from '../hooks/Dashboard_2';
 import { calculateDifferenceForPie } from '../../utils';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomPieLegend from '../ui/Charts/CustomPieLegend';
 import { PageInfo } from '../../constants';
+import { usePieData } from '../../hooks/Dashboard_2';
 
 const PieChartRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({

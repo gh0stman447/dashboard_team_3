@@ -1,6 +1,6 @@
-import { transformFiltersFromDB1 } from '../../../utils';
-import { dataService } from '../../../services/DataDboard_1.service';
 import { useQuery } from 'react-query';
+import { transformFiltersFromDB1 } from '../../utils';
+import { dataService } from '../../services/DataDboard_1.service';
 
 export const useEmployeeData = (empIdField: string) => {
   const transformedFilters = transformFiltersFromDB1({ empIdField });

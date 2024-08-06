@@ -1,7 +1,7 @@
 import React from 'react';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import { Activity } from '../../constants/Dashboard_1';
-import { useEmployeeData } from '../hooks/Dashboard_1/useEmployeeData';
+import { useEmployeeData } from '../../hooks/Dashboard_1';
 
 const SideBarRenderContent = () => {
   const empIdField = useDB1FiltersStore((state) => state.empIdField);

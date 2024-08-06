@@ -6,8 +6,8 @@ import Checkbox from '@mui/material/Checkbox';
 import ListItemText from '@mui/material/ListItemText';
 import { InputLabel } from '@mui/material';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
-import { useSKillsData } from '../../hooks/Dashboard_2/useSkillsData';
 import NoChartComponent from '../NoChartComponent';
+import { useSKillsData } from '../../../hooks/Dashboard_2';
 
 const SkillsField = () => {
   const [skills, setSkills] = useState<string[]>([]);

@@ -5,3 +5,4 @@ export * from './useTextLetData';
 export * from './usePositionsData';
 export * from './useDevisionsData';
 export * from './useTypesOfSkill';
+export * from './useSkillsData';

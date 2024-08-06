@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_2.service';
-import { DB2FiltersStore } from '../../../store/DB2FiltersStore';
-import { transformFiltersFromDB2 } from '../../../utils';
+import { DB2FiltersStore } from '../../store/DB2FiltersStore';
+import { transformFiltersFromDB2 } from '../../utils';
+import { dataService } from '../../services/DataDboard_2.service';
 
 export const useSKillsData = (filters: Partial<DB2FiltersStore>) => {
   const transformedFilters = transformFiltersFromDB2(filters);

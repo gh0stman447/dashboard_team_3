@@ -1,7 +1,7 @@
 import { useQuery } from 'react-query';
-import { dataService } from '../../../services/DataDboard_2.service';
-import { DB2FiltersStore } from '../../../store/DB2FiltersStore';
-import { getQueryFiltersForBarChart } from '../../../utils/getQueryFilters';
+import { DB2FiltersStore } from '../../store/DB2FiltersStore';
+import { getQueryFiltersForBarChart } from '../../utils/getQueryFilters';
+import { dataService } from '../../services/DataDboard_2.service';
 
 export const useSecondBarChartData = (filters: Partial<DB2FiltersStore>) => {
   const queryFilters = getQueryFiltersForBarChart(filters);

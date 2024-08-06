@@ -3,7 +3,7 @@ import { ArrowGreenUp, Download } from '../../../../assets';
 import { downloadPng } from '../../utils';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';
-import { useTextLetData } from '../hooks/Dashboard_2';
+import { useTextLetData } from '../../hooks/Dashboard_2';
 
 const TextLetRenderContent = ({
   textLetRef,

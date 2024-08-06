@@ -14,8 +14,8 @@ import {
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import NoChartComponent from '../ui/NoChartComponent';
 import CustomFirstBarTooltip from '../ui/Charts/Dashboard_2/CustomFirstBarTooltip';
-import { useFirstBarChartData } from '../hooks/Dashboard_2';
 import { getGrowthOfEmployeesForBarChart } from '../../utils';
+import { useFirstBarChartData } from '../../hooks/Dashboard_2';
 
 const BarFirstRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({
