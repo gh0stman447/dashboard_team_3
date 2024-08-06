@@ -34,7 +34,7 @@ const BarFirstRenderContent = () => {
     isError
   } = useFirstBarChartData(filters);
 
-  const availableText = isError
+  const statusMessage = isError
     ? 'Ошибка'
     : isLoading
     ? 'Загрузка...'
@@ -42,8 +42,8 @@ const BarFirstRenderContent = () => {
     ? 'Выберите должность или подразделение'
     : undefined;
 
-  if (availableText) {
-    return <NoChartComponent label={availableText} className="text-center" />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} className="text-center" />;
   }
 
   const modifiedBarData = filters.date

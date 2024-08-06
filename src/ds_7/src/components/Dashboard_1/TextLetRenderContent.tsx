@@ -20,7 +20,7 @@ const TextLetRenderContent = ({
 
   const { dataAllTimeDate, dataBeforeSelectedDate, dataPrevDate, skills, isLoading, isError } = useTextLetData(filters);
 
-  const availableText = isLoading
+  const statusMessage = isLoading
     ? 'Загрузка...'
     : isError
     ? 'Ошибка'
@@ -28,8 +28,8 @@ const TextLetRenderContent = ({
     ? 'Выберите сотрудника'
     : undefined;
 
-  if (availableText) {
-    return <NoChartComponent label={availableText} className="p-4" />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} className="p-4" />;
   }
 
   let skillsGrowht = null;

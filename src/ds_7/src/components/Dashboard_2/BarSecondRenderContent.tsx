@@ -25,7 +25,7 @@ const BarSecondRenderContent = () => {
     isError
   } = useSecondBarChartData(filters);
 
-  const availableText = isError
+  const statusMessage = isError
     ? 'Ошибка'
     : isLoading
     ? 'Загрузка...'
@@ -33,8 +33,8 @@ const BarSecondRenderContent = () => {
     ? 'Выберите должность или подразделение'
     : undefined;
 
-  if (availableText) {
-    return <NoChartComponent label={availableText} className="text-center" />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} className="text-center" />;
   }
 
   const yAxisTickFormatter = (value: string) => {

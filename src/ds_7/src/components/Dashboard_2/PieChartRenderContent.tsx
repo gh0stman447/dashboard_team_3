@@ -24,10 +24,10 @@ const PieChartRenderContent = () => {
     isError
   } = usePieData(filters);
 
-  const availableText = isError ? 'Ошибка' : isLoading ? 'Загрузка...' : undefined;
+  const statusMessage = isError ? 'Ошибка' : isLoading ? 'Загрузка...' : undefined;
 
-  if (availableText) {
-    return <NoChartComponent label={availableText} />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} />;
   }
 
   const dataWithIncrease = calculateDifferenceForPie(

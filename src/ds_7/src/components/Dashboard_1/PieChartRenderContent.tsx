@@ -17,7 +17,7 @@ const PieChartRenderContent = () => {
 
   const { dataAllTimeDate, dataBeforeSelectedDate, dataPrevDate, isLoading, isError } = usePieData(filters);
 
-  const availableText = isError
+  const statusMessage = isError
     ? 'Ошибка'
     : isLoading
     ? 'Загрузка...'
@@ -25,8 +25,8 @@ const PieChartRenderContent = () => {
     ? 'Выберите сотрудника'
     : undefined;
 
-  if (availableText) {
-    return <NoChartComponent label={availableText} />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} />;
   }
 
   // Рассчитываем разницу на конец периода и начало. Если дата не указана, то берем данные за все время, и прирост делаем равный null

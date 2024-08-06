@@ -27,7 +27,7 @@ const ComposedChartRenderContent = () => {
     isError
   } = useComposedChartData(filters);
 
-  const availableText = isError
+  const statusMessage = isError
     ? 'Ошибка'
     : isLoading
     ? 'Загрузка...'
@@ -35,8 +35,8 @@ const ComposedChartRenderContent = () => {
     ? 'Выберите сотрудника'
     : undefined;
 
-  if (availableText) {
-    return <NoChartComponent label={availableText} />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} />;
   }
 
   const yAxisTickFormatter = (value: string) => {

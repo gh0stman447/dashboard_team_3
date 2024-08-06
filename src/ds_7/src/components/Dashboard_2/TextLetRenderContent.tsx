@@ -28,10 +28,10 @@ const TextLetRenderContent = ({
     isError
   } = useTextLetData(filters);
 
-  const availableText = isLoading ? 'Загрузка...' : isError ? 'Ошибка' : undefined;
+  const statusMessage = isLoading ? 'Загрузка...' : isError ? 'Ошибка' : undefined;
 
-  if (availableText) {
-    return <NoChartComponent label={availableText} />;
+  if (statusMessage) {
+    return <NoChartComponent label={statusMessage} />;
   }
 
   const countOfSkillsLevelUp = filters.date ? departmentSkillsUpDataForThePeriodDate[0].totalCountOfSkills : null;
