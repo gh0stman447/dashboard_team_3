@@ -42,37 +42,14 @@ const PieChartRenderContent = () => {
   }
 
   return (
-    <>
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
-          <Pie
-            data={dataWithIncrease}
-            innerRadius={0}
-            outerRadius={'95%'}
-            label={CustomPieLabelList(dataWithIncrease, 'black', '20px')}
-            labelLine={false}
-          >
-            {dataWithIncrease.map((entry, index) => (
-              <Cell key={`cell-${index}`} fill={entry.color} />
-            ))}
-          </Pie>
-          <Tooltip content={<CustomPieTooltip />} />
-
-          {/* PageInfo для определения того, на какой странице мы отображаем компонент */}
-          <Legend
-            content={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} pageInfo={PageInfo.SECOND} />}
-          />
-        </PieChart>
-      </ResponsiveContainer>
-      <CustomPieChart
-        data={dataWithIncrease}
-        innerRadius={0}
-        outerRadius={'95%'}
-        tooltip={<CustomPieTooltip />}
-        label={CustomPieLabelList(dataWithIncrease, 'black', '20px')}
-        legend={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} pageInfo={PageInfo.SECOND} />}
-      />
-    </>
+    <CustomPieChart
+      data={dataWithIncrease}
+      innerRadius={0}
+      outerRadius={'95%'}
+      tooltip={<CustomPieTooltip />}
+      label={CustomPieLabelList(dataWithIncrease, 'black', '20px')}
+      legend={<CustomPieLegend data={dataWithIncrease} legendWidth={'100%'} pageInfo={PageInfo.SECOND} />}
+    />
   );
 };
 

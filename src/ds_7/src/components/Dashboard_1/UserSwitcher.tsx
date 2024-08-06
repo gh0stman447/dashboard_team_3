@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction, useState } from 'react';
 import useDB1FiltersStore from '../../store/DB1FiltersStore';
 import { CATS } from '../../constants/Dashboard_1';
 import { LeftArrow, RightArrow } from '../../../assets';
-import ArrowUserSwitcher from '../ui/ArrowUserSwitcher';
+import ArrowUserSwitcher from '../ui/Dashboard_1/ArrowUserSwitcher';
 
 const UserSwitcher = ({ userHandler }: { userHandler: Dispatch<SetStateAction<number>> }) => {
   const handleNextAvatar = () => {

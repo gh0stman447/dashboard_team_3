@@ -1,11 +1,10 @@
 import { Button } from '@mui/material';
 import React from 'react';
 
-const CustomFilterButton = ({ handler, text, fontSize }: { handler: () => void; text: string; fontSize: string }) => {
+const CustomFilterButton = ({ text, fontSize }: { text: string; fontSize: string }) => {
   return (
     <Button
       size="small"
-      onClick={handler}
       variant="text"
       sx={{
         color: 'black',

@@ -11,27 +11,17 @@ import DateComponent from '../ui/DateComponent';
 import { Modal } from 'antd';
 import CustomFilterButton from '../ui/CustomFilterButton';
 import ClearFiltersBtn from '../ui/ClearFiltersBtn';
+import CustomDialogSelect from '../CustomDialogSelect';
 
 const DialogSelect: FC = () => {
-  const [open, setOpen] = useState(false);
-
   const currentFormStateRef = useRef<Record<string, any>>({});
 
   const patchFormStateRef = useCallback((patch: Record<string, any>) => {
     currentFormStateRef.current = { ...currentFormStateRef.current, ...patch };
   }, []);
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleCancel = () => {
-    setOpen(false);
-  };
-
   const handleApplyFilters = () => {
     useDB2FiltersStore.setState(currentFormStateRef.current);
-    setOpen(false);
   };
 
   const clearFilters = () => {
@@ -41,16 +31,10 @@ const DialogSelect: FC = () => {
 
   return (
     <>
-      <CustomFilterButton handler={handleClickOpen} text="Фильтры" fontSize="13px" />
-      <Modal
+      <CustomDialogSelect
+        handler={handleApplyFilters}
+        openBtn={<CustomFilterButton text="Фильтры" fontSize="13px" />}
         title="Фильтры"
-        open={open}
-        onOk={handleApplyFilters}
-        onCancel={handleCancel}
-        footer={[
-          <Button onClick={handleCancel}>Закрыть</Button>,
-          <Button onClick={handleApplyFilters}>Применить</Button>
-        ]}
       >
         <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <PositionsField patchState={patchFormStateRef} />
@@ -61,7 +45,7 @@ const DialogSelect: FC = () => {
             <ClearFiltersBtn text="Очистить фильтры" onClick={clearFilters} />
           </span>
         </Box>
-      </Modal>
+      </CustomDialogSelect>
     </>
   );
 };
