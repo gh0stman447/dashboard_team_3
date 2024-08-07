@@ -11,7 +11,7 @@ import {
   LabelList,
   Brush
 } from 'recharts';
-import { renderLinearGradient } from '../../../utils/renderGradient';
+import { renderLinearGradient } from '../../../utils';
 
 interface CustomBarChartProps {
   data: any[];
