@@ -52,10 +52,8 @@ const BarFirstRenderContent = () => {
       data={modifiedBarData}
       brushEnabled
       isHasDate={!!filters.date}
-      gradientIds={{ countOfEmployees: 'colorCountOfEmployees', growth: 'colorImprovement' }}
       xAxisDataKey="name"
       yAxisLabel="Количество сотрудников"
-      barDataKeys={{ countOfEmployees: 'countOfEmployees', growth: 'growth' }}
       tooltipContent={<CustomFirstBarTooltip />}
     />
   );

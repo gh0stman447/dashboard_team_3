@@ -57,8 +57,6 @@ const BarSecondRenderContent = () => {
     <CustomBarChart
       data={modifiedBarData}
       tooltipContent={<CustomSecondBarTooltip />}
-      barDataKeys={{ countOfEmployees: 'countOfEmployees', growth: 'growth' }}
-      gradientIds={{ countOfEmployees: 'colorcountOfEmployees', growth: 'colorImprovement' }}
       xAxisDataKey="level_num"
       yAxisLabel="Количество сотрудников"
       yAxisTickFormatter={yAxisTickFormatter}

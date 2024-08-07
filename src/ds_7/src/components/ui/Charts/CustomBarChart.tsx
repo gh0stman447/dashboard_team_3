@@ -18,8 +18,8 @@ interface CustomBarChartProps {
   height?: number;
   width?: number;
   margin?: { top: number; right: number; left: number; bottom: number };
-  gradientIds?: { countOfEmployees: string; growth: string };
-  barDataKeys?: { countOfEmployees: string; growth: string };
+  gradientIds?: { firstKey: string; secondKey: string };
+  barDataKeys?: { firstKey: string; secondKey: string };
   isHasDate?: boolean;
   tooltipContent: ReactElement;
   yAxisLabel?: string;
@@ -33,8 +33,8 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
   height = 300,
   width = 500,
   margin = { top: 15, right: 19, left: 15, bottom: 20 },
-  gradientIds = { countOfEmployees: 'colorCountOfEmployees', growth: 'colorImprovement' },
-  barDataKeys = { countOfEmployees: 'countOfEmployees', growth: 'growth' },
+  gradientIds = { firstKey: 'colorCountOfEmployees', secondKey: 'colorImprovement' },
+  barDataKeys = { firstKey: 'countOfEmployees', secondKey: 'growth' },
   isHasDate = false,
   tooltipContent,
   yAxisLabel = 'Количество сотрудников',
@@ -47,14 +47,14 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
       <BarChart width={width} height={height} data={data} margin={margin}>
         <defs>
           {renderLinearGradient({
-            id: gradientIds.countOfEmployees,
+            id: gradientIds.firstKey,
             colors: [
               { offset: '5%', stopColor: '#934983', stopOpacity: 0.8 },
               { offset: '95%', stopColor: '#934983', stopOpacity: 0.2 }
             ]
           })}
           {renderLinearGradient({
-            id: gradientIds.growth,
+            id: gradientIds.secondKey,
             colors: [
               { offset: '5%', stopColor: '#00ff00', stopOpacity: 0.8 },
               { offset: '95%', stopColor: '#00ff00', stopOpacity: 0.2 }
@@ -79,9 +79,9 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
         <XAxis dataKey={xAxisDataKey} tickFormatter={yAxisTickFormatter} />
         <Tooltip content={tooltipContent} />
         <Bar
-          dataKey={barDataKeys.countOfEmployees}
+          dataKey={barDataKeys.firstKey}
           stackId="1"
-          fill={`url(#${gradientIds.countOfEmployees})`}
+          fill={`url(#${gradientIds.firstKey})`}
           label={({ x, y, width, height, value }) => (
             <text
               x={x + width / 2}
@@ -97,12 +97,12 @@ const CustomBarChart: React.FC<CustomBarChartProps> = ({
           )}
         />
         {isHasDate && (
-          <Bar dataKey={barDataKeys.growth} stackId="1" fill={`url(#${gradientIds.growth})`}>
+          <Bar dataKey={barDataKeys.secondKey} stackId="1" fill={`url(#${gradientIds.secondKey})`}>
             {data.map((_, index) => (
               <React.Fragment key={index}>
                 <Cell fill={'#82ca9d'} />
                 <LabelList
-                  dataKey={barDataKeys.growth}
+                  dataKey={barDataKeys.secondKey}
                   position={'insideTop'}
                   fill={'#000'}
                   content={({ x, y, value, width }) => {
