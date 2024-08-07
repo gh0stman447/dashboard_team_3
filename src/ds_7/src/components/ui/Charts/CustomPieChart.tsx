@@ -1,6 +1,6 @@
 import React, { FC, ReactElement } from 'react';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
-import { IDifferenceData, IPieData } from '../models';
+import { IDifferenceData, IPieData } from '../../../models';
 
 type pieRadius = string | number;
 
@@ -41,9 +41,8 @@ const CustomPieChart = ({
           ))}
         </Pie>
 
-        {tooltip ? <Tooltip content={tooltip} /> : <Tooltip />}
-
-        {legend ? <Legend content={legend} /> : <Legend />}
+        <Tooltip content={tooltip} />
+        <Legend content={legend} />
       </PieChart>
     </ResponsiveContainer>
   );

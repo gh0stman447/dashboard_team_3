@@ -8,7 +8,7 @@ import NoChartComponent from '../ui/NoChartComponent';
 import CustomPieLegend from '../ui/Charts/CustomPieLegend';
 import { PageInfo } from '../../constants';
 import { usePieData } from '../../hooks/Dashboard_2';
-import CustomPieChart from '../CustomPieChart';
+import CustomPieChart from '../ui/Charts/CustomPieChart';
 
 const PieChartRenderContent = () => {
   const filters = useDB2FiltersStore((state) => ({

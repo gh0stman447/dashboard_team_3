@@ -13,6 +13,7 @@ interface CustomMultipleSelectProps<T> {
   label: string;
   valueField: keyof T;
   formControlStyles?: CSSProperties;
+  inputLabelBgColor?: CSSProperties['backgroundColor'];
 }
 
 const MenuProps = {
@@ -30,11 +31,12 @@ const CustomMultipleSelect = <T,>({
   handler,
   label,
   valueField,
-  formControlStyles = {}
+  formControlStyles = {},
+  inputLabelBgColor
 }: CustomMultipleSelectProps<T>) => {
   return (
     <FormControl sx={{ minWidth: 120, ...formControlStyles }}>
-      <InputLabel sx={{ backgroundColor: 'white', px: '4px' }}>{label}</InputLabel>
+      <InputLabel sx={{ backgroundColor: inputLabelBgColor || 'white', px: '4px' }}>{label}</InputLabel>
       <Select
         multiple
         value={localData}
