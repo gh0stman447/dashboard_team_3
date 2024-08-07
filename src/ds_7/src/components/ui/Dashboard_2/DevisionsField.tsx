@@ -1,9 +1,10 @@
-import { Checkbox, FormControl, InputLabel, ListItemText, MenuItem, Select, SelectChangeEvent } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material';
 import React, { FC, useEffect, useState } from 'react';
 import { InFormProps } from '../../../types';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import { sortList } from '../../../utils';
 import { useDevisionsData } from '../../../hooks/Dashboard_2';
+import CustomMultipleSelect from '../../CustomMultipleSelect';
 
 interface DevisionFieldProps extends InFormProps {
   devisions?: string[];
@@ -11,6 +12,7 @@ interface DevisionFieldProps extends InFormProps {
 
 const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
   const [devision, setDevision] = useState<string[]>([]);
+
   const handleChangeDevision = (event: SelectChangeEvent<string[]>) => {
     const {
       target: { value }
@@ -28,15 +30,6 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
     setDevision(initialDevision);
   }, [initialDevision]);
 
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 300,
-        maxWidth: 300
-      }
-    }
-  };
-
   const statusMessage = isLoadingDepartments ? 'Загрузка...' : isErrorDepartments ? 'Ошибка' : undefined;
 
   if (statusMessage) {
@@ -46,26 +39,13 @@ const DevisionsField: FC<DevisionFieldProps> = ({ patchState }) => {
   const sortedDevisions = sortList(departments, 'department');
 
   return (
-    <FormControl sx={{ m: 1, minWidth: 120 }}>
-      <InputLabel id="devision-select" sx={{ backgroundColor: 'white', px: '4px' }}>
-        Подразделение
-      </InputLabel>
-      <Select
-        id="devision-select"
-        multiple
-        value={devision}
-        onChange={(e) => handleChangeDevision(e)}
-        renderValue={(selected) => selected.join(', ')}
-        MenuProps={MenuProps}
-      >
-        {sortedDevisions.map(({ department }) => (
-          <MenuItem key={department} value={department} sx={{ whiteSpace: 'normal' }}>
-            <Checkbox checked={devision.indexOf(department) > -1} />
-            <ListItemText primary={department} />
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    <CustomMultipleSelect
+      data={sortedDevisions}
+      localData={devision}
+      handler={(e) => handleChangeDevision(e)}
+      label="Подразделение"
+      valueField={'department'}
+    />
   );
 };
 

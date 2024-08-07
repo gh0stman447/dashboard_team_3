@@ -9,7 +9,7 @@ interface CustomDialogSelectProps {
   title?: string;
 }
 
-const CustomDialogSelect: React.FC<CustomDialogSelectProps> = ({ children, handler, openBtn, title }) => {
+const CustomForm: React.FC<CustomDialogSelectProps> = ({ children, handler, openBtn, title }) => {
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -30,6 +30,7 @@ const CustomDialogSelect: React.FC<CustomDialogSelectProps> = ({ children, handl
       <span onClick={handleClickOpen}>{openBtn}</span>
 
       <Modal
+        onCancel={handleCancel}
         title={title || ''}
         open={open}
         footer={[
@@ -41,12 +42,10 @@ const CustomDialogSelect: React.FC<CustomDialogSelectProps> = ({ children, handl
           </Button>
         ]}
       >
-        <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '15px', padding: '15px 5px' }}>
-          {children}
-        </Box>
+        {children}
       </Modal>
     </>
   );
 };
 
-export default CustomDialogSelect;
+export default CustomForm;

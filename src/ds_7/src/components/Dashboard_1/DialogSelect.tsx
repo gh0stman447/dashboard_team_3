@@ -1,4 +1,5 @@
 import * as React from 'react';
+import Box from '@mui/material/Box';
 
 import { useCallback, useRef } from 'react';
 import SearchEmployeeField from '../ui/Dashboard_1/SearchEmployeeField';
@@ -8,7 +9,7 @@ import DateComponent from '../ui/DateComponent';
 import TypeOfSkillField from '../ui/Dashboard_1/TypeOfSkillField';
 import CustomFilterButton from '../ui/CustomFilterButton';
 import ClearFiltersBtn from '../ui/ClearFiltersBtn';
-import CustomDialogSelect from '../CustomDialogSelect';
+import CustomForm from '../CustomForm';
 
 const DialogSelect: React.FC = () => {
   const { setCurrentUserIndex, users } = useDB1FiltersStore((state) => ({
@@ -45,23 +46,20 @@ const DialogSelect: React.FC = () => {
   };
 
   return (
-    <CustomDialogSelect handler={handleApplyFilters} openBtn={<CustomFilterButton text="Фильтры" fontSize="13px" />}>
-      <div className="flex flex-col gap-y-2">
-        <p>Поиск сотрудника:</p>
+    <CustomForm
+      handler={handleApplyFilters}
+      openBtn={<CustomFilterButton text="Фильтры" fontSize="13px" />}
+      title="Фильтры"
+    >
+      <Box component="form" sx={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
         <SearchEmployeeField patchState={patchFormStateRef} />
-      </div>
-      <div className="flex flex-col gap-y-2">
-        <p>Фильтр по навыкам:</p>
         <TypeOfSkillField patchState={patchFormStateRef} />
-      </div>
-      <div className="flex flex-col gap-y-2">
-        <p>Выбор периода:</p>
         <DateComponent patchState={patchFormStateRef} page="1" />
-      </div>
-      <span className="mt-1 hover:scale-[1.05] duration-200 border border-black rounded-md p-[3px] w-fit">
-        <ClearFiltersBtn text="Очистить фильтры" onClick={clearFilters} />
-      </span>
-    </CustomDialogSelect>
+        <span className="mt-3 hover:scale-[1.05] duration-200 border border-black rounded-md p-[3px] w-fit">
+          <ClearFiltersBtn text="Очистить фильтры" onClick={clearFilters} />
+        </span>
+      </Box>
+    </CustomForm>
   );
 };
 

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import FormControl from '@mui/material/FormControl';
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
-import Checkbox from '@mui/material/Checkbox';
-import ListItemText from '@mui/material/ListItemText';
-import { InputLabel } from '@mui/material';
+import { SelectChangeEvent } from '@mui/material/Select';
 import useDB2FiltersStore from '../../../store/DB2FiltersStore';
 import NoChartComponent from '../NoChartComponent';
 import { useSKillsData } from '../../../hooks/Dashboard_2';
+import CustomMultipleSelect from '../../CustomMultipleSelect';
 
 const SkillsField = () => {
   const [skills, setSkills] = useState<string[]>([]);
@@ -61,46 +57,21 @@ const SkillsField = () => {
   };
 
   const skillsData = filters.date ? skillsEndSelectedDate : skillsAllTimeDate;
-  const skillsArray: string[] = skillsData.map(({ skill }) => skill);
-
-  const MenuProps = {
-    PaperProps: {
-      style: {
-        maxHeight: 300
-      }
-    }
-  };
 
   return (
-    <FormControl
-      sx={{
-        m: 1,
-        minWidth: 200,
+    <CustomMultipleSelect
+      data={skillsData}
+      localData={skills}
+      handler={(e) => handleChangeSkillLevel(e)}
+      label="Навыки"
+      valueField="skill"
+      formControlStyles={{
         maxWidth: 300,
         backgroundColor: 'white',
         borderRadius: '10px',
         boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.2)'
       }}
-    >
-      <InputLabel id="skills-select" sx={{ backgroundColor: 'white', px: '4px' }}>
-        Навыки
-      </InputLabel>
-      <Select
-        id="skills-select"
-        multiple
-        value={skills}
-        onChange={(e) => handleChangeSkillLevel(e)}
-        renderValue={(selected) => selected.join(', ')}
-        MenuProps={MenuProps}
-      >
-        {skillsArray.map((skill) => (
-          <MenuItem key={skill} value={skill}>
-            <Checkbox checked={skills.indexOf(skill) > -1} />
-            <ListItemText primary={skill} />
-          </MenuItem>
-        ))}
-      </Select>
-    </FormControl>
+    />
   );
 };
 

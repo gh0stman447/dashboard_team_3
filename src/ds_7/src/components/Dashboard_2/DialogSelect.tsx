@@ -1,17 +1,15 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 
-import { FC, useState, useCallback, useRef } from 'react';
+import { FC, useCallback, useRef } from 'react';
 import PositionsField from '../ui/Dashboard_2/PositionsField';
 import DevisionsField from '../ui/Dashboard_2/DevisionsField';
 import TypeOfSkillsField from '../ui/Dashboard_2/TypeOfSkillsField';
 import useDB2FiltersStore from '../../store/DB2FiltersStore';
 import DateComponent from '../ui/DateComponent';
-import { Modal } from 'antd';
 import CustomFilterButton from '../ui/CustomFilterButton';
 import ClearFiltersBtn from '../ui/ClearFiltersBtn';
-import CustomDialogSelect from '../CustomDialogSelect';
+import CustomForm from '../CustomForm';
 
 const DialogSelect: FC = () => {
   const currentFormStateRef = useRef<Record<string, any>>({});
@@ -31,7 +29,7 @@ const DialogSelect: FC = () => {
 
   return (
     <>
-      <CustomDialogSelect
+      <CustomForm
         handler={handleApplyFilters}
         openBtn={<CustomFilterButton text="Фильтры" fontSize="13px" />}
         title="Фильтры"
@@ -40,12 +38,12 @@ const DialogSelect: FC = () => {
           <PositionsField patchState={patchFormStateRef} />
           <DevisionsField patchState={patchFormStateRef} />
           <TypeOfSkillsField patchState={patchFormStateRef} />
-          <DateComponent patchState={patchFormStateRef} />
+          <DateComponent patchState={patchFormStateRef} page="2" />
           <span className="mt-1 hover:scale-[1.05] duration-200 border border-black rounded-md p-[3px] w-fit">
             <ClearFiltersBtn text="Очистить фильтры" onClick={clearFilters} />
           </span>
         </Box>
-      </CustomDialogSelect>
+      </CustomForm>
     </>
   );
 };

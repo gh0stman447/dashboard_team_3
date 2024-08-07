@@ -1,4 +1,4 @@
-import React, { FC, FunctionComponent, ReactElement } from 'react';
+import React, { FC, ReactElement } from 'react';
 import { Cell, Legend, Pie, PieChart, ResponsiveContainer, Tooltip } from 'recharts';
 import { IDifferenceData, IPieData } from '../models';
 
